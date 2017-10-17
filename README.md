@@ -2,4 +2,5 @@ Ngày nay, công nghệ ngày càng phát triển, internet cũng trở nên ph�
 - Người quản trị : có thể thay đổi thêm sửa xóa thông tin nhân viên bán hàng, thực hiện tất cả các chức năng.
 - Nhân viên : Được cấp quyền xem đơn đặt hàng, thông kê sản phẩm, đăng tin giới thiệu sản phẩm.
 - Tất cả người dùng truy cập trang web đều có thể xem thông tin tình trạng sản phẩm, đặt ship và thanh toán khi nhận hàng.
+
 Điều webside bọn em hướng đến là một nơi mua bán thuận tiện cho cả người mua và người bán.
