@@ -4,3 +4,4 @@ Ngày nay, công nghệ ngày càng phát triển, internet cũng trở nên ph�
 - Tất cả người dùng truy cập trang web đều có thể xem thông tin tình trạng sản phẩm, đặt ship và thanh toán khi nhận hàng.
 
 Điều webside bọn em hướng đến là một nơi mua bán thuận tiện cho cả người mua và người bán.
+Công nghệ sử dụng: Mã nguồn mở
