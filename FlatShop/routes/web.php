@@ -30,6 +30,22 @@ Route::get('/cart', function () {
     return view('cart');
 });
 
+Route::get('/list-product', function () {
+    return view('UserManager');
+});
+
+Route::get('/list-order', function () {
+    return view('ListOrder');
+});
+
+Route::get('/list-account', function () {
+    return view('AccountManager');
+});
+
+
+
+
+
 Route::get('/checkout', function () {
     return view('checkout');
 });

@@ -1,5 +1,4 @@
 <!DOCTYPE >
-<>
   <head>
     <meta http-equiv="Content-Type" content="text/;charset=utf-8"/>
     <meta name="description" content="">

@@ -408,17 +408,13 @@
                       <a href="productgird">
                         blog
                       </a>
-                    </li>
-                    <li>
-                      <a href="productgird">
-                        jewelry
-                      </a>
-                    </li>
+                    </li>                    
                     <li>
                       <a href="contact">
                         contact us
                       </a>
                     </li>
+					<li><a href="list-product">manager</a></li>
                   </ul>
                 </div>
               </div>
