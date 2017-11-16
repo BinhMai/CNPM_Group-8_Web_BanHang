@@ -113,10 +113,15 @@
                         <div class="navbar-header"><button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button></div>
                         <div class="navbar-collapse collapse">
                            <ul class="nav navbar-nav">
-                              <li><a href="list-account">Account Manager</a></li>
-							  <li><a href="list-product">Product Manager</a></li>
-                              <li><a href="list-order">Order Manager</a></li>
-                              <li><a href="#">Notification</a></li>                         
+								<li><a href="checkout2">Profile</a></li>
+								@if($user == 1)
+									<li><a href="list-account">Account Manager</a></li>
+								@endif									
+								<li><a href="list-product">Product Manager</a></li>
+								<li><a href="list-order">Order Manager</a></li>
+								@if($user != 1)
+									<li><a href="#">Notification</a></li>                         
+								@endif																	
                            </ul>
                         </div>
                      </div>
@@ -128,7 +133,7 @@
 	<section style="margin: 15px">
 		<div class="container-fluid">
 			<h2>List Employee</h2>
-			<a href="{{asset('/checkout2')}}"><button id="add" class="btn btn-success" data-toggle="modal" data-target="#addproduct"  style="float: right;margin-bottom: 10px;margin-right: 7px;"><span class="glyphicon glyphicon-plus"></span> Add</button></a>
+			<a href="{{asset('/add-account')}}"><button id="add" class="btn btn-success" data-toggle="modal" data-target="#addproduct"  style="float: right;margin-bottom: 10px;margin-right: 7px;"><span class="glyphicon glyphicon-plus"></span> Add</button></a>
 			<form style="float:right; margin-right: 5px;">
 				<input class="search-submit" type="submit" value=""><input class="search" placeholder="Search employee..." type="text" value="" name="search">
 			</form>

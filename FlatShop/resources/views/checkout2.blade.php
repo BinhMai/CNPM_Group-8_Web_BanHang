@@ -124,12 +124,12 @@
                   <div class="col-md-3">
                     <ul class="usermenu">
                       <li>
-                        <a href="checkout." class="log">
+                        <a href="checkout" class="log">
                           Login
                         </a>
                       </li>
                       <li>
-                        <a href="checkout2." class="reg">
+                        <a href="checkout2" class="reg">
                           Register
                         </a>
                       </li>
@@ -258,47 +258,47 @@
                             </a>
                           </li>
                           <li>
-                            <a href="home2.">
+                            <a href="home2">
                               home2
                             </a>
                           </li>
                           <li>
-                            <a href="home3.">
+                            <a href="home3">
                               home3
                             </a>
                           </li>
                           <li>
-                            <a href="productlitst.">
+                            <a href="productlitst">
                               Productlitst
                             </a>
                           </li>
                           <li>
-                            <a href="productgird.">
+                            <a href="productgird">
                               Productgird
                             </a>
                           </li>
                           <li>
-                            <a href="details.">
+                            <a href="details">
                               Details
                             </a>
                           </li>
                           <li>
-                            <a href="cart.">
+                            <a href="cart">
                               Cart
                             </a>
                           </li>
                           <li>
-                            <a href="checkout.">
+                            <a href="checkout">
                               CheckOut
                             </a>
                           </li>
                           <li>
-                            <a href="checkout2.">
+                            <a href="checkout2">
                               CheckOut2
                             </a>
                           </li>
                           <li>
-                            <a href="contact.">
+                            <a href="contact">
                               contact
                             </a>
                           </li>
@@ -306,12 +306,12 @@
                       </div>
                     </li>
                     <li>
-                      <a href="productgird.">
+                      <a href="productgird">
                         men
                       </a>
                     </li>
                     <li>
-                      <a href="productlitst.">
+                      <a href="productlitst">
                         women
                       </a>
                     </li>
@@ -324,32 +324,32 @@
                           <div class="col-md-6 col-sm-6">
                             <ul class="mega-menu-links">
                               <li>
-                                <a href="productgird.">
+                                <a href="productgird">
                                   New Collection
                                 </a>
                               </li>
                               <li>
-                                <a href="productgird.">
+                                <a href="productgird">
                                   Shirts & tops
                                 </a>
                               </li>
                               <li>
-                                <a href="productgird.">
+                                <a href="productgird">
                                   Laptop & Brie
                                 </a>
                               </li>
                               <li>
-                                <a href="productgird.">
+                                <a href="productgird">
                                   Dresses
                                 </a>
                               </li>
                               <li>
-                                <a href="productgird.">
+                                <a href="productgird">
                                   Blazers & Jackets
                                 </a>
                               </li>
                               <li>
-                                <a href="productgird.">
+                                <a href="productgird">
                                   Shoulder Bags
                                 </a>
                               </li>
@@ -358,32 +358,32 @@
                           <div class="col-md-6 col-sm-6">
                             <ul class="mega-menu-links">
                               <li>
-                                <a href="productgird.">
+                                <a href="productgird">
                                   New Collection
                                 </a>
                               </li>
                               <li>
-                                <a href="productgird.">
+                                <a href="productgird">
                                   Shirts & tops
                                 </a>
                               </li>
                               <li>
-                                <a href="productgird.">
+                                <a href="productgird">
                                   Laptop & Brie
                                 </a>
                               </li>
                               <li>
-                                <a href="productgird.">
+                                <a href="productgird">
                                   Dresses
                                 </a>
                               </li>
                               <li>
-                                <a href="productgird.">
+                                <a href="productgird">
                                   Blazers & Jackets
                                 </a>
                               </li>
                               <li>
-                                <a href="productgird.">
+                                <a href="productgird">
                                   Shoulder Bags
                                 </a>
                               </li>
@@ -393,30 +393,26 @@
                       </div>
                     </li>
                     <li>
-                      <a href="productgird.">
+                      <a href="productgird">
                         gift
                       </a>
                     </li>
                     <li>
-                      <a href="productgird.">
+                      <a href="productgird">
                         kids
                       </a>
                     </li>
                     <li>
-                      <a href="productgird.">
+                      <a href="productgird">
                         blog
                       </a>
-                    </li>
+                    </li>                    
                     <li>
-                      <a href="productgird.">
-                        jewelry
-                      </a>
-                    </li>
-                    <li>
-                      <a href="contact.">
+                      <a href="contact">
                         contact us
                       </a>
                     </li>
+					<li><a href="manager">manager</a></li>
                   </ul>
                 </div>
               </div>
@@ -448,13 +444,13 @@
                 </h4>
                 <div class="special-item">
                   <div class="product-image">
-                    <a href="details.">
+                    <a href="details">
                       <img src="images/products/thum/products-01.png" alt="">
                     </a>
                   </div>
                   <div class="product-info">
                     <p>
-                      <a href="details.">
+                      <a href="details">
                         Licoln Corner Unit
                       </a>
                     </p>
@@ -465,13 +461,13 @@
                 </div>
                 <div class="special-item">
                   <div class="product-image">
-                    <a href="details.">
+                    <a href="details">
                       <img src="images/products/thum/products-02.png" alt="">
                     </a>
                   </div>
                   <div class="product-info">
                     <p>
-                      <a href="details.">
+                      <a href="details">
                         Licoln Corner Unit
                       </a>
                     </p>
@@ -482,13 +478,13 @@
                 </div>
                 <div class="special-item">
                   <div class="product-image">
-                    <a href="details.">
+                    <a href="details">
                       <img src="images/products/thum/products-03.png" alt="">
                     </a>
                   </div>
                   <div class="product-info">
                     <p>
-                      <a href="details.">
+                      <a href="details">
                         Licoln Corner Unit
                       </a>
                     </p>
@@ -628,7 +624,7 @@
                     </div>
                   </li>
                   <li class="steps active">
-                    <a href="checkout." class="step-title">
+                    <a href="checkout" class="step-title">
                       02. billing information
                     </a>
                     <div class="step-description">
@@ -811,7 +807,7 @@
                     </div>
                   </li>
                   <li class="steps">
-                    <a href="checkout2." class="step-title">
+                    <a href="checkout2" class="step-title">
                       03. Shipping information
                     </a>
                   </li>

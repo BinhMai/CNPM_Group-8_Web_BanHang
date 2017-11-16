@@ -113,10 +113,17 @@
                         <div class="navbar-header"><button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button></div>
                         <div class="navbar-collapse collapse">
                            <ul class="nav navbar-nav">
-                              <li><a href="list-account">Account Manager</a></li>
-							  <li><a href="list-product">Product Manager</a></li>
-                              <li><a href="list-order">Order Manager</a></li>
-                              <li><a href="#">Notification</a></li>                         
+								<li><a href="checkout2">Profile</a></li>
+								@if($user == 1)
+									<li><a href="list-account">Account Manager</a></li>
+								@endif		
+								@if($user != 3)
+									<li><a href="list-product">Product Manager</a></li>
+								@endif
+								<li><a href="list-order">Order Manager</a></li>
+								@if($user != 1)
+									<li><a href="#">Notification</a></li>                         
+								@endif																	
                            </ul>
                         </div>
                      </div>
@@ -138,6 +145,7 @@
 				<th>Firstname</th>
 				<th>Lastname</th>
 				<th>Email</th>
+				<th></th>
 			  </tr>
 			</thead>
 			<tbody>
@@ -145,11 +153,13 @@
 					<td>John</td>
 					<td>Doe</td>
 					<td>john@example.com</td>
+					<td><input type="checkbox" name="ordercheck" value="1"></td>
 				  </tr>
 				  <tr>
 					<td>Mary</td>
 					<td>Moe</td>
 					<td>mary@example.com</td>
+					<td><input type="checkbox" name="ordercheck" value="1"></td>
 				  </tr>
 			</tbody>
 		  </table>

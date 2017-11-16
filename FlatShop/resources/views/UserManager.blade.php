@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="{{asset('css/flexslider.css')}}" type="text/css" media="screen"/>
   <link href="{{asset('css/sequence-looptheme.css')}}" rel="stylesheet" media="all"/>
   <link href="{{asset('css/style.css')}}" rel="stylesheet">
+  <link href="{{asset('css/mystyle.css')}}" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
@@ -113,10 +114,17 @@
                         <div class="navbar-header"><button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button></div>
                         <div class="navbar-collapse collapse">
                            <ul class="nav navbar-nav">
-                              <li><a href="list-account">Account Manager</a></li>
-							  <li><a href="list-product">Product Manager</a></li>
-                              <li><a href="list-order">Order Manager</a></li>
-                              <li><a href="#">Notification</a></li>                         
+								<li><a href="checkout2">Profile</a></li>
+								@if($user == 1)
+									<li><a href="list-account">Account Manager</a></li>
+								@endif		
+								@if($user != 3)
+									<li><a href="list-product">Product Manager</a></li>
+								@endif
+								<li><a href="list-order">Order Manager</a></li>
+								@if($user != 1)
+									<li><a href="#">Notification</a></li>                         
+								@endif																	
                            </ul>
                         </div>
                      </div>
@@ -127,13 +135,13 @@
 		 
 	<section style="margin: 15px">
 		<div class="container-fluid">
-			<h2>List Product</h2>
-			<button id="add" class="btn btn-success" data-toggle="modal" data-target="#addproduct"  style="float: right;margin-bottom: 10px;margin-right: 7px;"><span class="glyphicon glyphicon-plus"></span> Add</button>
-			<form style="float:right; margin-right: 5px;">
+			<h2>List Product</h2>	
+			<button id="add" class="btn btn-success" data-toggle="modal" data-target="#addproduct"  style="float: right;margin-right: 7px;"><span class="glyphicon glyphicon-plus"></span> Add</button>
+			<form style="float:right; margin-right: 5px;margin-bottom: 10px">
 				<input class="search-submit" type="submit" value=""><input class="search" placeholder="Search product..." type="text" value="" name="search">
 			</form>
 			
-			@include('product-form');
+			@include('product-form')
 			
 		  <table class="table table-striped">
 			<thead>
@@ -172,6 +180,9 @@
 			$('.edit').click(function(){
 				$('#add').click();
 			});
+			$(document).on('change','#userOption',function(){
+               alert($('#userOption :selected').text());			
+			});			
 		});
 	</script>
 </body>

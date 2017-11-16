@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Student;
 
-class StudentController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -35,7 +34,7 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        Student::create($request->all());
+        //
     }
 
     /**
@@ -46,7 +45,7 @@ class StudentController extends Controller
      */
     public function show($id)
     {
-        return Student::find($id);
+        //
     }
 
     /**

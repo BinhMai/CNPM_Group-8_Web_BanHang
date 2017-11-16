@@ -407,7 +407,7 @@
                         contact us
                       </a>
                     </li>
-					<li><a href="list-product">manager</a></li>
+					<li><a href="manager">manager</a></li>
                   </ul>
                 </div>
               </div>

@@ -1,16 +1,10 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+use Illuminate\Http\RedirectResponse;
+use App\User;
+
 Route::get('/', function () {
+	#echo User::all();
     return view('welcome');
 });
 
@@ -31,20 +25,20 @@ Route::get('/cart', function () {
 });
 
 Route::get('/list-product', function () {
-    return view('UserManager');
+    return view('UserManager',['user'=>'1']);
+});
+
+Route::get('/manager',function(){
+	 return redirect('list-order');
 });
 
 Route::get('/list-order', function () {
-    return view('ListOrder');
+    return view('ListOrder',['user'=>'1']);
 });
 
 Route::get('/list-account', function () {
-    return view('AccountManager');
+    return view('AccountManager',['user'=>'1']);
 });
-
-
-
-
 
 Route::get('/checkout', function () {
     return view('checkout');
@@ -57,6 +51,12 @@ Route::get('/checkout2', function () {
 Route::get('/contact', function () {
     return view('contact');
 });
+
+Route::get('/add-account', function () {
+    return view('addAccount');
+});
+
+
 
 
 
