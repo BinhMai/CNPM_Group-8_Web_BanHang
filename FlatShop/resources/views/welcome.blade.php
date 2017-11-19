@@ -12,6 +12,10 @@
       <link rel="stylesheet" href="{{asset('css/flexslider.css')}}" type="text/css" media="screen"/>
       <link href="{{asset('css/sequence-looptheme.css')}}" rel="stylesheet" media="all"/>
       <link href="{{asset('css/style.css')}}" rel="stylesheet">
+
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>
       <!--[if lt IE 9]><script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script><script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script><![endif]-->
    </head>
    <body id="home">
@@ -58,8 +62,13 @@
                            </div>
                            <div class="col-md-3">
                               <ul class="usermenu">
-                                 <li><a href="checkout" class="log">Login</a></li>
-                                 <li><a href="checkout2" class="reg">Register</a></li>
+                                 @if(isset($user))
+                                    <li><a href="checkout2={{$user->userID}}" class="log">{{$user->username}}</a></li> 
+                                    <li><a href="/logout" class="reg" >LogOut</a></li>
+                                 @else
+                                    <li><a href="checkout" class="log">Login</a></li>
+                                    <li><a href="checkout2" class="reg">Register</a></li>
+                                 @endif                                                               
                               </ul>
                            </div>
                         </div>
@@ -156,7 +165,7 @@
                               <li><a href="productgird">kids</a></li>
                               <li><a href="productgird">blog</a></li>                              
                               <li><a href="contact">contact us</a></li>
-							  <li><a href="manager">manager</a></li>
+							         <li><a id="manager">manager</a></li>
                            </ul>
                         </div>
                      </div>
@@ -164,6 +173,20 @@
                </div>
             </div>
          </div>
+         <script type="text/javascript">
+            $(document).ready(function(){
+               $('#manager').click(function(){
+                  var type = {{$type}};
+                  if(type == 0){
+                     if(confirm('Bạn có muốn đăng nhập?')){
+                        document.location = '/checkout';   
+                     }
+                  }else{
+                     document.location = '/manager';
+                  }
+               });
+            });                   
+         </script>
          <div class="clearfix"></div>
          <div class="hom-slider">
             <div class="container">

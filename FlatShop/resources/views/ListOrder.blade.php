@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,6 +13,7 @@
   <link href="{{asset('css/sequence-looptheme.css')}}" rel="stylesheet" media="all"/>
   <link href="{{asset('css/style.css')}}" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <style>
@@ -65,8 +65,13 @@
                            </div>
                            <div class="col-md-3">
                               <ul class="usermenu">
-                                 <li><a href="checkout" class="log">Login</a></li>
-                                 <li><a href="checkout2" class="reg">Register</a></li>
+                                 @if(isset($user))
+                                    <li><a href="checkout2={{$user->userID}}" class="log">{{$user->username}}</a></li> 
+                                    <li><a href="/logout" class="reg" >LogOut</a></li>
+                                 @else
+                                    <li><a href="checkout" class="log">Login</a></li>
+                                    <li><a href="checkout2" class="reg">Register</a></li>
+                                 @endif     
                               </ul>
                            </div>
                         </div>
@@ -113,15 +118,15 @@
                         <div class="navbar-header"><button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button></div>
                         <div class="navbar-collapse collapse">
                            <ul class="nav navbar-nav">
-								<li><a href="checkout2">Profile</a></li>
-								@if($user == 1)
+								<li><a href="checkout2={{Auth::user()->userID}}">Profile</a></li>
+								@if($user->typeofuser == 1)
 									<li><a href="list-account">Account Manager</a></li>
 								@endif		
-								@if($user != 3)
+								@if($user->typeofuser != 3)
 									<li><a href="list-product">Product Manager</a></li>
 								@endif
 								<li><a href="list-order">Order Manager</a></li>
-								@if($user != 1)
+								@if($user->typeofuser != 1)
 									<li><a href="#">Notification</a></li>                         
 								@endif																	
                            </ul>
@@ -142,25 +147,48 @@
 		  <table class="table table-striped">
 			<thead>
 			  <tr>
-				<th>Firstname</th>
-				<th>Lastname</th>
-				<th>Email</th>
-				<th></th>
+				<th>UserID</th>
+				<th>ProductID</th>
+				<th>Order Time</th>
+        <th>Price</th>
+				<th>Status</th>
+        <th>Option</th>
 			  </tr>
 			</thead>
 			<tbody>
+        @foreach($ls_order as $order)
 				  <tr>
-					<td>John</td>
-					<td>Doe</td>
-					<td>john@example.com</td>
-					<td><input type="checkbox" name="ordercheck" value="1"></td>
+					<td>{{$order->userID}}</td>
+					<td>{{$order->productID}}</td>
+					<td>{{$order->dateofbirth}}</td>
+          <td>{{$order->price}}</td>
+					<td style="width: 150px;">
+            @if($order->status == 0)                                      
+              @if($user->typeofuser == 1)
+                Confirming
+              @else              
+                <input type="checkbox" class="order" id="{{$order->orderID}}" name="status" value="1">
+              @endif              
+            @elseif($order->status == 1)
+              @if($user->typeofuser == 1 || $user->typeofuser == 2 || $user->typeofuser == 4)              
+                Transporting
+              @else
+                <input type="checkbox" class="order" id="{{$order->orderID}}" name="status" value="2">
+              @endif              
+            @else
+              Finsish
+            @endif
+          </td>
+          <td style="width: 8%">
+             @if($order->status == 0)                                                    
+              <a href="checkout2={{$order->orderID}}"><button class="edit btn btn-primary addAcc" style="float: right;margin-left: 5px;"><span class="glyphicon glyphicon-edit"></span></button></a>
+              <button id="{{$order->orderID}}" class="btn btn-danger delete" style="float: right"><span class="glyphicon glyphicon-trash"></span></button>                            
+            @else
+              <a href="checkout2={{$order->orderID}}"><button class="edit btn btn-primary addAcc" style="float: right;margin-right: 23px;"><span class="glyphicon glyphicon-edit"></span></button></a>
+            @endif          
+          </td> 
 				  </tr>
-				  <tr>
-					<td>Mary</td>
-					<td>Moe</td>
-					<td>mary@example.com</td>
-					<td><input type="checkbox" name="ordercheck" value="1"></td>
-				  </tr>
+        @endforeach				  
 			</tbody>
 		  </table>
 		</div>
@@ -169,7 +197,12 @@
 		$(document).ready(function(){
 			$('.edit').click(function(){
 				$('#add').click();
-			});
+			});  
+      $('.order').click(function(){
+        var value = $('.order').val();
+        var id = $(this).attr('id');
+        document.location = '/checkorder?val='+value+id;
+      })    
 		});
 	</script>
 </body>

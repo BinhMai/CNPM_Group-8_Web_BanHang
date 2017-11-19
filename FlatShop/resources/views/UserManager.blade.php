@@ -16,6 +16,8 @@
   <link href="{{asset('css/mystyle.css')}}" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>
+  <script src="http://ajax.microsoft.com/ajax/jquery.validate/1.7/jquery.validate.js" type="text/javascript"></script>
 </head>
 <style>
 	td,th{
@@ -23,7 +25,7 @@
 		border: #e6dbea solid 1px !important;
 	}
 </style>
-<body>
+<body>  
 	<div class="header">
             <div class="container">
                <div class="row">
@@ -66,8 +68,13 @@
                            </div>
                            <div class="col-md-3">
                               <ul class="usermenu">
-                                 <li><a href="checkout" class="log">Login</a></li>
-                                 <li><a href="checkout2" class="reg">Register</a></li>
+                                 @if(isset($user))
+                                    <li><a href="checkout2={{$user->userID}}" class="log">{{$user->username}}</a></li> 
+                                    <li><a href="/logout" class="reg" >LogOut</a></li>
+                                 @else
+                                    <li><a href="checkout" class="log">Login</a></li>
+                                    <li><a href="checkout2" class="reg">Register</a></li>
+                                 @endif     
                               </ul>
                            </div>
                         </div>
@@ -114,15 +121,15 @@
                         <div class="navbar-header"><button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button></div>
                         <div class="navbar-collapse collapse">
                            <ul class="nav navbar-nav">
-								<li><a href="checkout2">Profile</a></li>
-								@if($user == 1)
+								<li><a href="checkout2={{Auth::user()->userID}}">Profile</a></li>
+								@if($user->typeofuser == 1)
 									<li><a href="list-account">Account Manager</a></li>
 								@endif		
-								@if($user != 3)
+								@if($user->typeofuser != 3)
 									<li><a href="list-product">Product Manager</a></li>
 								@endif
 								<li><a href="list-order">Order Manager</a></li>
-								@if($user != 1)
+								@if($user->typeofuser != 1)
 									<li><a href="#">Notification</a></li>                         
 								@endif																	
                            </ul>
@@ -136,7 +143,7 @@
 	<section style="margin: 15px">
 		<div class="container-fluid">
 			<h2>List Product</h2>	
-			<button id="add" class="btn btn-success" data-toggle="modal" data-target="#addproduct"  style="float: right;margin-right: 7px;"><span class="glyphicon glyphicon-plus"></span> Add</button>
+			<button id="add" class="btn btn-success" data-toggle="modal" data-target="#addproduct"  style="float: right;margin-right: 17px;"><span class="glyphicon glyphicon-plus"></span></button>
 			<form style="float:right; margin-right: 5px;margin-bottom: 10px">
 				<input class="search-submit" type="submit" value=""><input class="search" placeholder="Search product..." type="text" value="" name="search">
 			</form>
@@ -146,44 +153,49 @@
 		  <table class="table table-striped">
 			<thead>
 			  <tr>
-				<th>Firstname</th>
-				<th>Lastname</th>
-				<th>Email</th>
-				<th></th>
+        <th>Pictures</th>         
+				<th>Name</th>       
+        <th>Desciption</th>
+        <th>Price</th>
+        <th>Quantuminstock</th>
+        <th>CategoryID</th>
+        <th>OwnerID</th>
+        <th>IsActive</th>
+        <th>Option</th>				
 			  </tr>
 			</thead>
 			<tbody>
-				  <tr>
-					<td>John</td>
-					<td>Doe</td>
-					<td>john@example.com</td>
-					<td style="width: 180px;">
-						<button class="edit btn btn-primary" style="float: right;margin-left: 5px;"><span class="glyphicon glyphicon-edit"></span> Edit</button>
-						<button class="btn btn-danger" style="float: right"><span class="glyphicon glyphicon-trash"></span> Delete</button>
-					</td>
-				  </tr>
-				  <tr>
-					<td>Mary</td>
-					<td>Moe</td>
-					<td>mary@example.com</td>
-					<td>
-						<button class="edit btn btn-primary" style="float: right;margin-left: 5px;"><span class="glyphicon glyphicon-edit"></span> Edit</button>
-						<button class="btn btn-danger" style="float: right"><span class="glyphicon glyphicon-trash"></span> Delete</button>
-					</td>
-				  </tr>
+        @if(isset($ls_product))
+          @foreach($ls_product as $product)
+  				  <tr>
+            <td style="width: 8%">
+              <img src="http://localhost/{{$product->pictures}}" class="img-square" alt="Cinque Terre" style="border: #cccccc solid 1px;width:40px;height:40px">           
+            </td>
+  					<td>{{$product->productname}}</td>
+            <td>{{$product->desciption}}</td>
+            <td>{{$product->price}}</td>
+            <td>{{$product->quantuminstock}}</td>
+            <td>{{$product->categoryID}}</td>         
+            <td>{{$product->ownerID}}</td> 
+            <td>{{$product->isActive}}</td>
+            <td style="width: 120px;">
+              <a href="list-product={{$product->productID}}"><button class="edit btn btn-primary" style="float: right;margin-left: 5px;margin-right: 9px;"><span class="glyphicon glyphicon-edit"></span></button></a>
+              <a href="delete-product?id={{$product->productID}}"><button class="btn btn-danger" style="float: right"><span class="glyphicon glyphicon-trash"></span></button></a>
+            </td>
+  				  </tr>				  
+          @endforeach
+        @endif
 			</tbody>
 		  </table>
 		</div>
-	</section>
-	<script>
-		$(document).ready(function(){
-			$('.edit').click(function(){
-				$('#add').click();
-			});
-			$(document).on('change','#userOption',function(){
-               alert($('#userOption :selected').text());			
-			});			
-		});
-	</script>
+	</section>	
+  <script type="text/javascript">
+    $(document).ready(function(){
+      var pathname = window.location.pathname;
+      var pathedit = '/list-product';
+      if(pathname != pathedit)
+        $('#add').click();
+    });
+  </script>
 </body>
 </html>

@@ -10,16 +10,20 @@
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,700,500italic,100italic,100' rel='stylesheet' type='text/css'>
     <link href="css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/flexslider.css" type="text/css" media="screen"/>
-    <link href="css/style.css" rel="stylesheet" type="text/css">
-    <!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/libs/5shiv/3.7.0/5shiv.js">
-</script>
-<script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js">
-</script>
-<![endif]-->
-  </head>
-  <body>
+    <link rel="stylesheet" href="{{asset('css/flexslider.css')}}" type="text/css" media="screen"/>
+    <link href="{{asset('css/style.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('css/mystyle.css')}}" rel="stylesheet" type="text/css">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>    
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js" type="text/javascript"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="http://ajax.microsoft.com/ajax/jquery.validate/1.7/jquery.validate.js" type="text/javascript"></script>
+
+
+    <meta name="csrf-token" content="<?= csrf_token() ?>">    
+  </head>    
+  <body>       
     <div class="wrapper">
       <div class="header">
         <div class="container">
@@ -123,16 +127,13 @@
                   </div>
                   <div class="col-md-3">
                     <ul class="usermenu">
-                      <li>
-                        <a href="checkout" class="log">
-                          Login
-                        </a>
-                      </li>
-                      <li>
-                        <a href="checkout2" class="reg">
-                          Register
-                        </a>
-                      </li>
+                       @if(isset($userAd))
+                        <li><a href="checkout2={{$userAd->userID}}" class="log">{{$userAd->username}}</a></li> 
+                        <li><a href="/logout" class="reg" >LogOut</a></li>
+                     @else
+                        <li><a href="checkout" class="log">Login</a></li>
+                        <li><a href="checkout2" class="reg">Register</a></li>
+                     @endif    
                     </ul>
                   </div>
                 </div>
@@ -224,7 +225,7 @@
                             $60.00
                           </strong>
                         </span>
-                        <button class="checkout" onClick="location.href='checkout.'">
+                        <button class="checkout" onClick="location.href='checkout'">
                           CheckOut
                         </button>
                       </li>
@@ -627,8 +628,18 @@
                     <a href="checkout" class="step-title">
                       02. billing information
                     </a>
-                    <div class="step-description">
-                      <form>
+                    <div class="step-description" style="padding: 40px">                      
+                      <form action="@php 
+                                        if(isset($user))    
+                                          $userID = $user[0]['userID'];
+                                        if(isset($type))
+                                          echo '/edit-user?userID='.$userID;
+                                        else 
+                                          echo 'add-user';
+                                    @endphp" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <input type="hidden" name="url" value="{{$url}}">
+
                         <div class="row">
                           <div class="col-md-6 col-sm-6">
                             <div class="your-details">
@@ -642,7 +653,7 @@
                                     *
                                   </strong>
                                 </label>
-                                <input type="text" class="input namefild" name="">
+                                <input type="text" class="input namefild" name="firstname" value="{{ isset($user) ? $user[0]['firstname'] : ''}}" required>
                               </div>
                               <div class="form-row">
                                 <label class="lebel-abs">
@@ -651,155 +662,127 @@
                                     *
                                   </strong>
                                 </label>
-                                <input type="text" class="input namefild" name="">
+                                <input type="text" class="input namefild" name="lastname" value="{{ isset($user) ? $user[0]['lastname'] : ''}}" required>
+                              </div>
+                              <div class="form-row">
+                                <div class="radio-inline">
+                                  <label><input type="radio" name="gender" {{ isset($user) && $user[0]['gender'] == 1 ? 'checked' : ""}} {{ isset($user) ? '' : 'checked'}} value="1">Nam</label>
+                                </div>                                                          
+                                <div class="radio-inline">
+                                  <label><input type="radio" name="gender" {{ isset($user) && $user[0]['gender'] == 0 ? 'checked' : ""}} value="0" >Nữ</label>
+                                </div>                                
+                              </div>                              
+                              <div class="form-row">
+                                <label class="lebel-abs">
+                                  BirthDay
+                                  <strong class="red">
+                                    *
+                                  </strong>
+                                </label>                                
+                                <input type="date" class="input namefild form-date" name="dateofbirth" value="{{ isset($user) ? $user[0]['dateofbirth'] : ''}}" required>
                               </div>
                               <div class="form-row">
                                 <label class="lebel-abs">
-                                  Email 
+                                  Address
                                   <strong class="red">
                                     *
                                   </strong>
                                 </label>
-                                <input type="text" class="input namefild" name="">
-                              </div>
+                                <input type="text" class="input namefild" name="address" value="{{ isset($user) ? $user[0]['address'] : ''}}" required>
+                              </div>                              
                               <div class="form-row">
                                 <label class="lebel-abs">
-                                  Telephone 
+                                  Email
                                   <strong class="red">
                                     *
                                   </strong>
                                 </label>
-                                <input type="text" class="input namefild" name="">
+                                <input type="email" class="input namefild" name="email" value="{{ isset($user) ? $user[0]['email'] : ''}}"  required>
                               </div>
                               <div class="form-row">
                                 <label class="lebel-abs">
-                                  Fax 
+                                  Telephone
                                   <strong class="red">
                                     *
                                   </strong>
                                 </label>
-                                <input type="text" class="input namefild" name="">
+                                <input type="number" class="input namefild" name="telephone" value="{{ isset($user) ? $user[0]['telephone'] : ''}}"  required>
                               </div>
-                              <div class="form-row">
-                                <label class="lebel-abs">
-                                  Company 
-                                  <strong class="red">
-                                    *
-                                  </strong>
-                                </label>
-                                <input type="text" class="input namefild" name="">
-                              </div>
-                              <div class="pass-wrap">
+                              @if(Auth::check())
                                 <div class="form-row">
                                   <label class="lebel-abs">
-                                    Your Password 
+                                    Position
                                     <strong class="red">
                                       *
                                     </strong>
                                   </label>
-                                  <input type="password" class="input namefild" name="">
-                                </div>
-                                <div class="form-row">
-                                  <label class="lebel-abs">
-                                    Confird Your Password 
-                                    <strong class="red">
-                                      *
-                                    </strong>
-                                  </label>
-                                  <input type="password" class="input cpass" name="">
-                                </div>
-                              </div>
-                              <p>
-                                <span class="input-radio">
-                                  <input type="radio" name="user">
-                                </span>
-                                <span class="text">
-                                  I wish to subscribe to the Herbal Store newsletter.
-                                </span>
-                              </p>
-                              <p>
-                                <span class="input-radio">
-                                  <input type="radio" name="user">
-                                </span>
-                                <span class="text">
-                                  My delivery and billing addresses are the same.
-                                </span>
-                              </p>
+                                  <select class="form-control form-date" id="position" {{isset($user)?'disabled':''}} name="typeofuser" style="padding-left: 100px;height: 7%;margin-left: 0px">
+                                    <option value="4" {{ isset($user) && $user[0]['typeofuser'] == 4 ? 'selected' : ""}} >Customer</option>
+                                    <option value="3" {{ isset($user) && $user[0]['typeofuser'] == 3 ? 'selected' : ""}}>Shipper</option>
+                                    <option value="2" {{ isset($user) && $user[0]['typeofuser'] == 2 ? 'selected' : ""}}>Employee</option>
+                                    <option value="1" {{ isset($user) && $user[0]['typeofuser'] == 1 ? 'selected' : ""}}>Admin</option>
+                                  </select>
+                                </div>                                                            
+                              @endif
                             </div>
                           </div>
                           <div class="col-md-6 col-sm-6">
                             <div class="your-details">
                               <h5>
-                                Your Address
-                              </h5>
-                              <div class="form-row">
-                                <label class="lebel-abs">
-                                  Address 01 
-                                  <strong class="red">
-                                    *
-                                  </strong>
-                                </label>
-                                <input type="text" class="input namefild" name="">
+                                Your UserName
+                              </h5>                              
+                              <div class = "col-md-12" id="images-to-upload">
+                                @if(isset($user))
+                                  <img id="avatar" src="http://localhost/{{$user[0]['mediaID']}}" class="img-circle" alt="Cinque Terre" style="margin-left: 150px;margin-bottom: 17px;border: #cccccc solid 1px;width:80px;height:103px">                               
+                                @else
+                                  <img id="avatar" src="{{asset('images/images.jpg')}}" class="img-circle" alt="Cinque Terre" style="margin-left: 150px;margin-bottom: 17px;border: #cccccc solid 1px;width:80px;height:103px">                               
+                                @endif                                
                               </div>
-                              <div class="form-row">
-                                <label class="lebel-abs">
-                                  Address 02
-                                  <strong class="red">
-                                    *
-                                  </strong>
-                                </label>
-                                <input type="text" class="input namefild" name="">
-                              </div>
-                              <div class="form-row">
-                                <label class="lebel-abs">
-                                  City 
-                                  <strong class="red">
-                                    *
-                                  </strong>
-                                </label>
-                                <input type="text" class="input namefild" name="">
-                              </div>
-                              <div class="form-row">
-                                <label class="lebel-abs">
-                                  Pass Code 
-                                  <strong class="red">
-                                    *
-                                  </strong>
-                                </label>
-                                <input type="text" class="input namefild" name="">
-                              </div>
-                              <div class="form-row">
-                                <label class="lebel-abs">
-                                  Country 
-                                  <strong class="red">
-                                    *
-                                  </strong>
-                                </label>
-                                <input type="text" class="input namefild" name="">
-                              </div>
-                              <div class="form-row">
-                                <label class="lebel-abs">
-                                  Region / State 
-                                  <strong class="red">
-                                    *
-                                  </strong>
-                                </label>
-                                <input type="text" class="input namefild" name="">
-                              </div>
-                              <p class="privacy">
-                                <span class="input-radio">
-                                  <input type="radio" name="user">
-                                </span>
-                                <span class="text">
-                                  I have read and agree to the 
-                                  <a href="#" class="red">
-                                    Privacy Policy
-                                  </a>
-                                </span>
-                              </p>
-                              <button>
+                              <div class="form-row" style="margin-top: 15px">
+                                    <label class="lebel-abs">
+                                      Avatar
+                                      <strong class="red">
+                                        *
+                                      </strong>
+                                    </label>
+                                    <input type="file" name="pictures" class="input namefild form-file" id="images">
+                                  </div>
+                              <div class="form-row">                                  
+                                  <label class="lebel-abs">
+                                    UserName
+                                    <strong class="red">
+                                      *
+                                    </strong>
+                                  </label>
+                                  @if(!isset($user))
+                                    <input type="text" class="input namefild" style="padding-left: 120px;" name="username" value="{{ isset($user) ? $user[0]['username'] : ''}}" required>
+                                  @else
+                                    <input type="text" class="input namefild" style="padding-left: 120px;" disabled name="username" value="{{ isset($user) ? $user[0]['username'] : ''}}" >
+                                  @endif
+                                </div>
+                                @if(!isset($user))
+                                  <div class="form-row">
+                                    <label class="lebel-abs">
+                                      Password 
+                                      <strong class="red">
+                                        *
+                                      </strong>
+                                    </label>
+                                    <input type="password" class="input namefild" name="password" required>
+                                  </div>
+                                  <div class="form-row">
+                                    <label class="lebel-abs">
+                                      RePassword 
+                                      <strong class="red">
+                                        *
+                                      </strong>
+                                    </label>
+                                    <input type="password" class="input cpass" style="padding-left: 120px;" name="confpassword" required>
+                                  </div> 
+                                @endif                             
+                              <button type="submit" style="float: right;position: absolute;top: 365px;right: 16px">
                                 Continue
-                              </button>
+                              </button>                              
                             </div>
                           </div>
                         </div>
@@ -1013,7 +996,7 @@
             <div class="row">
               <div class="col-md-6">
                 <p>
-                  Copyright � 2012. Designed by 
+                  Copyright © 2012. Designed by 
                   <a href="#">
                     Michael Lee
                   </a>
@@ -1046,6 +1029,38 @@
       </div>
     </div>
     <!-- Bootstrap core JavaScript==================================================-->
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $.ajaxSetup({
+          headers: {
+            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+          }
+        });
+
+        $('#avatar').click(function(){
+          $('#images').click();
+        });
+
+        var fileCollection = new Array();
+        $('#images').on('change',function(e){
+
+          var files = e.target.files;
+
+          $.each(files, function(i, file){
+
+            fileCollection.push(file);
+
+            var reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function(e){
+              var template = '<img src="'+e.target.result+'" class="img-circle" alt="Cinque Terre" style="margin-left: 150px;margin-bottom: 17px;border: #cccccc solid 1px;width:80px;height:103px">';              
+              $('#images-to-upload').html(template);
+            };
+          });
+        });
+
+      });
+    </script>
     <script type="text/javascript" src="js/jquery-1.10.2.min.js">
     </script>
     <script type="text/javascript" src="js/bootstrap.min.js">

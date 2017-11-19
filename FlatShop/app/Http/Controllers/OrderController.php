@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Order;
 
 class OrderController extends Controller
 {
@@ -12,8 +13,15 @@ class OrderController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        //
+    {   
+        $string =  $_GET['val'];
+        $val = substr($string, 0,1);
+        $id = substr($string, 1,strlen($string)-1);  
+        
+        $order = Order::find($id);
+        $order->status = $val;
+        if($order->save())
+            return back()->withInput();   
     }
 
     /**
@@ -45,7 +53,7 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        //
+        
     }
 
     /**

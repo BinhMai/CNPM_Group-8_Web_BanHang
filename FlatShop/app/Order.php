@@ -16,5 +16,7 @@ class Order extends Authenticatable
     ];
 
     protected $primaryKey = 'orderID';
+    public $incrementing = false;
+    public $timestamps = false;
 
 }

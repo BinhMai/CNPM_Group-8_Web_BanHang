@@ -2,30 +2,35 @@
 
 use Illuminate\Http\RedirectResponse;
 use App\User;
+use App\Order;
+use App\Product;
 
 Route::get('/', function () {
-	#echo User::all();
-    return view('welcome');
+	if(Auth::check())
+        return view('welcome',['user'=>Auth::user(),'type'=>1]);        
+    else
+        return view('welcome',['type'=>0]);
 });
 
 Route::get('/details', function () {
-    return view('details');
+    return view('details',['user'=>Auth::user()]);
 });
 
 Route::get('/productlitst', function () {
-    return view('productlitst');
+    return view('productlitst',['user'=>Auth::user()]);
 });
 
 Route::get('/productgird', function () {
-    return view('productgird');
+    return view('productgird',['user'=>Auth::user()]);
 });
 
 Route::get('/cart', function () {
-    return view('cart');
+    return view('cart',['user'=>Auth::user()]);
 });
 
 Route::get('/list-product', function () {
-    return view('UserManager',['user'=>'1']);
+    $ls_product = Product::all();    
+    return view('UserManager',['ls_product'=>$ls_product,'type'=>0,'product'=>null,'user'=>Auth::user()]);
 });
 
 Route::get('/manager',function(){
@@ -33,11 +38,28 @@ Route::get('/manager',function(){
 });
 
 Route::get('/list-order', function () {
-    return view('ListOrder',['user'=>'1']);
+    $ls_order = Order::all(); 
+    $typeofuser = Auth::user()->typeofuser;   
+    if($typeofuser == 3){
+        $ls_order = Order::where('status','!=',0)->get();
+        return view('ListOrder',['ls_order'=>$ls_order,'user'=>Auth::user()]);    
+    }
+    if($typeofuser == 4){
+        $ls_order = Order::where('userID',Auth::id())->get();
+        return view('ListOrder',['ls_order'=>$ls_order,'user'=>Auth::user()]);    
+    }
+    return view('ListOrder',['ls_order'=>$ls_order,'user'=>Auth::user()]);
 });
 
 Route::get('/list-account', function () {
-    return view('AccountManager',['user'=>'1']);
+    $ls_account = User::where('typeofuser','!=','1')->get();
+    $typeofuser = Auth::user()->typeofuser;
+    if ($typeofuser == 1){
+        return view('AccountManager',['ls_account'=>$ls_account,'type'=>0,'product'=>null,'user'=>Auth::user()]);
+    }else{        
+        return view('AccountManager',['ls_account'=>$ls_account,'type'=>0,'product'=>null,'user'=>Auth::user()]);
+        // return back()->withInput();
+    }    
 });
 
 Route::get('/checkout', function () {
@@ -45,18 +67,39 @@ Route::get('/checkout', function () {
 });
 
 Route::get('/checkout2', function () {
-    return view('checkout2');
+    $oldURL = $_SERVER['HTTP_REFERER'];
+    return view('checkout2',['url'=>$oldURL]);
+});
+
+Route::get('/checkout2={userID}', function ($userID) {    
+    $oldURL = $_SERVER['HTTP_REFERER'];
+    $user = User::where('userID',$userID)->get();
+    return view('checkout2',['user'=>$user,'url'=>$oldURL,'type'=>1,'userAd'=>Auth::user()]);
 });
 
 Route::get('/contact', function () {
-    return view('contact');
+    return view('contact',['user'=>Auth::user()]);
 });
 
-Route::get('/add-account', function () {
-    return view('addAccount');
+Route::get('/list-product={productID}', function ($productID) {    
+    $product = Product::where('productID',$productID)->get();
+    $ls_product = Product::where('isActive',1)->get();    
+    return view('UserManager',['product'=>$product,'ls_product'=>$ls_product,'type'=>1,'user'=>Auth::user()]);
 });
 
+Route::post('/login','UserController@login');
 
+Route::post('/add-user','UserController@index');
+Route::post('/edit-user','UserController@index');
+Route::get('/delete-user','UserController@index');
 
+Route::post('/add-product','ProductController@index');
+Route::post('/edit-product','ProductController@index');
+Route::get('/delete-product','ProductController@index');
 
+Route::get('/checkorder','OrderController@index');
 
+Route::get('/logout',function(){
+    Auth::logout();
+    return Redirect::to('/');
+});

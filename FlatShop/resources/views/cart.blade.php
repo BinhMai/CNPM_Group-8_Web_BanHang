@@ -125,16 +125,13 @@
                   </div>
                   <div class="col-md-3">
                     <ul class="usermenu">
-                      <li>
-                        <a href="checkout" class="log">
-                          Login
-                        </a>
-                      </li>
-                      <li>
-                        <a href="checkout2" class="reg">
-                          Register
-                        </a>
-                      </li>
+                      @if(isset($user))
+                        <li><a href="checkout2={{$user->userID}}" class="log">{{$user->username}}</a></li> 
+                        <li><a href="/logout" class="reg" >LogOut</a></li>
+                     @else
+                        <li><a href="checkout" class="log">Login</a></li>
+                        <li><a href="checkout2" class="reg">Register</a></li>
+                     @endif                                                               
                     </ul>
                   </div>
                 </div>
