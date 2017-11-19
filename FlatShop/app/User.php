@@ -16,5 +16,7 @@ class User extends Authenticatable
     ];
 
     protected $primaryKey = 'userID';
+    public $incrementing = false;
+    public $timestamps = false;
 
 }

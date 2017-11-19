@@ -22,7 +22,7 @@
 		border: #e6dbea solid 1px !important;
 	}
 </style>
-<body>
+<body>  
 	<div class="header">
             <div class="container">
                <div class="row">
@@ -65,8 +65,13 @@
                            </div>
                            <div class="col-md-3">
                               <ul class="usermenu">
-                                 <li><a href="checkout" class="log">Login</a></li>
-                                 <li><a href="checkout2" class="reg">Register</a></li>
+                                 @if(isset($user))
+                                    <li><a href="checkout2={{$user->userID}}" class="log">{{$user->username}}</a></li> 
+                                    <li><a href="/logout" class="reg" >LogOut</a></li>
+                                 @else
+                                    <li><a href="checkout" class="log">Login</a></li>
+                                    <li><a href="checkout2" class="reg">Register</a></li>
+                                 @endif                                                               
                               </ul>
                            </div>
                         </div>
@@ -113,13 +118,13 @@
                         <div class="navbar-header"><button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button></div>
                         <div class="navbar-collapse collapse">
                            <ul class="nav navbar-nav">
-								<li><a href="checkout2">Profile</a></li>
-								@if($user == 1)
+								<li><a href="checkout2={{Auth::user()->userID}}">Profile</a></li>
+								@if($user->typeofuser == 1)
 									<li><a href="list-account">Account Manager</a></li>
 								@endif									
 								<li><a href="list-product">Product Manager</a></li>
 								<li><a href="list-order">Order Manager</a></li>
-								@if($user != 1)
+								@if($user->typeofuser != 1)
 									<li><a href="#">Notification</a></li>                         
 								@endif																	
                            </ul>
@@ -132,8 +137,8 @@
 		 
 	<section style="margin: 15px">
 		<div class="container-fluid">
-			<h2>List Employee</h2>
-			<a href="{{asset('/add-account')}}"><button id="add" class="btn btn-success" data-toggle="modal" data-target="#addproduct"  style="float: right;margin-bottom: 10px;margin-right: 7px;"><span class="glyphicon glyphicon-plus"></span> Add</button></a>
+			<h2>List Account</h2>
+			<a href="{{asset('/checkout2')}}"><button id="add" class="btn btn-success" data-toggle="modal" data-target="#addproduct"  style="float: right;margin-bottom: 10px;margin-right: 7px;"><span class="glyphicon glyphicon-plus"></span></button></a>
 			<form style="float:right; margin-right: 5px;">
 				<input class="search-submit" type="submit" value=""><input class="search" placeholder="Search employee..." type="text" value="" name="search">
 			</form>
@@ -143,41 +148,58 @@
 		  <table class="table table-striped">
 			<thead>
 			  <tr>
-				<th>Firstname</th>
-				<th>Lastname</th>
+        <th>Avatar</th>  
+				<th>Name</th>				
+        <th>Username</th>
 				<th>Email</th>
-				<th></th>
+        <th>Telephone</th>
+        <th>TypeofUser</th>
+        <th>IsActive</th>
+				<th>Option</th>
 			  </tr>
 			</thead>
 			<tbody>
-				  <tr>
-					<td>John</td>
-					<td>Doe</td>
-					<td>john@example.com</td>
-					<td style="width: 180px;">
-						<button class="edit btn btn-primary" style="float: right;margin-left: 5px;"><span class="glyphicon glyphicon-edit"></span> Edit</button>
-						<button class="btn btn-danger" style="float: right"><span class="glyphicon glyphicon-trash"></span> Delete</button>
-					</td>
-				  </tr>
-				  <tr>
-					<td>Mary</td>
-					<td>Moe</td>
-					<td>mary@example.com</td>
-					<td>
-						<button class="edit btn btn-primary" style="float: right;margin-left: 5px;"><span class="glyphicon glyphicon-edit"></span> Edit</button>
-						<button class="btn btn-danger" style="float: right"><span class="glyphicon glyphicon-trash"></span> Delete</button>
-					</td>
-				  </tr>
+            @foreach($ls_account as $acc)
+				      <tr>          
+                <td><img src="http://localhost/{{$acc->mediaID}}" class="img-circle" alt="Cinque Terre" style="border: #cccccc solid 1px;width:40px;height:40px"></td>
+                <td>{{$acc->firstname}} {{$acc->lastname}} </td>                
+                <td>{{$acc->username}}</td>
+                <td>{{$acc->email}}</td>
+                <td>{{$acc->telephone}}</td>
+                <td>
+                  @if($acc->typeofuser == 1)
+                    {{'Admin'}}
+                  @elseif($acc->typeofuser == 3)
+                    {{'Shipper'}}
+                  @elseif($acc->typeofuser == 2)
+                    {{'Employee'}}
+                  @else
+                    {{'Customer'}}
+                  @endif
+                </td>  
+                <td>{{$acc->isActive}}</td>              
+                <td style="width: 8%;">
+                  <a href="checkout2={{$acc->userID}}"><button class="edit btn btn-primary addAcc" style="float: right;margin-left: 5px;"><span class="glyphicon glyphicon-edit"></span></button></a>
+                  <button id="{{$acc->userID}}" class="btn btn-danger delete" style="float: right"><span class="glyphicon glyphicon-trash"></span></button>
+                </td>		
+				      </tr>			
+          @endforeach     	  
 			</tbody>
 		  </table>
 		</div>
-	</section>
-	<script>
-		$(document).ready(function(){
-			$('.edit').click(function(){
-				$('#add').click();
-			});
-		});
-	</script>
+	</section>	
+  <script type="text/javascript">
+    $('.delete').click(function(){
+        var id = $(this).attr('id');        
+
+        $.ajax({
+          url : 'delete-user?id='+id,
+          type: 'get',
+          success: function(){          
+            document.location= "http://localhost/list-account";                       
+          }
+        });
+      });
+  </script>
 </body>
 </html>

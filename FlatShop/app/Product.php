@@ -15,6 +15,8 @@ class Product extends Authenticatable
         'productID','productname','descipsion','price','saleprice','quantuminstock','categoryID','ownerID','dateofbirth','dateofend','isActive'
     ];
 
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'productID';
+    public $incrementing = false;
+    public $timestamps = false;
 
 }

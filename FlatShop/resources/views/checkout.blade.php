@@ -14,6 +14,10 @@
     <link href="css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/flexslider.css" type="text/css" media="screen"/>
     <link href="css/style.css" rel="stylesheet" type="text/css">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="http://ajax.microsoft.com/ajax/jquery.validate/1.7/jquery.validate.js" type="text/javascript"></script>
     <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js">
 </script>
@@ -664,7 +668,9 @@
                             <h5>
                               Rerunning Customer
                             </h5>
-                            <form>
+                            <form id="login-form">
+                              <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
                               <div class="form-row">
                                 <label class="lebel-abs">
                                   Email 
@@ -672,7 +678,7 @@
                                     *
                                   </strong>
                                 </label>
-                                <input type="text" class="input namefild" name="">
+                                <input type="text" class="input namefild" name="user">
                               </div>
                               <div class="form-row">
                                 <label class="lebel-abs">
@@ -681,17 +687,48 @@
                                     *
                                   </strong>
                                 </label>
-                                <input type="text" class="input namefild" name="">
+                                <input type="password" class="input namefild" name="password" style="padding-left: 100px">
                               </div>
                               <p class="forgoten">
                                 <a href="#">
                                   Forgoten your password?
                                 </a>
                               </p>
-                              <button>
+                              <button type="submit">
                                 Login
                               </button>
                             </form>
+                            <script type="text/javascript">
+                              $(document).ready(function(){
+                                $.ajaxSetup({
+                                  headers: {
+                                    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+                                  }
+                                }); 
+
+                                $("#login-form").validate({          
+                                     submitHandler: submitFormLogin
+                                });
+                                function submitFormLogin(){                                                  
+                                    var data = $('#login-form').serialize();
+                                    $.ajax({
+                                        type : 'POST',
+                                        url  : '/login',
+                                        data : data,                                        
+                                        success:  function(data)
+                                        {        
+                                          console.log(data);                                 
+                                          if(data == 'true') 
+                                            document.location = "http://localhost";            
+                                          else
+                                            alert('Tên tài khoản hoặc mật khẩu không chính xác');
+                                        }
+                                    });
+                                    return false;
+                                }       
+
+                              });
+                            </script>
                           </div>
                         </div>
                       </div>
@@ -909,7 +946,7 @@
             <div class="row">
               <div class="col-md-6">
                 <p>
-                  Copyright � 2012. Designed by 
+                  Copyright © 2012. Designed by 
                   <a href="#">
                     Michael Lee
                   </a>
