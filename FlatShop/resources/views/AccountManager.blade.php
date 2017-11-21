@@ -124,7 +124,7 @@
 								@endif									
 								<li><a href="list-product">Product Manager</a></li>
 								<li><a href="list-order">Order Manager</a></li>
-								@if($user->typeofuser != 1)
+								@if($user->typeofuser != 1 && $user->typeofuser != 4)
 									<li><a href="#">Notification</a></li>                         
 								@endif																	
                            </ul>

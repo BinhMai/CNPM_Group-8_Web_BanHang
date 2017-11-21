@@ -19,19 +19,24 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {
+    {        
+        $password = null;
         if(isset($_GET['id'])){            
             $user = User::where('userID',$_GET['id'])->first();
-            $user->isActive = 0;
+            $user->isActive = 0;     
         }else{
             if(isset($_GET['userID'])){
                $user = User::find($_GET['userID']);
+               $user->typeofuser = $user->typeofuser;               
             }else{
                 $user = new User;
-                $user->userID = "tttt";
+                $user->userID = "rrrrr";
                 $user->username = Input::get('username');
+                $password = Input::get('password');
                 $user->password = Hash::make(Input::get('password'));
                 $user->email = Input::get('email');
+                if(Auth::check() && Auth::user()->typeofuser == 1)
+                    $user->typeofuser = Input::get('typeofuser');
             }
 
             if($_FILES['pictures']['name']!= ''){            
@@ -48,12 +53,15 @@ class UserController extends Controller
             $user->telephone = Input::get('telephone');
             $user->address = Input::get('address');            
             $user->gender = Input::get('gender');
-            $user->dateofbirth = Input::get('dateofbirth');
-            $user->typeofuser = Input::get('typeofuser');
+            $user->dateofbirth = Input::get('dateofbirth');            
             $user->dateofcreate  = Carbon::now()->toDateTimeString();
             $user->isActive = 1;    
         }                
         if($user->save()){
+            if(!Auth::check()){                
+                $name = $user->username;                   
+                Auth::attempt(['username' => $name, 'password' => $password]);
+            }
             $string = Input::get('url');
             $url = substr($string,16,strlen($string)-16);            
             return redirect(''.$url);                        

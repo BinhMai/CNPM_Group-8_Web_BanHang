@@ -719,8 +719,7 @@
                                   <select class="form-control form-date" id="position" {{isset($user)?'disabled':''}} name="typeofuser" style="padding-left: 100px;height: 7%;margin-left: 0px">
                                     <option value="4" {{ isset($user) && $user[0]['typeofuser'] == 4 ? 'selected' : ""}} >Customer</option>
                                     <option value="3" {{ isset($user) && $user[0]['typeofuser'] == 3 ? 'selected' : ""}}>Shipper</option>
-                                    <option value="2" {{ isset($user) && $user[0]['typeofuser'] == 2 ? 'selected' : ""}}>Employee</option>
-                                    <option value="1" {{ isset($user) && $user[0]['typeofuser'] == 1 ? 'selected' : ""}}>Admin</option>
+                                    <option value="2" {{ isset($user) && $user[0]['typeofuser'] == 2 ? 'selected' : ""}}>Employee</option>                                    
                                   </select>
                                 </div>                                                            
                               @endif
