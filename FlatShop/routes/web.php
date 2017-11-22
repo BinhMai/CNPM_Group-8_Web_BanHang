@@ -12,9 +12,10 @@ Route::get('/', function () {
         return view('welcome',['type'=>0]);
 });
 
-Route::get('/details', function () {
-    return view('details',['user'=>Auth::user()]);
-});
+// Route::get('/details', function () {
+//     return view('details',['user'=>Auth::user()]);
+// });
+Route::get('/details={id}', 'ProductController@detail');
 
 Route::get('/productlitst', function () {
     return view('productlitst',['user'=>Auth::user()]);

@@ -28,7 +28,7 @@ class UserController extends Controller
                $user = User::find($_GET['userID']);
             }else{
                 $user = new User;
-                $user->userID = "tttt";
+                $user->userID = "mmmm";
                 $user->username = Input::get('username');
                 $user->password = Hash::make(Input::get('password'));
                 $user->email = Input::get('email');
