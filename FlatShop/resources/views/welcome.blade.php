@@ -81,34 +81,36 @@
                            </li>
                            <li class="option-cart">
                               <a href="#" class="cart-icon">cart <span class="cart_no">02</span></a>
-                              <ul class="option-cart-item">
-                                 <li>
-                                    <div class="cart-item">
-                                       <div class="image"><img src="images/products/thum/products-01.png" alt=""></div>
-                                       <div class="item-description">
-                                          <p class="name">Lincoln chair</p>
-                                          <p>Size: <span class="light-red">One size</span><br>Quantity: <span class="light-red">01</span></p>
+                              <ul class="option-cart-item"> 
+                                 <div class="list-order">
+                                    <li>
+                                       <div class="cart-item">
+                                          <div class="image"><img src="images/products/thum/products-01.png" alt=""></div>
+                                          <div class="item-description">
+                                             <p class="name">Lincoln chair</p>
+                                             <p>Size: <span class="light-red">One size</span><br>Quantity: <span class="light-red">01</span></p>
+                                          </div>
+                                          <div class="right">
+                                             <p class="price">$30.00</p>
+                                             <a href="#" class="remove"><img src="images/remove.png" alt="remove"></a>
+                                          </div>
                                        </div>
-                                       <div class="right">
-                                          <p class="price">$30.00</p>
-                                          <a href="#" class="remove"><img src="images/remove.png" alt="remove"></a>
+                                    </li>
+                                    <li>
+                                       <div class="cart-item">
+                                          <div class="image"><img src="images/products/thum/products-02.png" alt=""></div>
+                                          <div class="item-description">
+                                             <p class="name">Lincoln chair</p>
+                                             <p>Size: <span class="light-red">One size</span><br>Quantity: <span class="light-red">01</span></p>
+                                          </div>
+                                          <div class="right">
+                                             <p class="price">$30.00</p>
+                                             <a href="#" class="remove"><img src="images/remove.png" alt="remove"></a>
+                                          </div>
                                        </div>
-                                    </div>
-                                 </li>
-                                 <li>
-                                    <div class="cart-item">
-                                       <div class="image"><img src="images/products/thum/products-02.png" alt=""></div>
-                                       <div class="item-description">
-                                          <p class="name">Lincoln chair</p>
-                                          <p>Size: <span class="light-red">One size</span><br>Quantity: <span class="light-red">01</span></p>
-                                       </div>
-                                       <div class="right">
-                                          <p class="price">$30.00</p>
-                                          <a href="#" class="remove"><img src="images/remove.png" alt="remove"></a>
-                                       </div>
-                                    </div>
-                                 </li>
-                                 <li><span class="total">Total <strong>$60.00</strong></span><button class="checkout" onClick="location.href='checkout'">CheckOut</button></li>
+                                    </li>
+                                 </div>                                  
+                                 <li><span class="total">Total <strong>$60.00</strong></span><button class="checkout" onClick="location.href='/cart'">CheckOut</button></li>
                               </ul>
                            </li>
                         </ul>
@@ -529,6 +531,14 @@
             </div>
          </div>
       </div>
+
+      <script type="text/javascript">
+         $(document).ready(function(){
+            $('.add-cart').click(function(){
+               $('ul.option-cart-item div.list-order').append('<li><div class="cart-item"><div class="image"><img src="images/products/thum/products-01.png" alt=""></div><div class="item-description"><p class="name">Lincoln chair</p><p>Size: <span class="light-red">One size</span><br>Quantity: <span class="light-red">01</span></p></div><div class="right"><p class="price">$30.00</p><a href="#" class="remove"><img src="images/remove.png" alt="remove"></a></div></div></li>');
+            })
+         });
+      </script>>
       <!-- Bootstrap core JavaScript==================================================-->
 	  <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
 	  <script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
