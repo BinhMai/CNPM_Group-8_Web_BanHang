@@ -443,7 +443,7 @@
                     <img id="zoom_03" src="{{$product->pictures}}" data-zoom-image="{{$product->pictures}}" alt="">
                   </div>
                   <div class="thum-image">
-                    <ul id="gallery_01" class="prev-thum">
+                    <ul id="gallery" class="prev-thum">
                       <?php for($i=0;$i<count($pro_category);$i++){ ?>
                       <li>
                         <!-- <a href="details={{$pro_category[$i]['productID']}}" data-image="{{$pro_category[$i]['pictures']}}" data-zoom-image="{{$pro_category[$i]['pictures']}}">

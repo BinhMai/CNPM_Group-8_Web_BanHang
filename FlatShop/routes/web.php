@@ -16,10 +16,10 @@ Route::get('/', function () {
 //     return view('details',['user'=>Auth::user()]);
 // });
 Route::get('/details={id}', 'ProductController@detail');
-
-Route::get('/productlitst', function () {
-    return view('productlitst',['user'=>Auth::user()]);
-});
+Route::get('/product={id}', 'ProductController@product');
+// Route::get('/productlitst', function () {
+//     return view('productlitst',['user'=>Auth::user()]);
+// });
 
 Route::get('/productgird', function () {
     return view('productgird',['user'=>Auth::user()]);

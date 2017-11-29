@@ -16,7 +16,7 @@
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
       <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>
-      <!--[if lt IE 9]><script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script><script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script><![endif]-->
+      
    </head>
    <body id="home">
       <div class="wrapper">
@@ -132,38 +132,11 @@
                                     </ul>
                                  </div>
                               </li>
-                              <li><a href="productgird">men</a></li>
-                              <li><a href="productlitst">women</a></li>
-                              <li class="dropdown">
-                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Fashion</a>
-                                 <div class="dropdown-menu mega-menu">
-                                    <div class="row">
-                                       <div class="col-md-6 col-sm-6">
-                                          <ul class="mega-menu-links">
-                                             <li><a href="productgird">New Collection</a></li>
-                                             <li><a href="productgird">Shirts & tops</a></li>
-                                             <li><a href="productgird">Laptop & Brie</a></li>
-                                             <li><a href="productgird">Dresses</a></li>
-                                             <li><a href="productgird">Blazers & Jackets</a></li>
-                                             <li><a href="productgird">Shoulder Bags</a></li>
-                                          </ul>
-                                       </div>
-                                       <div class="col-md-6 col-sm-6">
-                                          <ul class="mega-menu-links">
-                                             <li><a href="productgird">New Collection</a></li>
-                                             <li><a href="productgird">Shirts & tops</a></li>
-                                             <li><a href="productgird">Laptop & Brie</a></li>
-                                             <li><a href="productgird">Dresses</a></li>
-                                             <li><a href="productgird">Blazers & Jackets</a></li>
-                                             <li><a href="productgird">Shoulder Bags</a></li>
-                                          </ul>
-                                       </div>
-                                    </div>
-                                 </div>
-                              </li>
-                              <li><a href="productgird">gift</a></li>
-                              <li><a href="productgird">kids</a></li>
-                              <li><a href="productgird">blog</a></li>                              
+                              <?php $ca=App\Category::get(); ?>
+                             @foreach($ca as $ca)
+                              <li><a href="product={{$ca->categoryID}}">{{$ca->name}}</a></li>
+                               @endforeach                             
+                           
                               <li><a href="contact">contact us</a></li>
 							         <li><a id="manager">manager</a></li>
                            </ul>
@@ -257,7 +230,7 @@
                         <div class="row">
                             <?php 
                                     $pr=App\Product::orderBy('productID','desc')->get();
-                                    for($i=0;$i<4;$i++){
+                                    for($i=0;$i<12;$i++){
                                  ?>
                            <div class="col-md-3 col-sm-6">
                               <div class="products">
@@ -276,7 +249,7 @@
                         <div class="row">
                             <?php 
                      
-                                for($i=4;$i<count($pr);$i++){
+                                for($i=12;$i<23;$i++){
                            ?>
                            <div class="col-md-3 col-sm-6">
                               <div class="products">

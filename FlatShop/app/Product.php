@@ -19,6 +19,6 @@ class Product extends Authenticatable
     public $incrementing = false;
     public $timestamps = false;
      public function category(){
-        
+       return $this->hasOne('App\Category') ;
     }
 }

@@ -63,6 +63,12 @@ class ProductController extends Controller
         $pro_category = Product::where('categoryID',$categoryID)->where('productID','<>',$id)->orderBy('productID','desc')->get();
         return view('details',['product'=>$product,'pro_category'=>$pro_category]);
     }
+       public function product($id){
+        
+       // $category = Category::find($id);
+        $product = Product::where('categoryID',$id)->get();
+        return view('product',['product'=>$product]);
+    }
     /**
      * Show the form for creating a new resource.
      *

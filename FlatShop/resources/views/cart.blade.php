@@ -14,6 +14,9 @@
     <link href="css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/flexslider.css" type="text/css" media="screen"/>
     <link href="css/style.css" rel="stylesheet" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>
     <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js">
 </script>
@@ -1454,6 +1457,13 @@
         </div>
       </div>
     </div>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $.getJSON('//freegeoip.net/json/?callback=?', function(data) {
+               console.log(JSON.stringify(data, null, 2));
+            });
+      });
+    </script>
     <!-- Bootstrap core JavaScript==================================================-->
     <script type="text/javascript" src="js/jquery-1.10.2.min.js">
     </script>
