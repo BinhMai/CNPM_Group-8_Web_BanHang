@@ -678,6 +678,7 @@
                                     *
                                   </strong>
                                 </label>
+                                <input style="display: none" type="text" name="oldurl" id="oldurl">
                                 <input type="text" class="input namefild" name="user">
                               </div>
                               <div class="form-row">
@@ -697,7 +698,7 @@
                               <button type="submit">
                                 Login
                               </button>
-                            </form>
+                            </form>                          
                             <script type="text/javascript">
                               $(document).ready(function(){
                                 $.ajaxSetup({
@@ -709,8 +710,10 @@
                                 $("#login-form").validate({          
                                      submitHandler: submitFormLogin
                                 });
-                                function submitFormLogin(){                                                  
-                                    var data = $('#login-form').serialize();
+                                function submitFormLogin(){  
+                                    $('#oldurl').val(document.referrer); 
+                                    var update = {{$update}};                                                      
+                                    var data = $('#login-form').serialize()+'&update='+update;
                                     $.ajax({
                                         type : 'POST',
                                         url  : '/login',
@@ -718,8 +721,8 @@
                                         success:  function(data)
                                         {        
                                           console.log(data);                                 
-                                          if(data == 'true') 
-                                            document.location = "http://localhost";            
+                                          if(data != null) 
+                                            document.location = data;            
                                           else
                                             alert('Tên tài khoản hoặc mật khẩu không chính xác');
                                         }

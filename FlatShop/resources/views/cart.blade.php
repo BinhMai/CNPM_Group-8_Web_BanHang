@@ -14,6 +14,10 @@
     <link href="css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/flexslider.css" type="text/css" media="screen"/>
     <link href="css/style.css" rel="stylesheet" type="text/css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>
     <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js">
 </script>
@@ -28,7 +32,7 @@
           <div class="row">
             <div class="col-md-2 col-sm-2">
               <div class="logo">
-                <a href="/">
+                <a href="/Trang-Chu">
                   <img src="images/logo.png" alt="FlatShop">
                 </a>
               </div>
@@ -147,88 +151,40 @@
                     </form>
                   </li>
                   <li class="option-cart">
-                    <a href="#" class="cart-icon">
-                      cart 
-                      <span class="cart_no">
-                        02
-                      </span>
-                    </a>
-                    <ul class="option-cart-item">
-                      <li>
-                        <div class="cart-item">
-                          <div class="image">
-                            <img src="images/products/thum/products-01.png" alt="">
-                          </div>
-                          <div class="item-description">
-                            <p class="name">
-                              Lincoln chair
-                            </p>
-                            <p>
-                              Size: 
-                              <span class="light-red">
-                                One size
-                              </span>
-                              <br>
-                              Quantity: 
-                              <span class="light-red">
-                                01
-                              </span>
-                            </p>
-                          </div>
-                          <div class="right">
-                            <p class="price">
-                              $30.00
-                            </p>
-                            <a href="#" class="remove">
-                              <img src="images/remove.png" alt="remove">
-                            </a>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="cart-item">
-                          <div class="image">
-                            <img src="images/products/thum/products-02.png" alt="">
-                          </div>
-                          <div class="item-description">
-                            <p class="name">
-                              Lincoln chair
-                            </p>
-                            <p>
-                              Size: 
-                              <span class="light-red">
-                                One size
-                              </span>
-                              <br>
-                              Quantity: 
-                              <span class="light-red">
-                                01
-                              </span>
-                            </p>
-                          </div>
-                          <div class="right">
-                            <p class="price">
-                              $30.00
-                            </p>
-                            <a href="#" class="remove">
-                              <img src="images/remove.png" alt="remove">
-                            </a>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <span class="total">
-                          Total 
-                          <strong>
-                            $60.00
-                          </strong>
-                        </span>
-                        <button class="checkout" onClick="location.href='checkout'">
-                          CheckOut
-                        </button>
-                      </li>
+                    <a href="#" class="cart-icon">cart <span class="cart_no" id="cart_no">{{Cookie::get('amount') < 10 ? '0'.Cookie::get('amount') : Cookie::get('amount')}}</span></a>
+                    <ul class="option-cart-item"> 
+                       <div class="list-order">
+                          <?php                                                             
+                             $ls_order = App\Order::where('userID',Auth::check() ? Auth::id() : Cookie::get('user_ip'))->where('isActive',1)->orderBy('orderID','desc')->limit(Cookie::get('amount'))->get();                                             
+                             $total = 0;
+                             foreach($ls_order as $order){
+                                $prd = App\Product::find($order->productID);
+                                $total+= $prd->price;
+                                ?>
+                                   <li>
+                                      <div class="cart-item"><div class="image"><img src="{{$prd->pictures}}" alt=""></div>
+                                         <div class="item-description">
+                                            <p class="name">{{$prd->productname}}</p>
+                                            <p>Size: <span class="light-red">One size</span><br>Quantity: <span class="light-red">01</span></p>
+                                         </div>
+                                         <div class="right"><p class="price">${{$prd->price}}.00</p>
+                                            <a href="/delete-order?id={{$order->orderID}}" class="remove"><img src="images/remove.png" alt="remove"></a>
+                                         </div>
+                                      </div>
+                                   </li>
+                                <?php
+                             }                                                    
+                          ?>                                     
+                       </div>     
+                       <div class="total-cart">
+                          @if(count($ls_order) > 0)                                  
+                             <li><span class="total">Total <strong id="total">${{$total}}</strong></span><button class="checkout" onClick="location.href='/cart'">CheckOut</button></li>
+                          @else
+                             <li>Bạn Chưa Order Sản Phẩm Nào.</li>
+                          @endif
+                       </div>                                                               
                     </ul>
-                  </li>
+                 </li>
                 </ul>
                 <div class="navbar-header">
                   <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -252,7 +208,7 @@
                       <div class="dropdown-menu">
                         <ul class="mega-menu-links">
                           <li>
-                            <a href="/">
+                            <a href="/Trang-Chu">
                               home
                             </a>
                           </li>
@@ -467,229 +423,51 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>
-                      <img src="images/products/small/products-06.png" alt="">
-                    </td>
-                    <td>
-                      <div class="shop-details">
-                        <div class="productname">
-                          Lincoln Corner Unit Products
-                        </div>
-                        <p>
-                          <img alt="" src="images/star.png">
-                          <a class="review_num" href="#">
-                            02 Review(s)
-                          </a>
-                        </p>
-                        <div class="color-choser">
-                          <span class="text">
-                            Product Color : 
-                          </span>
-                          <ul>
-                            <li>
-                              <a class="black-bg " href="#">
-                                black
-                              </a>
-                            </li>
-                            <li>
-                              <a class="red-bg" href="#">
-                                light red
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                        <p>
-                          Product Code : 
-                          <strong class="pcode">
-                            Dress 120
-                          </strong>
-                        </p>
-                      </div>
-                    </td>
-                    <td>
-                      <h5>
-                        $200.00
-                      </h5>
-                    </td>
-                    <td>
-                      <select name="">
-                        <option selected value="1">
-                          1
-                        </option>
-                        <option value="1">
-                          2
-                        </option>
-                        <option value="1">
-                          3
-                        </option>
-                      </select>
-                    </td>
-                    <td>
-                      <h5>
-                        <strong class="red">
-                          $200.00
-                        </strong>
-                      </h5>
-                    </td>
-                    <td>
-                      <a href="#">
-                        <img src="images/remove.png" alt="">
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <img src="images/products/small/products-02.png" alt="">
-                    </td>
-                    <td>
-                      <div class="shop-details">
-                        <div class="productname">
-                          Lincoln Corner Unit Products
-                        </div>
-                        <p>
-                          <img alt="" src="images/star.png">
-                          <a class="review_num" href="#">
-                            02 Review(s)
-                          </a>
-                        </p>
-                        <div class="color-choser">
-                          <span class="text">
-                            Product Color : 
-                          </span>
-                          <ul>
-                            <li>
-                              <a class="gray-bg" href="#">
-                                pink
-                              </a>
-                            </li>
-                            <li>
-                              <a class="black-bg " href="#">
-                                black
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                        <p>
-                          Product Code : 
-                          <strong class="pcode">
-                            Dress 132
-                          </strong>
-                        </p>
-                      </div>
-                    </td>
-                    <td>
-                      <h5>
-                        $200.00
-                      </h5>
-                    </td>
-                    <td>
-                      <select name="">
-                        <option selected value="1">
-                          1
-                        </option>
-                        <option value="2">
-                          2
-                        </option>
-                        <option value="3">
-                          3
-                        </option>
-                      </select>
-                    </td>
-                    <td>
-                      <h5>
-                        <strong class="red">
-                          $200.00
-                        </strong>
-                      </h5>
-                    </td>
-                    <td>
-                      <a href="#">
-                        <img src="images/remove.png" alt="">
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <img src="images/products/small/products-05.png" alt="">
-                    </td>
-                    <td>
-                      <div class="shop-details">
-                        <div class="productname">
-                          Lincoln Corner Unit Products
-                        </div>
-                        <p>
-                          <img alt="" src="images/star.png">
-                          <a class="review_num" href="#">
-                            02 Review(s)
-                          </a>
-                        </p>
-                        <div class="color-choser">
-                          <span class="text">
-                            Product Color : 
-                          </span>
-                          <ul>
-                            <li>
-                              <a class="red-bg" href="#">
-                                light red
-                              </a>
-                            </li>
-                            <li>
-                              <a class=" yellow-bg" href="#">
-                                yellow"
-                              </a>
-                            </li>
-                            <li>
-                              <a class="black-bg " href="#">
-                                black
-                              </a>
-                            </li>
-                            <li>
-                              <a class="pink-bg" href="#">
-                                pink
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                        <p>
-                          Product Code : 
-                          <strong class="pcode">
-                            Dress 050
-                          </strong>
-                        </p>
-                      </div>
-                    </td>
-                    <td>
-                      <h5>
-                        $200.00
-                      </h5>
-                    </td>
-                    <td>
-                      <select name="">
-                        <option selected value="1">
-                          1
-                        </option>
-                        <option value="2">
-                          2
-                        </option>
-                        <option value="3">
-                          3
-                        </option>
-                      </select>
-                    </td>
-                    <td>
-                      <h5>
-                        <strong class="red">
-                          $200.00
-                        </strong>
-                      </h5>
-                    </td>
-                    <td>
-                      <a href="#">
-                        <img src="images/remove.png" alt="">
-                      </a>
-                    </td>
-                  </tr>
+                  <?php                                                             
+                   $ls_order = App\Order::where('userID',Auth::check() ? Auth::id() : Cookie::get('user_ip'))->where('isActive',1)->orderBy('orderID','desc')->limit(Cookie::get('amount'))->get();
+                   $total = 0;
+                   if(count($ls_order) > 0){
+                      foreach($ls_order as $order){
+                        $prd = App\Product::find($order->productID);
+                        $price = (int)$prd->price * (int)$order->amount;
+                        $total+= $price;                                            
+                        ?>
+                        <tr> 
+                          <td><img src="{{$prd->pictures}}" alt=""></td>
+                          <td>
+                            <div class="shop-details">
+                              <div class="productname">{{$prd->productname}}</div>
+                              <p>
+                                <img alt="" src="images/star.png">
+                                <a class="review_num" href="#">02 Review(s)</a>
+                              </p>
+                              <div class="color-choser">
+                                <span class="text">Product Color : </span>
+                                <ul>
+                                  <li><a class="black-bg " href="#">black</a></li>
+                                  <li><a class="red-bg" href="#">light red</a></li>
+                                </ul>
+                              </div>
+                              <p>Product Code : <strong class="pcode">Dress 120</strong></p>
+                            </div>
+                          </td>
+                          <td><h5>${{$prd->price}}</h5></td>
+                          <td>
+                            <select name="">
+                              <option value="1" {{$order->amount== "1"?'selected':''}}>1</option>
+                              <option value="2" {{$order->amount== "2"?'selected':''}}>2</option>
+                              <option value="3" {{$order->amount== "3"?'selected':''}}>3</option>
+                            </select>
+                          </td>
+                          <td><h5><strong class="red">${{$price}}</strong></h5></td>
+                          <td><a href="/delete-order?id={{$order->orderID}}"><img src="images/remove.png" alt=""></a></td>
+                        </tr>
+                        <?php
+                      }
+                   }else{
+                      echo '<tr><td class="btn-warning"><h3>Bạn Chưa Order Sản Phẩm Nào.</h3></td></tr>';
+                   }                   
+                  ?>                  
                 </tbody>
                 <tfoot>
                   <tr>
@@ -1214,31 +992,62 @@
                   </div>
                 </div>
                 <div class="col-md-4 col-sm-6">
-                  <div class="shippingbox">
-                    <div class="subtotal">
-                      <h5>
-                        Sub Total
-                      </h5>
-                      <span>
-                        $1.000.00
-                      </span>
-                    </div>
+                  <div class="shippingbox">                    
                     <div class="grandtotal">
                       <h5>
                         GRAND TOTAL 
                       </h5>
                       <span>
-                        $1.000.00
+                        ${{$total}}
                       </span>
                     </div>
-                    <button>
-                      Process To Checkout
+                    <button id="pay">
+                      Thanh Toán
                     </button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          <script type="text/javascript">
+            $(document).ready(function(){
+              $('#pay').click(function(){
+                var type = {{$type}}
+                if(type == 0){
+                     if(confirm('Bạn có muốn đăng nhập?')){
+                        document.location = '/checkout?update=1';   
+                     }else{
+                        $('#openModal').click();
+                     }
+                  }else{
+                      alert("Đặt Hàng Thành Công.");
+                     document.location = '/Trang-Chu';
+                  }
+                return false;
+              });
+            });
+          </script>
+          <button type="button" id="openModal" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+
+          <!-- Modal -->
+          <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+            
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                  <p>Some text in the modal.</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+              
+            </div>
           <div class="clearfix">
           </div>
           <div class="our-brand">

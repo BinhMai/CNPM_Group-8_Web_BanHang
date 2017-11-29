@@ -9,6 +9,7 @@ use App\Product;
 use Illuminate\Support\Facades\Input;
 use Carbon\Carbon;
 use File;
+use Auth;
 
 class ProductController extends Controller
 {
@@ -57,7 +58,12 @@ class ProductController extends Controller
             return redirect('list-product');            
         }
     }
-
+    public function detail($id){
+        $product = Product::find($id);
+        $categoryID = $product->categoryID;
+        $pro_category = Product::where('categoryID',$categoryID)->where('productID','<>',$id)->orderBy('productID','desc')->get();
+        return view('details',['user'=>Auth::user(),'product'=>$product,'pro_category'=>$pro_category]);
+    }
     /**
      * Show the form for creating a new resource.
      *

@@ -12,11 +12,12 @@
       <link rel="stylesheet" href="{{asset('css/flexslider.css')}}" type="text/css" media="screen"/>
       <link href="{{asset('css/sequence-looptheme.css')}}" rel="stylesheet" media="all"/>
       <link href="{{asset('css/style.css')}}" rel="stylesheet">
-
+      
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
       <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>
       <!--[if lt IE 9]><script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script><script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script><![endif]-->
+      <meta name="csrf-token" content="<?= csrf_token() ?>">
    </head>
    <body id="home">
       <div class="wrapper">
@@ -24,7 +25,7 @@
             <div class="container">
                <div class="row">
                   <div class="col-md-2 col-sm-2">
-                     <div class="logo"><a href="/"><img src="images/logo.png" alt="FlatShop"></a></div>
+                     <div class="logo"><a href="/Trang-Chu"><img src="images/logo.png" alt="FlatShop"></a></div>
                   </div>
                   <div class="col-md-10 col-sm-10">
                      <div class="header_top">
@@ -80,37 +81,38 @@
                               <form><input class="search-submit" type="submit" value=""><input class="search-input" placeholder="Enter your search term..." type="text" value="" name="search"></form>
                            </li>
                            <li class="option-cart">
-                              <a href="#" class="cart-icon">cart <span class="cart_no">02</span></a>
+                              <a href="#" class="cart-icon">cart <span class="cart_no" id="cart_no">{{Cookie::get('amount') < 10 ? '0'.Cookie::get('amount') : Cookie::get('amount')}}</span></a>
                               <ul class="option-cart-item"> 
                                  <div class="list-order">
-                                    <li>
-                                       <div class="cart-item">
-                                          <div class="image"><img src="images/products/thum/products-01.png" alt=""></div>
-                                          <div class="item-description">
-                                             <p class="name">Lincoln chair</p>
-                                             <p>Size: <span class="light-red">One size</span><br>Quantity: <span class="light-red">01</span></p>
-                                          </div>
-                                          <div class="right">
-                                             <p class="price">$30.00</p>
-                                             <a href="#" class="remove"><img src="images/remove.png" alt="remove"></a>
-                                          </div>
-                                       </div>
-                                    </li>
-                                    <li>
-                                       <div class="cart-item">
-                                          <div class="image"><img src="images/products/thum/products-02.png" alt=""></div>
-                                          <div class="item-description">
-                                             <p class="name">Lincoln chair</p>
-                                             <p>Size: <span class="light-red">One size</span><br>Quantity: <span class="light-red">01</span></p>
-                                          </div>
-                                          <div class="right">
-                                             <p class="price">$30.00</p>
-                                             <a href="#" class="remove"><img src="images/remove.png" alt="remove"></a>
-                                          </div>
-                                       </div>
-                                    </li>
-                                 </div>                                  
-                                 <li><span class="total">Total <strong>$60.00</strong></span><button class="checkout" onClick="location.href='/cart'">CheckOut</button></li>
+                                    <?php                                                             
+                                       $ls_order = App\Order::where('userID',Auth::check() ? Auth::id() : Cookie::get('user_ip'))->where('isActive',1)->orderBy('orderID','desc')->limit(Cookie::get('amount'))->get();                                             
+                                       $total = 0;
+                                       foreach($ls_order as $order){
+                                          $prd = App\Product::find($order->productID);
+                                          $total+= $prd->price;
+                                          ?>
+                                             <li>
+                                                <div class="cart-item"><div class="image"><img src="{{$prd->pictures}}" alt=""></div>
+                                                   <div class="item-description">
+                                                      <p class="name">{{$prd->productname}}</p>
+                                                      <p>Size: <span class="light-red">One size</span><br>Quantity: <span class="light-red">01</span></p>
+                                                   </div>
+                                                   <div class="right"><p class="price">${{$prd->price}}.00</p>
+                                                      <a href="/delete-order?id={{$order->orderID}}" class="remove"><img src="images/remove.png" alt="remove"></a>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                          <?php
+                                       }                                                    
+                                    ?>                                     
+                                 </div>     
+                                 <div class="total-cart">
+                                    @if(count($ls_order) > 0)                                  
+                                       <li><span class="total">Total <strong id="total">${{$total}}</strong></span><button class="checkout" onClick="location.href='/cart'">CheckOut</button></li>
+                                    @else
+                                       <li>Bạn Chưa Order Sản Phẩm Nào.</li>
+                                    @endif
+                                 </div>                                                               
                               </ul>
                            </li>
                         </ul>
@@ -121,7 +123,7 @@
                                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Home</a>
                                  <div class="dropdown-menu">
                                     <ul class="mega-menu-links">
-                                       <li><a href="/">home</a></li>
+                                       <li><a href="/Trang-Chu">home</a></li>
                                        <li><a href="home2">home2</a></li>
                                        <li><a href="home3">home3</a></li>
                                        <li><a href="productlitst">Productlitst</a></li>
@@ -167,7 +169,7 @@
                               <li><a href="productgird">kids</a></li>
                               <li><a href="productgird">blog</a></li>                              
                               <li><a href="contact">contact us</a></li>
-							         <li><a id="manager">manager</a></li>
+							         <li><a class="manager">manager</a></li>
                            </ul>
                         </div>
                      </div>
@@ -177,7 +179,7 @@
          </div>
          <script type="text/javascript">
             $(document).ready(function(){
-               $('#manager').click(function(){
+               $(document).on('click','.manager',function(){
                   var type = {{$type}};
                   if(type == 0){
                      if(confirm('Bạn có muốn đăng nhập?')){
@@ -197,7 +199,7 @@
                   <div class="sequence-next"><i class="fa fa-angle-right"></i></div>
                   <ul class="sequence-canvas">
                      <li class="animate-in">
-                        <div class="flat-caption caption1 formLeft delay300 text-center"><span class="suphead">Paris show 2014</span></div>
+                        <div class="flat-caption caption1 formLeft delay300 text-center"><span class="suphead">Paris show 2017</span></div>
                         <div class="flat-caption caption2 formLeft delay400 text-center">
                            <h1>Collection For Winter</h1>
                         </div>
@@ -219,7 +221,7 @@
                      </li>
                      <li>
                         <div class="flat-caption caption2 formLeft delay400 text-center">
-                           <h1>New Fashion of 2013</h1>
+                           <h1>New Fashion of 2017</h1>
                         </div>
                         <div class="flat-caption caption3 formLeft delay500 text-center">
                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. <br>Lorem Ipsum is simply dummy text of the printing and typesetting</p>
@@ -249,88 +251,7 @@
          <div class="clearfix"></div>
          <div class="container_fullwidth">
             <div class="container">
-               <div class="hot-products">
-                  <h3 class="title"><strong>Hot</strong> Products</h3>
-                  <div class="control"><a id="prev_hot" class="prev" href="#">&lt;</a><a id="next_hot" class="next" href="#">&gt;</a></div>
-                  <ul id="hot">
-                     <li>
-                        <div class="row">
-                           <div class="col-md-3 col-sm-6">
-                              <div class="products">
-                                 <div class="offer">- %20</div>
-                                 <div class="thumbnail"><a href="details"><img src="images/products/small/products-01.png" alt="Product Name"></a></div>
-                                 <div class="productname">Iphone 5s Gold 32 Gb 2013</div>
-                                 <h4 class="price">$451.00</h4>
-                                 <div class="button_group"><button class="button add-cart" type="button">Add To Cart</button><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
-                              </div>
-                           </div>
-                           <div class="col-md-3 col-sm-6">
-                              <div class="products">
-                                 <div class="thumbnail"><a href="details"><img src="images/products/small/products-02.png" alt="Product Name"></a></div>
-                                 <div class="productname">Iphone 5s Gold 32 Gb 2013</div>
-                                 <h4 class="price">$451.00</h4>
-                                 <div class="button_group"><button class="button add-cart" type="button">Add To Cart</button><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
-                              </div>
-                           </div>
-                           <div class="col-md-3 col-sm-6">
-                              <div class="products">
-                                 <div class="offer">New</div>
-                                 <div class="thumbnail"><a href="details"><img src="images/products/small/products-03.png" alt="Product Name"></a></div>
-                                 <div class="productname">Iphone 5s Gold 32 Gb 2013</div>
-                                 <h4 class="price">$451.00</h4>
-                                 <div class="button_group"><button class="button add-cart" type="button">Add To Cart</button><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
-                              </div>
-                           </div>
-                           <div class="col-md-3 col-sm-6">
-                              <div class="products">
-                                 <div class="thumbnail"><a href="details"><img src="images/products/small/products-04.png" alt="Product Name"></a></div>
-                                 <div class="productname">Iphone 5s Gold 32 Gb 2013</div>
-                                 <h4 class="price">$451.00</h4>
-                                 <div class="button_group"><button class="button add-cart" type="button">Add To Cart</button><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
-                              </div>
-                           </div>
-                        </div>
-                     </li>
-                     <li>
-                        <div class="row">
-                           <div class="col-md-3 col-sm-6">
-                              <div class="products">
-                                 <div class="offer">- %20</div>
-                                 <div class="thumbnail"><a href="details"><img src="images/products/small/products-01.png" alt="Product Name"></a></div>
-                                 <div class="productname">Iphone 5s Gold 32 Gb 2013</div>
-                                 <h4 class="price">$451.00</h4>
-                                 <div class="button_group"><button class="button add-cart" type="button">Add To Cart</button><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
-                              </div>
-                           </div>
-                           <div class="col-md-3 col-sm-6">
-                              <div class="products">
-                                 <div class="thumbnail"><a href="details"><img src="images/products/small/products-02.png" alt="Product Name"></a></div>
-                                 <div class="productname">Iphone 5s Gold 32 Gb 2013</div>
-                                 <h4 class="price">$451.00</h4>
-                                 <div class="button_group"><button class="button add-cart" type="button">Add To Cart</button><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
-                              </div>
-                           </div>
-                           <div class="col-md-3 col-sm-6">
-                              <div class="products">
-                                 <div class="offer">New</div>
-                                 <div class="thumbnail"><a href="details"><img src="images/products/small/products-03.png" alt="Product Name"></a></div>
-                                 <div class="productname">Iphone 5s Gold 32 Gb 2013</div>
-                                 <h4 class="price">$451.00</h4>
-                                 <div class="button_group"><button class="button add-cart" type="button">Add To Cart</button><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
-                              </div>
-                           </div>
-                           <div class="col-md-3 col-sm-6">
-                              <div class="products">
-                                 <div class="thumbnail"><a href="details"><img src="images/products/small/products-04.png" alt="Product Name"></a></div>
-                                 <div class="productname">Iphone 5s Gold 32 Gb 2013</div>
-                                 <h4 class="price">$451.00</h4>
-                                 <div class="button_group"><button class="button add-cart" type="button">Add To Cart</button><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
-                              </div>
-                           </div>
-                        </div>
-                     </li>
-                  </ul>
-               </div>
+              
                <div class="clearfix"></div>
                <div class="featured-products">
                   <h3 class="title"><strong>Featured </strong> Products</h3>
@@ -338,75 +259,40 @@
                   <ul id="featured">
                      <li>
                         <div class="row">
+                            <?php 
+                                    $pr=App\Product::orderBy('productID','desc')->get();
+                                    for($i=0;$i<4;$i++){
+                                 ?>
                            <div class="col-md-3 col-sm-6">
                               <div class="products">
-                                 <div class="thumbnail"><a href="details"><img src="images/products/small/products-05.png" alt="Product Name"></a></div>
-                                 <div class="productname">Iphone 5s Gold 32 Gb 2013</div>
-                                 <h4 class="price">$451.00</h4>
-                                 <div class="button_group"><button class="button add-cart" type="button">Add To Cart</button><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
+                                
+                                 <div class="offer">new</div>
+                                 <div class="thumbnail"><a href="details={{$pr[$i]['productID']}}"><img src="{{$pr[$i]['pictures']}}" alt="Product Name" style="height: 100%"></a></div>
+                                 <div class="productname">{{$pr[$i]['productname']}}</div>
+                                 <h4 class="price">${{$pr[$i]['price']}}</h4>
+                                 <div class="button_group"><button class="button add-cart" id="order_{{$pr[$i]['productID']}}" type="button">Add To Cart</button><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
                               </div>
-                           </div>
-                           <div class="col-md-3 col-sm-6">
-                              <div class="products">
-                                 <div class="thumbnail"><a href="details"><img src="images/products/small/products-06.png" alt="Product Name"></a></div>
-                                 <div class="productname">Iphone 5s Gold 32 Gb 2013</div>
-                                 <h4 class="price">$451.00</h4>
-                                 <div class="button_group"><button class="button add-cart" type="button">Add To Cart</button><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
-                              </div>
-                           </div>
-                           <div class="col-md-3 col-sm-6">
-                              <div class="products">
-                                 <div class="offer">New</div>
-                                 <div class="thumbnail"><a href="details"><img src="images/products/small/products-07.png" alt="Product Name"></a></div>
-                                 <div class="productname">Iphone 5s Gold 32 Gb 2013</div>
-                                 <h4 class="price">$451.00</h4>
-                                 <div class="button_group"><button class="button add-cart" type="button">Add To Cart</button><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
-                              </div>
-                           </div>
-                           <div class="col-md-3 col-sm-6">
-                              <div class="products">
-                                 <div class="thumbnail"><a href="details"><img src="images/products/small/products-04.png" alt="Product Name"></a></div>
-                                 <div class="productname">Iphone 5s Gold 32 Gb 2013</div>
-                                 <h4 class="price">$451.00</h4>
-                                 <div class="button_group"><button class="button add-cart" type="button">Add To Cart</button><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
-                              </div>
-                           </div>
+                           </div> 
+                           <?php } ?>
                         </div>
                      </li>
                      <li>
                         <div class="row">
+                            <?php 
+                     
+                                for($i=4;$i<count($pr);$i++){
+                           ?>
                            <div class="col-md-3 col-sm-6">
                               <div class="products">
-                                 <div class="thumbnail"><a href="details"><img src="images/products/small/products-01.png" alt="Product Name"></a></div>
-                                 <div class="productname">Iphone 5s Gold 32 Gb 2013</div>
-                                 <h4 class="price">$451.00</h4>
+                                
+                                 <div class="offer">new</div>
+                                 <div class="thumbnail"><a href="details"><img src="{{$pr[$i]['pictures']}}" alt="Product Name"></a></div>
+                                 <div class="productname">{{$pr[$i]['productname']}}</div>
+                                 <h4 class="price">${{$pr[$i]['price']}}</h4>
                                  <div class="button_group"><button class="button add-cart" type="button">Add To Cart</button><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
                               </div>
-                           </div>
-                           <div class="col-md-3 col-sm-6">
-                              <div class="products">
-                                 <div class="thumbnail"><a href="details"><img src="images/products/small/products-02.png" alt="Product Name"></a></div>
-                                 <div class="productname">Iphone 5s Gold 32 Gb 2013</div>
-                                 <h4 class="price">$451.00</h4>
-                                 <div class="button_group"><button class="button add-cart" type="button">Add To Cart</button><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
-                              </div>
-                           </div>
-                           <div class="col-md-3 col-sm-6">
-                              <div class="products">
-                                 <div class="thumbnail"><a href="details"><img src="images/products/small/products-03.png" alt="Product Name"></a></div>
-                                 <div class="productname">Iphone 5s Gold 32 Gb 2013</div>
-                                 <h4 class="price">$451.00</h4>
-                                 <div class="button_group"><button class="button add-cart" type="button">Add To Cart</button><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
-                              </div>
-                           </div>
-                           <div class="col-md-3 col-sm-6">
-                              <div class="products">
-                                 <div class="thumbnail"><a href="details"><img src="images/products/small/products-04.png" alt="Product Name"></a></div>
-                                 <div class="productname">Iphone 5s Gold 32 Gb 2013</div>
-                                 <h4 class="price">$451.00</h4>
-                                 <div class="button_group"><button class="button add-cart" type="button">Add To Cart</button><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
-                              </div>
-                           </div>
+                           </div> 
+                           <?php } ?>
                         </div>
                      </li>
                   </ul>
@@ -533,10 +419,12 @@
       </div>
 
       <script type="text/javascript">
-         $(document).ready(function(){
-            $('.add-cart').click(function(){
-               $('ul.option-cart-item div.list-order').append('<li><div class="cart-item"><div class="image"><img src="images/products/thum/products-01.png" alt=""></div><div class="item-description"><p class="name">Lincoln chair</p><p>Size: <span class="light-red">One size</span><br>Quantity: <span class="light-red">01</span></p></div><div class="right"><p class="price">$30.00</p><a href="#" class="remove"><img src="images/remove.png" alt="remove"></a></div></div></li>');
-            })
+         $(document).ready(function(){            
+            $.ajaxSetup({
+               headers: {
+                  'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+               }
+            });            
          });
       </script>>
       <!-- Bootstrap core JavaScript==================================================-->
@@ -547,5 +435,6 @@
 	  <script type="text/javascript" src="js/jquery.carouFredSel-6.2.1-packed.js"></script>
 	  <script defer src="js/jquery.flexslider.js"></script>
 	  <script type="text/javascript" src="js/script.min.js" ></script>
+     <script type="text/javascript" src="js/add-to-cart.js"></script>
    </body>
 </html>

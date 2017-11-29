@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Order;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -11,6 +12,7 @@ use Hash;
 use Carbon\Carbon;
 use File;
 use Auth;
+use Cookie;
 class UserController extends Controller
 {
     /**
@@ -68,14 +70,16 @@ class UserController extends Controller
         }
     }
 
-    public function login(Request $request){
+    public function login(Request $request){            
         $name = $_POST['user'];
         $password = $_POST['password'];        
 
         if (Auth::attempt(['username' => $name, 'password' => $password])) {
-            echo "true";
-        }else
-            echo "faile";
+            if($_POST['update'] == 1){
+                Order::where('userID',Cookie::get('user_ip'))->update(['userID' => Auth::id()]);
+            }
+            echo $_POST['oldurl'];
+        }
     }
     /**
      * Show the form for creating a new resource.

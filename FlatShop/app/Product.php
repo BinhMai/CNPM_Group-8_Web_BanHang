@@ -12,11 +12,13 @@ class Product extends Authenticatable
     protected $table = 'product_detail';
 
     protected $fillable = [
-        'productID','productname','descipsion','price','saleprice','quantuminstock','categoryID','ownerID','dateofbirth','dateofend','isActive'
+        'productID','productname','descipsion','price','saleprice','pictures','quantuminstock','categoryID','ownerID','dateofbirth','dateofend','isActive'
     ];
 
     protected $primaryKey = 'productID';
     public $incrementing = false;
     public $timestamps = false;
-
+     public function category(){
+        
+    }
 }

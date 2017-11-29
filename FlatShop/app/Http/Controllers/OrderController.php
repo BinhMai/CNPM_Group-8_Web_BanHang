@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Order;
+use Carbon\Carbon;
+use Auth;
+use App\Product;
+use Cookie;
 
 class OrderController extends Controller
 {
@@ -42,7 +46,23 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Cookie::queue('amount', $request->amount, 180);        
+        Cookie::queue('user_ip', $request->user_ip, 180);
+
+        $order = new Order;
+        $order->userID= (string)$request->user_ip;
+        if(Auth::check()){           
+            $order->userID= (string)Auth::id();        
+        }
+        
+        $order->productID = $request->id_prd;
+        $order->amount = 1;
+        $order->dateofbirth = Carbon::now()->toDateTimeString();
+        $order->dateofend = Carbon::now()->toDateTimeString();        
+        if($order->save()){
+            $prd = Product::find($order->productID);                                
+            return json_encode(array('orderID'=>$order->orderID,'prd'=>$prd));            
+        }            
     }
 
     /**
@@ -85,8 +105,14 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy()
     {
-        //
+        $amount = Cookie::get('amount') -1;
+        Cookie::queue('amount', $amount, 180);    
+        $id = $_GET['id'];
+        $order = Order::find($id);        
+        $order->isActive = 0;
+        if($order->save())
+            return back()->withInput();    
     }
 }

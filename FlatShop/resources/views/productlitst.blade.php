@@ -28,7 +28,7 @@
           <div class="row">
             <div class="col-md-2 col-sm-2">
               <div class="logo">
-                <a href="/">
+                <a href="/Trang-Chu">
                   <img src="images/logo.png" alt="FlatShop">
                 </a>
               </div>
@@ -150,88 +150,22 @@
                     </form>
                   </li>
                   <li class="option-cart">
-                    <a href="#" class="cart-icon">
-                      cart 
-                      <span class="cart_no">
-                        02
-                      </span>
-                    </a>
-                    <ul class="option-cart-item">
-                      <li>
-                        <div class="cart-item">
-                          <div class="image">
-                            <img src="images/products/thum/products-01.png" alt="">
-                          </div>
-                          <div class="item-description">
-                            <p class="name">
-                              Lincoln chair
-                            </p>
-                            <p>
-                              Size: 
-                              <span class="light-red">
-                                One size
-                              </span>
-                              <br>
-                              Quantity: 
-                              <span class="light-red">
-                                01
-                              </span>
-                            </p>
-                          </div>
-                          <div class="right">
-                            <p class="price">
-                              $30.00
-                            </p>
-                            <a href="#" class="remove">
-                              <img src="images/remove.png" alt="remove">
-                            </a>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="cart-item">
-                          <div class="image">
-                            <img src="images/products/thum/products-02.png" alt="">
-                          </div>
-                          <div class="item-description">
-                            <p class="name">
-                              Lincoln chair
-                            </p>
-                            <p>
-                              Size: 
-                              <span class="light-red">
-                                One size
-                              </span>
-                              <br>
-                              Quantity: 
-                              <span class="light-red">
-                                01
-                              </span>
-                            </p>
-                          </div>
-                          <div class="right">
-                            <p class="price">
-                              $30.00
-                            </p>
-                            <a href="#" class="remove">
-                              <img src="images/remove.png" alt="remove">
-                            </a>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <span class="total">
-                          Total 
-                          <strong>
-                            $60.00
-                          </strong>
-                        </span>
-                        <button class="checkout" onClick="location.href='checkout'">
-                          CheckOut
-                        </button>
-                      </li>
+                    <a href="#" class="cart-icon">cart <span class="cart_no" id="cart_no">{{Cookie::get('amount') < 10 ? '0'.Cookie::get('amount') : Cookie::get('amount')}}</span></a>
+                    <ul class="option-cart-item"> 
+                       <div class="list-order">
+                          <?php                                                             
+                             $ls_order = App\Order::where('userID',Auth::check() ? Auth::id() : 6)->orderBy('orderID','desc')->limit(Cookie::get('amount'))->get();                                                
+                             foreach($ls_order as $order){
+                                $prd = App\Product::find($order->productID);
+                                ?>
+                                   <li><div class="cart-item"><div class="image"><img src="{{$prd->pictures}}" alt=""></div><div class="item-description"><p class="name">{{$prd->productname}}</p><p>Size: <span class="light-red">One size</span><br>Quantity: <span class="light-red">01</span></p></div><div class="right"><p class="price">${{$prd->price}}.00</p><a href="#" class="remove"><img src="images/remove.png" alt="remove"></a></div></div></li>                                                                
+                                <?php
+                             }                                                    
+                          ?>                                     
+                       </div>                                  
+                       <li><span class="total">Total <strong>$60.00</strong></span><button class="checkout" onClick="location.href='/cart'">CheckOut</button></li>
                     </ul>
-                  </li>
+                 </li>
                 </ul>
                 <div class="navbar-header">
                   <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -255,7 +189,7 @@
                       <div class="dropdown-menu">
                         <ul class="mega-menu-links">
                           <li>
-                            <a href="/">
+                            <a href="/Trang-Chu">
                               home
                             </a>
                           </li>

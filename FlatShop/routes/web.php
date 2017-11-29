@@ -4,17 +4,27 @@ use Illuminate\Http\RedirectResponse;
 use App\User;
 use App\Order;
 use App\Product;
+use App\Mail\NotificationMail;
+use Illuminate\Support\Facades\Mail;
+
+Route::get('/test',function(){
+    if(Auth::check())
+        Mail::to(Auth::user()->email)->send(new NotificationMail());     
+});
 
 Route::get('/', function () {
-	if(Auth::check())
+    Cookie::queue('amount', '0', 180);    
+	return redirect('/Trang-Chu');
+});
+
+Route::get('/Trang-Chu',function(){
+    if(Auth::check())
         return view('welcome',['user'=>Auth::user(),'type'=>1]);        
     else
         return view('welcome',['type'=>0]);
 });
 
-Route::get('/details', function () {
-    return view('details',['user'=>Auth::user()]);
-});
+Route::get('/details={id}', 'ProductController@detail');
 
 Route::get('/productlitst', function () {
     return view('productlitst',['user'=>Auth::user()]);
@@ -24,8 +34,12 @@ Route::get('/productgird', function () {
     return view('productgird',['user'=>Auth::user()]);
 });
 
-Route::get('/cart', function () {
-    return view('cart',['user'=>Auth::user()]);
+Route::get('/cart', function () {   
+    if(Auth::check())
+        return view('cart',['user'=>Auth::user(),'type'=>1]);        
+    else
+        return view('cart',['user'=>Auth::user(),'type'=>0]);    
+
 });
 
 Route::get('/list-product', function () {
@@ -63,7 +77,9 @@ Route::get('/list-account', function () {
 });
 
 Route::get('/checkout', function () {
-    return view('checkout');
+    if(isset($_GET['update']))
+        return view('checkout',['update'=>$_GET['update']]);
+    return view('checkout',['update'=>0]);
 });
 
 Route::get('/checkout2', function () {
@@ -98,6 +114,8 @@ Route::post('/edit-product','ProductController@index');
 Route::get('/delete-product','ProductController@index');
 
 Route::get('/checkorder','OrderController@index');
+Route::post('/add-order','OrderController@store');
+Route::get('/delete-order','OrderController@destroy');
 
 Route::get('/logout',function(){
     Auth::logout();
