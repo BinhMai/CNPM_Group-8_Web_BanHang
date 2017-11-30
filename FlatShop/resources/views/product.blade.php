@@ -798,14 +798,12 @@
                 <div class="clearfix">
                 </div>
                 <div class="row">
-                    @foreach($product as $pr)
-                        {{$pr->productname}}
-                        
+                  @foreach($product as $pr)                        
                   <div class="col-md-4 col-sm-6">
                     <div class="products">
                       <div class="thumbnail">
                         <a href="details/">
-                          <img src="{{$pr->pictures}}" alt="Product Name">
+                          <img src="{{$pr->pictures}}" alt="Product Name" style="height: 115%;max-width:92%;margin-top:-35px;">
                         </a>
                       </div>
                       <div class="productname">

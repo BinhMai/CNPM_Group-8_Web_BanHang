@@ -134,7 +134,7 @@
                               </li>
                               <?php $ca=App\Category::get(); ?>
                              @foreach($ca as $ca)
-                              <li><a href="product={{$ca->categoryID}}">{{$ca->name}}</a></li>
+                              <li><a href="{{$ca->name}}">{{$ca->name}}</a></li>
                                @endforeach                             
                            
                               <li><a href="contact">contact us</a></li>
@@ -236,7 +236,7 @@
                               <div class="products">
                                 
                                  <div class="offer">new</div>
-                                 <div class="thumbnail"><a href="details={{$pr[$i]['productID']}}"><img src="{{$pr[$i]['pictures']}}" alt="Product Name"></a></div>
+                                 <div class="thumbnail"><a href="details={{$pr[$i]['productID']}}"><img src="{{$pr[$i]['pictures']}}" alt="Product Name" style="height: 115%;max-width:92%;margin-top:-35px;"></a></div>
                                  <div class="productname">{{$pr[$i]['productname']}}</div>
                                  <h4 class="price">${{$pr[$i]['price']}}</h4>
                                  <div class="button_group"><button class="button add-cart" type="button">Add To Cart</button><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>

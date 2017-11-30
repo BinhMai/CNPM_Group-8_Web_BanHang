@@ -63,9 +63,21 @@ class ProductController extends Controller
         $pro_category = Product::where('categoryID',$categoryID)->where('productID','<>',$id)->orderBy('productID','desc')->get();
         return view('details',['product'=>$product,'pro_category'=>$pro_category]);
     }
-       public function product($id){
-        
-       // $category = Category::find($id);
+    public function product(){
+        $url = \Request::path();
+        $id = 0;
+        if($url == "Men"){
+            $id = 1;
+        }elseif($url == "Women"){
+            $id = 2;
+        }elseif($url == "Kids"){
+            $id = 3;
+        }elseif($url == "Watch"){
+            $id = 4;
+        }else{
+            $id = 5;
+        }
+
         $product = Product::where('categoryID',$id)->get();
         return view('product',['product'=>$product]);
     }

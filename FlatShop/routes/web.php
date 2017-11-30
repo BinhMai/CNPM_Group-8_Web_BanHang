@@ -16,7 +16,11 @@ Route::get('/', function () {
 //     return view('details',['user'=>Auth::user()]);
 // });
 Route::get('/details={id}', 'ProductController@detail');
-Route::get('/product={id}', 'ProductController@product');
+Route::get('/Men', 'ProductController@product');
+Route::get('/Women', 'ProductController@product');
+Route::get('/Kids', 'ProductController@product');
+Route::get('/Watch', 'ProductController@product');
+Route::get('/Jewelry', 'ProductController@product');
 // Route::get('/productlitst', function () {
 //     return view('productlitst',['user'=>Auth::user()]);
 // });
