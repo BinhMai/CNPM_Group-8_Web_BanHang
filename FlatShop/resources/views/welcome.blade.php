@@ -64,8 +64,8 @@
                            </div>
                            <div class="col-md-3">
                               <ul class="usermenu">
-                                 @if(isset($user))
-                                    <li><a href="register={{$user->userID}}" class="log">{{$user->username}}</a></li> 
+                                 @if(Auth::check())
+                                    <li><a href="register={{Auth::user()->userID}}" class="log">{{Auth::user()->username}}</a></li> 
                                     <li><a href="/logout" class="reg" >LogOut</a></li>
                                  @else
                                     <li><a href="login" class="log">Login</a></li>

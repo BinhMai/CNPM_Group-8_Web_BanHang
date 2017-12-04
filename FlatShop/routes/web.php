@@ -14,15 +14,15 @@ Route::get('/test',function(){
 
 Route::get('/', function () {
     Cookie::queue('amount', '0', 180);    
-    Cookie::queue('login', '0', 180);
+    if(Auth::check())
+        Cookie::queue('login', '1', 180);
+    else
+        Cookie::queue('login', '0', 180);  
 	return redirect('/Trang-Chu');
 });
 
-Route::get('/Trang-Chu',function(){
-    if(Auth::check())
-        return view('welcome',['user'=>Auth::user(),'type'=>1]);        
-    else
-        return view('welcome',['type'=>0]);
+Route::get('/Trang-Chu',function(){            
+    return view('welcome');
 });
 
 Route::get('/details={id}', 'ProductController@detail');
