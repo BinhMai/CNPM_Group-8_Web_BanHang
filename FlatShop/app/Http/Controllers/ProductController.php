@@ -9,6 +9,7 @@ use App\Product;
 use Illuminate\Support\Facades\Input;
 use Carbon\Carbon;
 use File;
+use Auth;
 
 class ProductController extends Controller
 {
@@ -26,8 +27,7 @@ class ProductController extends Controller
             if(isset($_GET['productID'])){
                 $product = Product::find($_GET['productID']);
             }else{
-                $product = new Product;
-                $product->productID = "vvvvvvvv";
+                $product = new Product;                
             }                    
             
             if($_FILES['pictures']['name']!= ''){            
@@ -61,7 +61,7 @@ class ProductController extends Controller
         $product = Product::find($id);
         $categoryID = $product->categoryID;
         $pro_category = Product::where('categoryID',$categoryID)->where('productID','<>',$id)->orderBy('productID','desc')->get();
-        return view('details',['product'=>$product,'pro_category'=>$pro_category]);
+        return view('details',['user'=>Auth::user(),'product'=>$product,'pro_category'=>$pro_category]);
     }
     public function product(){
         $url = \Request::path();

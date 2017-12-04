@@ -4,17 +4,27 @@ use Illuminate\Http\RedirectResponse;
 use App\User;
 use App\Order;
 use App\Product;
+use App\Mail\NotificationMail;
+use Illuminate\Support\Facades\Mail;
+
+Route::get('/test',function(){
+    if(Auth::check())
+        Mail::to(Auth::user()->email)->send(new NotificationMail());     
+});
 
 Route::get('/', function () {
-	if(Auth::check())
+    Cookie::queue('amount', '0', 180);    
+    Cookie::queue('login', '0', 180);
+	return redirect('/Trang-Chu');
+});
+
+Route::get('/Trang-Chu',function(){
+    if(Auth::check())
         return view('welcome',['user'=>Auth::user(),'type'=>1]);        
     else
         return view('welcome',['type'=>0]);
 });
 
-// Route::get('/details', function () {
-//     return view('details',['user'=>Auth::user()]);
-// });
 Route::get('/details={id}', 'ProductController@detail');
 Route::get('/Men', 'ProductController@product');
 Route::get('/Women', 'ProductController@product');
@@ -29,12 +39,20 @@ Route::get('/productgird', function () {
     return view('productgird',['user'=>Auth::user()]);
 });
 
-Route::get('/cart', function () {
-    return view('cart',['user'=>Auth::user()]);
+Route::get('/cart', function () {   
+    if(Auth::check())
+        return view('cart',['user'=>Auth::user(),'type'=>1]);        
+    else
+        return view('cart',['user'=>Auth::user(),'type'=>0]);    
+
 });
 
 Route::get('/list-product', function () {
-    $ls_product = Product::all();    
+    $type = Auth::user()->typeofuser;
+    if($type == 1 || $type == 2)
+        $ls_product = Product::paginate(5);    
+    else
+        $ls_product = Product::paginate(5);    
     return view('UserManager',['ls_product'=>$ls_product,'type'=>0,'product'=>null,'user'=>Auth::user()]);
 });
 
@@ -67,19 +85,21 @@ Route::get('/list-account', function () {
     }    
 });
 
-Route::get('/checkout', function () {
-    return view('checkout');
+Route::get('/login', function () {
+    if(isset($_GET['update']))
+        return view('login',['update'=>$_GET['update']]);
+    return view('login',['update'=>0]);
 });
 
-Route::get('/checkout2', function () {
+Route::get('/register', function () {
     $oldURL = $_SERVER['HTTP_REFERER'];
-    return view('checkout2',['url'=>$oldURL]);
+    return view('register',['url'=>$oldURL]);
 });
 
-Route::get('/checkout2={userID}', function ($userID) {    
+Route::get('/register={userID}', function ($userID) {    
     $oldURL = $_SERVER['HTTP_REFERER'];
     $user = User::where('userID',$userID)->get();
-    return view('checkout2',['user'=>$user,'url'=>$oldURL,'type'=>1,'userAd'=>Auth::user()]);
+    return view('register',['user'=>$user,'url'=>$oldURL,'type'=>1,'userAd'=>Auth::user()]);
 });
 
 Route::get('/contact', function () {
@@ -103,6 +123,8 @@ Route::post('/edit-product','ProductController@index');
 Route::get('/delete-product','ProductController@index');
 
 Route::get('/checkorder','OrderController@index');
+Route::post('/add-order','OrderController@store');
+Route::get('/delete-order','OrderController@destroy');
 
 Route::get('/logout',function(){
     Auth::logout();

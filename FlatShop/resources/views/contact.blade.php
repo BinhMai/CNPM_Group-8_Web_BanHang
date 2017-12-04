@@ -13,6 +13,10 @@
     <link href="css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/flexslider.css" type="text/css" media="screen"/>
     <link href="css/style.css" rel="stylesheet" type="text/css">
+
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>
     <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js">
 </script>
@@ -124,16 +128,13 @@
                   </div>
                   <div class="col-md-3">
                     <ul class="usermenu">
-                      <li>
-                        <a href="checkout" class="log">
-                          Login
-                        </a>
-                      </li>
-                      <li>
-                        <a href="checkout2" class="reg">
-                          Register
-                        </a>
-                      </li>
+                       @if(Auth::check())
+                          <li><a href="register={{Auth::user()->userID}}" class="log">{{Auth::user()->username}}</a></li> 
+                          <li><a href="/logout" class="reg" >LogOut</a></li>
+                       @else
+                          <li><a href="login" class="log">Login</a></li>
+                          <li><a href="register" class="reg">Register</a></li>
+                       @endif     
                     </ul>
                   </div>
                 </div>
@@ -294,7 +295,7 @@
                             </a>
                           </li>
                           <li>
-                            <a href="checkout2">
+                            <a href="register">
                               CheckOut2
                             </a>
                           </li>
@@ -413,13 +414,28 @@
                         contact us
                       </a>
                     </li>
-					<li><a href="manager">manager</a></li>
+					<li><a class="manager">manager</a></li>
                   </ul>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        
+         <script type="text/javascript">
+            $(document).ready(function(){
+               $(document).on('click','.manager',function(){                  
+                  var type = <?php echo Cookie::get('login') ?>;                       
+                  if(type == 0){
+                     if(confirm('Bạn có muốn đăng nhập?')){
+                        document.location = '/login';   
+                     }
+                  }else{
+                     document.location = '/manager';
+                  }
+               });
+            });                   
+         </script>
         <div class="clearfix">
         </div>
         <div class="page-index">

@@ -12,11 +12,13 @@
       <link rel="stylesheet" href="{{asset('css/flexslider.css')}}" type="text/css" media="screen"/>
       <link href="{{asset('css/sequence-looptheme.css')}}" rel="stylesheet" media="all"/>
       <link href="{{asset('css/style.css')}}" rel="stylesheet">
-
+      
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
       <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>
       
+      <!--[if lt IE 9]><script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script><script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script><![endif]-->
+      <meta name="csrf-token" content="<?= csrf_token() ?>">
    </head>
    <body id="home">
       <div class="wrapper">
@@ -24,7 +26,7 @@
             <div class="container">
                <div class="row">
                   <div class="col-md-2 col-sm-2">
-                     <div class="logo"><a href="/"><img src="images/logo.png" alt="FlatShop"></a></div>
+                     <div class="logo"><a href="/Trang-Chu"><img src="images/logo.png" alt="FlatShop"></a></div>
                   </div>
                   <div class="col-md-10 col-sm-10">
                      <div class="header_top">
@@ -63,11 +65,11 @@
                            <div class="col-md-3">
                               <ul class="usermenu">
                                  @if(isset($user))
-                                    <li><a href="checkout2={{$user->userID}}" class="log">{{$user->username}}</a></li> 
+                                    <li><a href="register={{$user->userID}}" class="log">{{$user->username}}</a></li> 
                                     <li><a href="/logout" class="reg" >LogOut</a></li>
                                  @else
-                                    <li><a href="checkout" class="log">Login</a></li>
-                                    <li><a href="checkout2" class="reg">Register</a></li>
+                                    <li><a href="login" class="log">Login</a></li>
+                                    <li><a href="register" class="reg">Register</a></li>
                                  @endif                                                               
                               </ul>
                            </div>
@@ -80,35 +82,38 @@
                               <form><input class="search-submit" type="submit" value=""><input class="search-input" placeholder="Enter your search term..." type="text" value="" name="search"></form>
                            </li>
                            <li class="option-cart">
-                              <a href="#" class="cart-icon">cart <span class="cart_no">02</span></a>
-                              <ul class="option-cart-item">
-                                 <li>
-                                    <div class="cart-item">
-                                       <div class="image"><img src="images/products/thum/products-01.png" alt=""></div>
-                                       <div class="item-description">
-                                          <p class="name">Lincoln chair</p>
-                                          <p>Size: <span class="light-red">One size</span><br>Quantity: <span class="light-red">01</span></p>
-                                       </div>
-                                       <div class="right">
-                                          <p class="price">$30.00</p>
-                                          <a href="#" class="remove"><img src="images/remove.png" alt="remove"></a>
-                                       </div>
-                                    </div>
-                                 </li>
-                                 <li>
-                                    <div class="cart-item">
-                                       <div class="image"><img src="images/products/thum/products-02.png" alt=""></div>
-                                       <div class="item-description">
-                                          <p class="name">Lincoln chair</p>
-                                          <p>Size: <span class="light-red">One size</span><br>Quantity: <span class="light-red">01</span></p>
-                                       </div>
-                                       <div class="right">
-                                          <p class="price">$30.00</p>
-                                          <a href="#" class="remove"><img src="images/remove.png" alt="remove"></a>
-                                       </div>
-                                    </div>
-                                 </li>
-                                 <li><span class="total">Total <strong>$60.00</strong></span><button class="checkout" onClick="location.href='checkout'">CheckOut</button></li>
+                              <a href="#" class="cart-icon">cart <span class="cart_no" id="cart_no">{{Cookie::get('amount') < 10 ? '0'.Cookie::get('amount') : Cookie::get('amount')}}</span></a>
+                              <ul class="option-cart-item"> 
+                                 <div class="list-order">
+                                    <?php                                                             
+                                       $ls_order = App\Order::where('userID',Auth::check() ? Auth::id() : Cookie::get('user_ip'))->where('isActive',1)->orderBy('orderID','desc')->limit(Cookie::get('amount'))->get();                                             
+                                       $total = 0;
+                                       foreach($ls_order as $order){
+                                          $prd = App\Product::find($order->productID);
+                                          $total+= $prd->price;
+                                          ?>
+                                             <li>
+                                                <div class="cart-item"><div class="image"><img src="{{$prd->pictures}}" alt=""></div>
+                                                   <div class="item-description">
+                                                      <p class="name">{{$prd->productname}}</p>
+                                                      <p>Size: <span class="light-red">One size</span><br>Quantity: <span class="light-red">01</span></p>
+                                                   </div>
+                                                   <div class="right"><p class="price" style="margin-top: -3em">${{$prd->price}}.00</p>
+                                                      <a href="/delete-order?id={{$order->orderID}}" class="remove"><img src="images/remove.png" alt="remove"></a>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                          <?php
+                                       }                                                    
+                                    ?>                                     
+                                 </div>     
+                                 <div class="total-cart">
+                                    @if(count($ls_order) > 0)                                  
+                                       <li><span class="total" style="margin-left: 56px;padding-top: 0px">Total <strong id="total">${{$total}}</strong></span><button class="login" onClick="location.href='/cart'" style="margin-top: 8px;float: right;">CheckOut</button></li>
+                                    @else
+                                       <li>Bạn Chưa Order Sản Phẩm Nào.</li>
+                                    @endif
+                                 </div>                                                               
                               </ul>
                            </li>
                         </ul>
@@ -119,15 +124,15 @@
                                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Home</a>
                                  <div class="dropdown-menu">
                                     <ul class="mega-menu-links">
-                                       <li><a href="/">home</a></li>
+                                       <li><a href="/Trang-Chu">home</a></li>
                                        <li><a href="home2">home2</a></li>
                                        <li><a href="home3">home3</a></li>
                                        <li><a href="productlitst">Productlitst</a></li>
                                        <li><a href="productgird">Productgird</a></li>
                                        <li><a href="details">Details</a></li>
                                        <li><a href="cart">Cart</a></li>
-                                       <li><a href="checkout">CheckOut</a></li>
-                                       <li><a href="checkout2">CheckOut2</a></li>
+                                       <li><a href="login">CheckOut</a></li>
+                                       <li><a href="register">CheckOut2</a></li>
                                        <li><a href="contact">contact</a></li>
                                     </ul>
                                  </div>
@@ -138,7 +143,7 @@
                                @endforeach                             
                            
                               <li><a href="contact">contact us</a></li>
-							         <li><a id="manager">manager</a></li>
+							         <li><a class="manager">manager</a></li>
                            </ul>
                         </div>
                      </div>
@@ -148,11 +153,11 @@
          </div>
          <script type="text/javascript">
             $(document).ready(function(){
-               $('#manager').click(function(){
-                  var type = {{$type}};
+               $(document).on('click','.manager',function(){                  
+                  var type = <?php echo Cookie::get('login') ?>;                       
                   if(type == 0){
                      if(confirm('Bạn có muốn đăng nhập?')){
-                        document.location = '/checkout';   
+                        document.location = '/login';   
                      }
                   }else{
                      document.location = '/manager';
@@ -239,7 +244,14 @@
                                  <div class="thumbnail"><a href="details={{$pr[$i]['productID']}}"><img src="{{$pr[$i]['pictures']}}" alt="Product Name" style="height: 115%;max-width:92%;margin-top:-35px;"></a></div>
                                  <div class="productname">{{$pr[$i]['productname']}}</div>
                                  <h4 class="price">${{$pr[$i]['price']}}</h4>
-                                 <div class="button_group"><button class="button add-cart" type="button">Add To Cart</button><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
+
+                                 <?php if(Auth::check()) $id = Auth::id(); else $id = Cookie::get('user_ip');
+                                       $check = App\Order::where('userID',$id)->where('productID',(int)$pr[$i]['productID'])->where('isActive',1)->get();?>                                 
+                                 @if(count($check) > 0)
+                                    <div class="button_group_{{$pr[$i]['productID']}}"><a href="/details={{$pr[$i]['productID']}}"><button class="button" style="margin-left: 25px">More Detail</button></a><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
+                                 @else
+                                    <div class="button_group_{{$pr[$i]['productID']}}"><button class="button add-cart" id="order_{{$pr[$i]['productID']}}" type=" button">Add To Cart</button><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
+                                 @endif
                               </div>
                            </div> 
                            <?php } ?>
@@ -386,6 +398,16 @@
             </div>
          </div>
       </div>
+
+      <script type="text/javascript">
+         $(document).ready(function(){            
+            $.ajaxSetup({
+               headers: {
+                  'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+               }
+            });            
+         });
+      </script>>
       <!-- Bootstrap core JavaScript==================================================-->
 	  <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
 	  <script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
@@ -394,5 +416,6 @@
 	  <script type="text/javascript" src="js/jquery.carouFredSel-6.2.1-packed.js"></script>
 	  <script defer src="js/jquery.flexslider.js"></script>
 	  <script type="text/javascript" src="js/script.min.js" ></script>
+     <script type="text/javascript" src="js/add-to-cart.js"></script>
    </body>
 </html>

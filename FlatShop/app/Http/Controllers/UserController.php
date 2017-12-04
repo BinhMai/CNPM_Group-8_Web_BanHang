@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Order;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -11,6 +12,7 @@ use Hash;
 use Carbon\Carbon;
 use File;
 use Auth;
+use Cookie;
 class UserController extends Controller
 {
     /**
@@ -19,19 +21,23 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {
+    {        
+        $password = null;
         if(isset($_GET['id'])){            
             $user = User::where('userID',$_GET['id'])->first();
-            $user->isActive = 0;
+            $user->isActive = 0;     
         }else{
             if(isset($_GET['userID'])){
                $user = User::find($_GET['userID']);
+               $user->typeofuser = $user->typeofuser;               
             }else{
-                $user = new User;
-                $user->userID = "mmmm";
+                $user = new User;                
                 $user->username = Input::get('username');
+                $password = Input::get('password');
                 $user->password = Hash::make(Input::get('password'));
                 $user->email = Input::get('email');
+                if(Auth::check() && Auth::user()->typeofuser == 1)
+                    $user->typeofuser = Input::get('typeofuser');
             }
 
             if($_FILES['pictures']['name']!= ''){            
@@ -48,26 +54,31 @@ class UserController extends Controller
             $user->telephone = Input::get('telephone');
             $user->address = Input::get('address');            
             $user->gender = Input::get('gender');
-            $user->dateofbirth = Input::get('dateofbirth');
-            $user->typeofuser = Input::get('typeofuser');
+            $user->dateofbirth = Input::get('dateofbirth');            
             $user->dateofcreate  = Carbon::now()->toDateTimeString();
             $user->isActive = 1;    
         }                
         if($user->save()){
+            if(!Auth::check()){                
+                $name = $user->username;                   
+                Auth::attempt(['username' => $name, 'password' => $password]);
+                Cookie::queue('login', 1, 180);   
+            }
             $string = Input::get('url');
             $url = substr($string,16,strlen($string)-16);            
             return redirect(''.$url);                        
         }
     }
 
-    public function login(Request $request){
+    public function login(Request $request){            
         $name = $_POST['user'];
         $password = $_POST['password'];        
 
-        if (Auth::attempt(['username' => $name, 'password' => $password])) {
-            echo "true";
-        }else
-            echo "faile";
+        if (Auth::attempt(['username' => $name, 'password' => $password])) {    
+            Cookie::queue('login', 1, 180);                          
+            Order::where('userID',Cookie::get('user_ip'))->update(['userID' => (string)Auth::id()]);            
+            echo $_POST['oldurl'];
+        }
     }
     /**
      * Show the form for creating a new resource.

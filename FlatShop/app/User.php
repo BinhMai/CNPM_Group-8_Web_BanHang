@@ -15,8 +15,7 @@ class User extends Authenticatable
         'userID','username','password','email','firtname','lastname','mediaID','gender','dateofbirth','typeofuser','dateofcreate','isActive'
     ];
 
-    protected $primaryKey = 'userID';
-    public $incrementing = false;
+    protected $primaryKey = 'userID';    
     public $timestamps = false;
 
 }

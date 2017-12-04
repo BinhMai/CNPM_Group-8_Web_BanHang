@@ -69,11 +69,11 @@
                            <div class="col-md-3">
                               <ul class="usermenu">
                                  @if(isset($user))
-                                    <li><a href="checkout2={{$user->userID}}" class="log">{{$user->username}}</a></li> 
+                                    <li><a href="register={{$user->userID}}" class="log">{{$user->username}}</a></li> 
                                     <li><a href="/logout" class="reg" >LogOut</a></li>
                                  @else
-                                    <li><a href="checkout" class="log">Login</a></li>
-                                    <li><a href="checkout2" class="reg">Register</a></li>
+                                    <li><a href="login" class="log">Login</a></li>
+                                    <li><a href="register" class="reg">Register</a></li>
                                  @endif     
                               </ul>
                            </div>
@@ -86,42 +86,45 @@
                               <form><input class="search-submit" type="submit" value=""><input class="search-input" placeholder="Enter..." type="text" value="" name="search"></form>
                            </li>
                            <li class="option-cart">
-                              <a href="#" class="cart-icon">cart <span class="cart_no">02</span></a>
-                              <ul class="option-cart-item">
-                                 <li>
-                                    <div class="cart-item">
-                                       <div class="image"><img src="images/products/thum/products-01.png" alt=""></div>
-                                       <div class="item-description">
-                                          <p class="name">Lincoln chair</p>
-                                          <p>Size: <span class="light-red">One size</span><br>Quantity: <span class="light-red">01</span></p>
-                                       </div>
-                                       <div class="right">
-                                          <p class="price">$30.00</p>
-                                          <a href="#" class="remove"><img src="images/remove.png" alt="remove"></a>
-                                       </div>
-                                    </div>
-                                 </li>
-                                 <li>
-                                    <div class="cart-item">
-                                       <div class="image"><img src="images/products/thum/products-02.png" alt=""></div>
-                                       <div class="item-description">
-                                          <p class="name">Lincoln chair</p>
-                                          <p>Size: <span class="light-red">One size</span><br>Quantity: <span class="light-red">01</span></p>
-                                       </div>
-                                       <div class="right">
-                                          <p class="price">$30.00</p>
-                                          <a href="#" class="remove"><img src="images/remove.png" alt="remove"></a>
-                                       </div>
-                                    </div>
-                                 </li>
-                                 <li><span class="total">Total <strong>$60.00</strong></span><button class="checkout" onClick="location.href='checkout'">CheckOut</button></li>
+                              <a href="#" class="cart-icon">cart <span class="cart_no" id="cart_no">{{Cookie::get('amount') < 10 ? '0'.Cookie::get('amount') : Cookie::get('amount')}}</span></a>
+                              <ul class="option-cart-item"> 
+                                 <div class="list-order">
+                                    <?php                                                             
+                                       $ls_order = App\Order::where('userID',Auth::check() ? Auth::id() : Cookie::get('user_ip'))->where('isActive',1)->orderBy('orderID','desc')->limit(Cookie::get('amount'))->get();                                             
+                                       $total = 0;
+                                       foreach($ls_order as $order){
+                                          $prd = App\Product::find($order->productID);
+                                          $total+= $prd->price;
+                                          ?>
+                                             <li>
+                                                <div class="cart-item"><div class="image"><img src="{{$prd->pictures}}" alt=""></div>
+                                                   <div class="item-description">
+                                                      <p class="name">{{$prd->productname}}</p>
+                                                      <p>Size: <span class="light-red">One size</span><br>Quantity: <span class="light-red">01</span></p>
+                                                   </div>
+                                                   <div class="right"><p class="price" style="margin-top: -3em">${{$prd->price}}.00</p>
+                                                      <a href="/delete-order?id={{$order->orderID}}" class="remove"><img src="images/remove.png" alt="remove"></a>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                          <?php
+                                       }                                                    
+                                    ?>                                     
+                                 </div>     
+                                 <div class="total-cart">
+                                    @if(count($ls_order) > 0)                                  
+                                       <li><span class="total" style="margin-left: 56px;padding-top: 0px">Total <strong id="total">${{$total}}</strong></span><button class="login" onClick="location.href='/cart'" style="margin-top: 8px;float: right;">CheckOut</button></li>
+                                    @else
+                                       <li>Bạn Chưa Order Sản Phẩm Nào.</li>
+                                    @endif
+                                 </div>                                                               
                               </ul>
                            </li>
                         </ul>
                         <div class="navbar-header"><button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button></div>
                         <div class="navbar-collapse collapse">
                            <ul class="nav navbar-nav">
-								<li><a href="checkout2={{Auth::user()->userID}}">Profile</a></li>
+								<li><a href="register={{Auth::user()->userID}}">Profile</a></li>
 								@if($user->typeofuser == 1)
 									<li><a href="list-account">Account Manager</a></li>
 								@endif		
@@ -129,7 +132,7 @@
 									<li><a href="list-product">Product Manager</a></li>
 								@endif
 								<li><a href="list-order">Order Manager</a></li>
-								@if($user->typeofuser != 1)
+								@if($user->typeofuser != 1 && $user->typeofuser != 4)
 									<li><a href="#">Notification</a></li>                         
 								@endif																	
                            </ul>
@@ -188,6 +191,12 @@
 			</tbody>
 		  </table>
 		</div>
+
+    @if(isset($ls_product))
+        <div class="col-md-6" style="margin-top: 10px;margin-left: 550px">
+          {{$ls_product->links()}}
+        </div>    
+    @endif  
 	</section>	
   <script type="text/javascript">
     $(document).ready(function(){

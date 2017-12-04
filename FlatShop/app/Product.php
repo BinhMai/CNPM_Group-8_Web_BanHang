@@ -15,8 +15,7 @@ class Product extends Authenticatable
         'productID','productname','descipsion','price','saleprice','pictures','quantuminstock','categoryID','ownerID','dateofbirth','dateofend','isActive'
     ];
 
-    protected $primaryKey = 'productID';
-    public $incrementing = false;
+    protected $primaryKey = 'productID';    
     public $timestamps = false;
      public function category(){
        return $this->hasOne('App\Category') ;
