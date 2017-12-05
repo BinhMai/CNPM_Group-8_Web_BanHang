@@ -38,6 +38,19 @@ class OrderController extends Controller
         //
     }
 
+    public function order_user(){
+        $id_order = $_GET['id'];
+        $ls_order = Order::orderBy('orderID','desc')->where('userID',$id_order)->limit(Cookie::get('amount'))->where('status',0)->where('isActive',1)->get();
+        foreach ($ls_order as $order) {
+            $order->name = $_POST['nameOrder'];
+            $order->adress = $_POST['address'];
+            $order->telephone = $_POST['telephone'];
+            $order->email = $_POST['email'];
+            $order->save();
+        }
+        return "true";
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -45,24 +58,47 @@ class OrderController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        Cookie::queue('amount', $request->amount, 180);        
-        Cookie::queue('user_ip', $request->user_ip, 180);
+    {        
+        Cookie::queue('user_ip', $request->user_ip, 180);        
+        if($request->am_after < 10)
+            $amount = '0'.$request->am_after;
+        else
+            $amount = $request->am_after;
 
-        $order = new Order;
-        $order->userID= (string)$request->user_ip;
-        if(Auth::check()){           
-            $order->userID= (string)Auth::id();        
+        if(Auth::check())
+            $id = (string)Auth::id();
+        else
+            $id = (string)$request->user_ip;
+
+        $check = false;
+        $ls_order = Order::orderBy('orderID','desc')->where('userID',$id)->limit(Cookie::get('amount'))->get();    
+        foreach ($ls_order as $order) {
+            if($order->productID == $request->id_prd)        
+                $check = true;
+        }    
+        if($check == false){                   
+            Cookie::queue('amount', $request->am_after, 180);
+            $order = new Order;    
+            if(Auth::check()){           
+                $order->userID= $id;
+                $order->name = Auth::user()->lastname;  
+                $order->adress = Auth::user()->address;   
+                $order->telephone = Auth::user()->telephone;    
+                $order->email = Auth::user()->email;                                          
+            }
+            $order->userID= $id;
+            $order->productID = $request->id_prd;
+            $order->amount = 1;
+            $order->dateofbirth = Carbon::now()->toDateTimeString();
+            $order->dateofend = Carbon::now()->toDateTimeString();        
+            if($order->save()){
+                $prd = Product::find($order->productID);                                
+                return json_encode(array('status'=>"OK",'orderID'=>$order->orderID,'prd'=>$prd,'amount'=>$amount));            
+            }            
+        }else{
+            return json_encode(array('status'=>"NC",'amount'=>$request->am_before)); 
         }
-        
-        $order->productID = $request->id_prd;
-        $order->amount = 1;
-        $order->dateofbirth = Carbon::now()->toDateTimeString();
-        $order->dateofend = Carbon::now()->toDateTimeString();        
-        if($order->save()){
-            $prd = Product::find($order->productID);                                
-            return json_encode(array('orderID'=>$order->orderID,'prd'=>$prd));            
-        }            
+
     }
 
     /**
@@ -96,7 +132,7 @@ class OrderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
     }
 
     /**

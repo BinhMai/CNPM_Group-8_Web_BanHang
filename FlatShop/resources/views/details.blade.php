@@ -125,17 +125,14 @@
                   </div>
                   <div class="col-md-3">
                     <ul class="usermenu">
-                      <li>
-                        <a href="login" class="log">
-                          Login
-                        </a>
-                      </li>
-                      <li>
-                        <a href="register" class="reg">
-                          Register
-                        </a>
-                      </li>
-                    </ul>
+                     @if(Auth::check())
+                        <li><a href="register={{Auth::user()->userID}}" class="log">{{Auth::user()->username}}</a></li> 
+                        <li><a href="/logout" class="reg" >LogOut</a></li>
+                     @else
+                        <li><a href="login" class="log">Login</a></li>
+                        <li><a href="register" class="reg">Register</a></li>
+                     @endif                                                               
+                  </ul>
                   </div>
                 </div>
               </div>
@@ -787,10 +784,10 @@
                     Deals
                   </strong>
                 </h4>
-                @foreach($pro_category as $pro)
+                @foreach($pro_category as $pro)                
                 <div class="special-item">
                   <div class="product-image">
-                    <a href="#">
+                    <a href="/details={{$pro->productID}}">
                       <img src="{{$pro->pictures}}" alt="">
                     </a>
                   </div>

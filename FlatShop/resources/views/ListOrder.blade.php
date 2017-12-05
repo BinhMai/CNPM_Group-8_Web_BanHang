@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="{{asset('css/flexslider.css')}}" type="text/css" media="screen"/>
   <link href="{{asset('css/sequence-looptheme.css')}}" rel="stylesheet" media="all"/>
   <link href="{{asset('css/style.css')}}" rel="stylesheet">
+  <link href="{{asset('css/mystyle.css')}}" rel="stylesheet">  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -87,9 +88,9 @@
                               <ul class="option-cart-item"> 
                                  <div class="list-order">
                                     <?php                                                             
-                                       $ls_order = App\Order::where('userID',Auth::check() ? Auth::id() : Cookie::get('user_ip'))->where('isActive',1)->orderBy('orderID','desc')->limit(Cookie::get('amount'))->get();                                             
+                                       $list_order = App\Order::where('userID',Auth::check() ? Auth::id() : Cookie::get('user_ip'))->where('isActive',1)->orderBy('orderID','desc')->limit(Cookie::get('amount'))->get();                                             
                                        $total = 0;
-                                       foreach($ls_order as $order){
+                                       foreach($list_order as $order){
                                           $prd = App\Product::find($order->productID);
                                           $total+= $prd->price;
                                           ?>
@@ -109,7 +110,7 @@
                                     ?>                                     
                                  </div>     
                                  <div class="total-cart">
-                                    @if(count($ls_order) > 0)                                  
+                                    @if(count($list_order) > 0)                                  
                                        <li><span class="total" style="margin-left: 56px;padding-top: 0px">Total <strong id="total">${{$total}}</strong></span><button class="login" onClick="location.href='/cart'" style="margin-top: 8px;float: right;">CheckOut</button></li>
                                     @else
                                        <li>Bạn Chưa Order Sản Phẩm Nào.</li>
@@ -130,7 +131,7 @@
 								@endif
 								<li><a href="list-order">Order Manager</a></li>
 								@if($user->typeofuser != 1 && $user->typeofuser != 4)
-									<li><a href="#">Notification</a></li>                         
+									<li><a id="noti">Notification</a></li>                         
 								@endif																	
                            </ul>
                         </div>
@@ -139,6 +140,35 @@
                </div>
             </div>
          </div>
+         <div id="noti_Container">            
+              <div id="noti_Count">            
+                <span id="noti_Counter">1</span>                                                       
+              </div>                     
+                             
+
+                <div id="notifications">
+                    <h3>Notifications</h3>
+                    <div id="contentNotice">                
+                      <a href='#'>
+                        <div style="height:60px;background: #edf2fa">                   
+                          <img class="col-md-2" style="padding:5px" src="" height="60" width="60"/>                          
+                            <div class="col-md-10" style="padding-top: 3px;color: black">
+                              <span style="font-family: VnArabia;">KKKK</span>
+                              <span> thích một bài viết của bạn</span>                            
+                            </div>
+                          <hr style="margin: 3px">  
+                        </div>
+                      </a>                                    
+                    <div class="seeAll"><a href="#">See All</a></div>
+                </div>  
+                </div>                              
+            </div>
+            <div id="noti_Button">
+                  <input type="hidden" name="_method" value="put">
+                  <span class="col-md-4 col-xs-4" style="color: white; padding: 0px;font-family: arial;font-size: 15px">
+              <span style="color: white; font-size: 14px">Thông báo</span>
+            </span>
+        </div>    
 		 
 	<section style="margin: 15px">
 		<div class="container-fluid">
@@ -150,7 +180,6 @@
 		  <table class="table table-striped">
 			<thead>
 			  <tr>
-				<th>Shipper</th>
 				<th>ProductID</th>
 				<th>Order Time</th>
         <th>Price</th>
@@ -161,7 +190,6 @@
 			<tbody>
         @foreach($ls_order as $order)
 				  <tr>
-					<td>{{$order->userID}}</td>
 					<td>{{$order->productID}}</td>
 					<td>{{$order->dateofbirth}}</td>
           <td>{{$order->price}}</td>
@@ -205,7 +233,37 @@
         var value = $('.order').val();
         var id = $(this).attr('id');
         document.location = '/checkorder?val='+value+id;
-      })    
+      });
+     $('#noti_Counter')
+          .css({ opacity: 0 })            
+          .css({ top: '-10px' })
+          .animate({ top: '-2px', opacity: 1 }, 500);
+
+      $('#noti').click(function () {                         
+          $('#notifications').fadeToggle('fast', 'linear', function () {
+              if ($('#notifications').is(':hidden')) {
+                  $('#noti_Button').css('background-color', '#2E467C');                     
+              }
+              else $('#noti_Button').css('background-color', '#FFF');        
+          });                          
+
+          $('#noti_Counter').fadeOut('slow');               
+      //     var id = {{$user->id}};            
+
+      //     $.ajax({
+      // url : 'http://localhost/notice/'+id,
+      // type: 'put'
+      // });
+
+          return false;
+      });
+      
+      $(document).click(function () {
+          $('#notifications').hide();
+          if ($('#noti_Counter').is(':hidden')) {                 
+              $('#noti_Button').css('background-color', '#2E467C');
+          }
+      });       
 		});
 	</script>
 </body>

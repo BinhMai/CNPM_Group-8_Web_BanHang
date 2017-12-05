@@ -8,8 +8,18 @@ use App\Mail\NotificationMail;
 use Illuminate\Support\Facades\Mail;
 
 Route::get('/test',function(){
+    return view('Mail.mail-form');
+});
+
+Route::get('/mail',function(){    
     if(Auth::check())
-        Mail::to(Auth::user()->email)->send(new NotificationMail());     
+        Mail::to(Auth::user()->email)->send(new NotificationMail(Auth::id(),Cookie::get('amount')));
+    else{
+        $order = Order::where('userID',Cookie::get('user_ip'))->orderBy('orderID','desc')->first(); 
+        if($order->email != "")              
+            Mail::to($order->email)->send(new NotificationMail(Cookie::get('user_ip'),Cookie::get('amount')));
+    }
+    return redirect('/');
 });
 
 Route::get('/', function () {
@@ -107,8 +117,8 @@ Route::get('/contact', function () {
 });
 
 Route::get('/list-product={productID}', function ($productID) {    
-    $product = Product::where('productID',$productID)->get();
-    $ls_product = Product::where('isActive',1)->get();    
+    $product = Product::where('productID',$productID)->get();    
+    $ls_product = Product::where('isActive',1)->paginate(5);    
     return view('UserManager',['product'=>$product,'ls_product'=>$ls_product,'type'=>1,'user'=>Auth::user()]);
 });
 
@@ -121,6 +131,7 @@ Route::get('/delete-user','UserController@index');
 Route::post('/add-product','ProductController@index');
 Route::post('/edit-product','ProductController@index');
 Route::get('/delete-product','ProductController@index');
+Route::post('/update-customer','OrderController@order_user');
 
 Route::get('/checkorder','OrderController@index');
 Route::post('/add-order','OrderController@store');

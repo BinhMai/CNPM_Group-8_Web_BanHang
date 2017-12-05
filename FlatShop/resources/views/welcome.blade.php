@@ -85,8 +85,12 @@
                               <a href="#" class="cart-icon">cart <span class="cart_no" id="cart_no">{{Cookie::get('amount') < 10 ? '0'.Cookie::get('amount') : Cookie::get('amount')}}</span></a>
                               <ul class="option-cart-item"> 
                                  <div class="list-order">
-                                    <?php                                                             
-                                       $ls_order = App\Order::where('userID',Auth::check() ? Auth::id() : Cookie::get('user_ip'))->where('isActive',1)->orderBy('orderID','desc')->limit(Cookie::get('amount'))->get();                                             
+                                    <?php    
+                                       if(Cookie::get('amount') < 4)                                                         
+                                          $limit = Cookie::get('amount');
+                                       else
+                                          $limit = 3;
+                                       $ls_order = App\Order::where('userID',Auth::check() ? Auth::id() : Cookie::get('user_ip'))->where('isActive',1)->orderBy('orderID','desc')->limit($limit)->get();                                             
                                        $total = 0;
                                        foreach($ls_order as $order){
                                           $prd = App\Product::find($order->productID);
@@ -109,7 +113,7 @@
                                  </div>     
                                  <div class="total-cart">
                                     @if(count($ls_order) > 0)                                  
-                                       <li><span class="total" style="margin-left: 56px;padding-top: 0px">Total <strong id="total">${{$total}}</strong></span><button class="login" onClick="location.href='/cart'" style="margin-top: 8px;float: right;">CheckOut</button></li>
+                                       <li><span class="total" style="margin-left: 56px;padding-top: 0px">Total <strong id="total">${{$total}}</strong></span><button class="login" onClick="location.href='/cart'" style="margin-top: 8px;float: right;">See All</button></li>
                                     @else
                                        <li>Bạn Chưa Order Sản Phẩm Nào.</li>
                                     @endif
@@ -234,21 +238,28 @@
                      <li>
                         <div class="row">
                             <?php 
-                                    $pr=App\Product::orderBy('productID','desc')->get();
-                                    for($i=0;$i<12;$i++){
-                                 ?>
+                              $pr=App\Product::orderBy('productID','desc')->get();
+                              if(Auth::check()) $id = Auth::id(); else $id = Cookie::get('user_ip');    
+                              $ls_order = App\Order::orderBy('orderID','desc')->where('userID',$id)->limit(Cookie::get('amount'))->get();                                    
+                              for($i=0;$i<12;$i++){
+                           ?>
                            <div class="col-md-3 col-sm-6">
                               <div class="products">
                                 
                                  <div class="offer">new</div>
-                                 <div class="thumbnail"><a href="details={{$pr[$i]['productID']}}"><img src="{{$pr[$i]['pictures']}}" alt="Product Name" style="height: 115%;max-width:92%;margin-top:-35px;"></a></div>
+                                 <div class="thumbnail" style="margin: 32px 0 5px 0"><a href="details={{$pr[$i]['productID']}}"><img src="{{$pr[$i]['pictures']}}" alt="Product Name" style="height: 115%;max-width:92%;margin-top:-35px;"></a></div>
                                  <div class="productname">{{$pr[$i]['productname']}}</div>
                                  <h4 class="price">${{$pr[$i]['price']}}</h4>
 
-                                 <?php if(Auth::check()) $id = Auth::id(); else $id = Cookie::get('user_ip');
-                                       $check = App\Order::where('userID',$id)->where('productID',(int)$pr[$i]['productID'])->where('isActive',1)->get();?>                                 
-                                 @if(count($check) > 0)
-                                    <div class="button_group_{{$pr[$i]['productID']}}"><a href="/details={{$pr[$i]['productID']}}"><button class="button" style="margin-left: 25px">More Detail</button></a><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
+                                 <?php   
+                                    $check = false;
+                                    foreach ($ls_order as $order) {
+                                       if($order->productID == (int)$pr[$i]['productID'])
+                                          $check = true;
+                                    }                                                                   
+                                 ?>                                 
+                                 @if($check == true)
+                                    <div class="button_group_{{$pr[$i]['productID']}}"><a href="/cart"><button class="button" style="margin-left: 25px">Go to Cart</button></a><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
                                  @else
                                     <div class="button_group_{{$pr[$i]['productID']}}"><button class="button add-cart" id="order_{{$pr[$i]['productID']}}" type=" button">Add To Cart</button><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
                                  @endif

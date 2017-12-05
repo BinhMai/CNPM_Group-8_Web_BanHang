@@ -54,7 +54,7 @@
                           *
                         </strong>
                       </label>
-                      <textarea type="text" class="input namefild" name="desciption" value="{{ isset($product) ? $product[0]['desciption'] : ''}}" required> </textarea>
+                      <textarea type="text" class="input namefild" name="desciption" required>{{ isset($product) ? $product[0]['desciption'] : ''}}</textarea>
                     </div>                    
                     <div class="form-row">
                       <label class="lebel-abs">
@@ -80,6 +80,9 @@
                       </label>
                       <input type="number" class="input namefild" name="quantuminstock" value="{{ isset($product) ? $product[0]['quantuminstock'] : ''}}"  required>
                     </div>
+                    <?php 
+                      $ls_category = App\Category::all();                      
+                    ?>
                     <div class="form-row">
                       <label class="lebel-abs">
                         Category
@@ -87,11 +90,14 @@
                           *
                         </strong>
                       </label>
-                      <select class="form-control form-date" id="position" name="category" style="padding-left: 100px;height: 9%;margin-left: 0px">
-                        <option value="A" {{ isset($product) && $product[0]['categoryID'] == 'A' ? 'selected' : ""}} >A</option>
-                        <option value="B" {{ isset($product) && $product[0]['categoryID'] == 'B' ? 'selected' : ""}}>B</option>
-                        <option value="C" {{ isset($product) && $product[0]['categoryID'] == 'C' ? 'selected' : ""}}>C</option>
-                        <option value="D" {{ isset($product) && $product[0]['categoryID'] == 'D' ? 'selected' : ""}}>D</option>
+                      <select class="form-control form-date" id="position" name="category" style="padding-left: 100px;height: 9%;margin-left: 0px">  
+                        <?php 
+                          for ($i = 0; $i <count($ls_category); $i++) {
+                              ?>
+                              <option value={{($i+1)}} {{ isset($product) && $product[0]['categoryID'] == ($i+1) ? 'selected' : ""}}>{{$ls_category[$i]['name']}}</option>
+                              <?php
+                          }                     
+                        ?>                                            
                       </select>
                     </div>                                                            
                     <div class="form-row">
@@ -102,10 +108,10 @@
                         </strong>
                       </label>
                       <select class="form-control form-date" id="owner" name="owner" style="padding-left: 100px;height: 9%;margin-left: 0px">
-                        <option value="A" {{ isset($product) && $product[0]['ownerID'] == 'A' ? 'selected' : ""}} >A</option>
-                        <option value="B" {{ isset($product) && $product[0]['ownerID'] == 'B' ? 'selected' : ""}}>B</option>
-                        <option value="C" {{ isset($product) && $product[0]['ownerID'] == 'C' ? 'selected' : ""}}>C</option>
-                        <option value="D" {{ isset($product) && $product[0]['ownerID'] == 'D' ? 'selected' : ""}}>D</option>
+                        <option value=1 {{ isset($product) && $product[0]['ownerID'] == 1 ? 'selected' : ""}} >1</option>
+                        <option value=2 {{ isset($product) && $product[0]['ownerID'] == 2 ? 'selected' : ""}}>2</option>
+                        <option value=3 {{ isset($product) && $product[0]['ownerID'] == 3 ? 'selected' : ""}}>3</option>
+                        <option value=4 {{ isset($product) && $product[0]['ownerID'] == 4 ? 'selected' : ""}}>4</option>
                       </select>
                     </div>                                                            
                     <button type="submit" style="float: right;position: absolute;top: 395px ;right: 20px">

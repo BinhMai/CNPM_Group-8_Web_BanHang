@@ -15,8 +15,8 @@
     <link rel="stylesheet" href="css/flexslider.css" type="text/css" media="screen"/>
     <link href="css/style.css" rel="stylesheet" type="text/css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-      <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="http://ajax.microsoft.com/ajax/jquery.validate/1.7/jquery.validate.js" type="text/javascript"></script>
     <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js">
 </script>
@@ -471,12 +471,9 @@
                 <tfoot>
                   <tr>
                     <td colspan="6">
-                      <button class="pull-left">
+                      <a href="/Trang-Chu"><button class="pull-left">
                         Continue Shopping
-                      </button>
-                      <button class=" pull-right">
-                        Update Shopping Cart
-                      </button>
+                      </button></a>                      
                     </td>
                   </tr>
                 </tfoot>
@@ -1020,7 +1017,7 @@
                      }
                   }else{
                       alert("Đặt Hàng Thành Công.");
-                     document.location = '/Trang-Chu';
+                     document.location = '/mail';
                   }
                 return false;
               });
@@ -1038,7 +1035,7 @@
                   <button type="button" class="close" data-dismiss="modal">&times;</button>
                   <h4 class="modal-title">Thông tin khách hàng</h4>
                 </div>
-                <form class="modal-body">
+                <form class="modal-body" method="post" id="update_user">
                   <input type="hidden" name="_token" value="{{ csrf_token() }}">
                   <div class="form-row">
                     <label class="lebel-abs">
@@ -1047,7 +1044,7 @@
                         *
                       </strong>
                     </label>
-                    <input type="text" class="input namefild" name="nameOrder" id="nameOrder">                    
+                    <input type="text" class="input namefild" name="nameOrder" id="nameOrder" required>                    
                   </div>
                   <div class="form-row">
                     <label class="lebel-abs">
@@ -1056,7 +1053,7 @@
                         *
                       </strong>
                     </label>
-                    <input type="text" class="input namefild" name="address">
+                    <input type="text" class="input namefild" name="address" required> 
                   </div>
                   <div class="form-row">
                     <label class="lebel-abs">
@@ -1065,7 +1062,7 @@
                         *
                       </strong>
                     </label>
-                    <input type="text" class="input namefild" name="telephone">
+                    <input type="number" class="input namefild" name="telephone" required>
                   </div>
                   <div class="form-row">
                     <label class="lebel-abs">
@@ -1074,16 +1071,46 @@
                         *
                       </strong>
                     </label>
-                    <input type="text" class="input namefild" name="email">
+                    <input type="email" class="input namefild" name="email">
                   </div>
-
-                </form>
+          
                 <div class="modal-footer">
-                  <button type="submit" class="btn btn-success">Đặt Hàng</button>
+                  <button type="submit" class="btn btn-success" >Đặt Hàng</button>
                 </div>
               </div>
-              
+            </form> 
             </div>
+
+          <script type="text/javascript">
+            $(document).ready(function(){
+               $.ajaxSetup({
+                headers: {
+                  'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+                }
+              }); 
+
+              $("#update_user").validate({          
+                   submitHandler: submitFormUpdateUser
+              });              
+              function submitFormUpdateUser(){                      
+                  var id = "<?php echo Cookie::get('user_ip')?>";                                                
+                  var data = $('#update_user').serialize();                                    
+                  $.ajax({
+                      type : 'POST',
+                      url  : '/update-customer?id='+id,
+                      data : data,                                        
+                      success:  function(data)
+                      {        
+                        if(data == "true"){
+                          alert("Đặt Hàng Thành Công.");
+                          document.location = '/mail';
+                        }                                                         
+                      }
+                  });
+                  return false;
+              }       
+            });
+          </script>
           <div class="clearfix">
           </div>
           <div class="our-brand">

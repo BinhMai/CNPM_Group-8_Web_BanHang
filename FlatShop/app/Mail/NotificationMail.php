@@ -17,8 +17,10 @@ class NotificationMail extends Mailable
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($id,$amount)
     {                 
+        $this->id = $id;
+        $this->amount = $amount;
     }
 
     /**
@@ -28,6 +30,10 @@ class NotificationMail extends Mailable
      */
     public function build()
     {
-        return $this->view('Mail.mail-form');
+        return $this->view('Mail.mail-form')
+                    ->with([                                           
+                        'id' => $this->id,
+                        'amount'=>$this->amount                                                                
+                    ]);
     }
 }
