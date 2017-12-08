@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Product;
+use App\Category;
 use Illuminate\Support\Facades\Input;
 use Carbon\Carbon;
 use File;
@@ -54,8 +55,13 @@ class ProductController extends Controller
         }
 
         if($product->save()){            
-            return redirect('list-product');            
+            return back();            
         }
+    }
+
+    public function re_product(){
+        Product::find($_GET['id'])->update(['isActive'=>1]);
+        return back();            
     }
     public function detail($id){
         $product = Product::find($id);
@@ -64,21 +70,9 @@ class ProductController extends Controller
         return view('details',['user'=>Auth::user(),'product'=>$product,'pro_category'=>$pro_category]);
     }
     public function product(){
-        $url = \Request::path();
-        $id = 0;
-        if($url == "Men"){
-            $id = 1;
-        }elseif($url == "Women"){
-            $id = 2;
-        }elseif($url == "Kids"){
-            $id = 3;
-        }elseif($url == "Watch"){
-            $id = 4;
-        }else{
-            $id = 5;
-        }
-
-        $product = Product::where('categoryID',$id)->get();
+        $url = \Request::path();        
+        $id = Category::where('name',$url)->pluck('categoryID');        
+        $product = Product::where('categoryID',$id[0])->get();
         return view('product',['product'=>$product]);
     }
     /**

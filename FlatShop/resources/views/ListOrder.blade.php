@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+</html><!DOCTYPE html>
 <html lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
@@ -18,13 +18,13 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <style>
-	td,th{
-		text-align: center;
-		border: #e6dbea solid 1px !important;
-	}
+  td,th{
+    text-align: center;
+    border: #e6dbea solid 1px !important;
+  }
 </style>
 <body>
-	<div class="header">
+  <div class="header">
             <div class="container">
                <div class="row">
                   <div class="col-md-2 col-sm-2">
@@ -122,149 +122,104 @@
                         <div class="navbar-header"><button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button></div>
                         <div class="navbar-collapse collapse">
                            <ul class="nav navbar-nav">
-								<li><a href="register={{Auth::user()->userID}}">Profile</a></li>
-								@if($user->typeofuser == 1)
-									<li><a href="list-account">Account Manager</a></li>
-								@endif		
-								@if($user->typeofuser != 3)
-									<li><a href="list-product">Product Manager</a></li>
-								@endif
-								<li><a href="list-order">Order Manager</a></li>
-								@if($user->typeofuser != 1 && $user->typeofuser != 4)
-									<li><a id="noti">Notification</a></li>                         
-								@endif																	
+                <li><a href="register={{Auth::user()->userID}}">Profile</a></li>
+                @if($user->typeofuser == 1)
+                  <li><a href="list-account">Account Manager</a></li>
+                @endif    
+                @if($user->typeofuser != 3)
+                  <li><a href="list-product">Product Manager</a></li>
+                @endif
+                <li><a href="list-order">Order Manager</a></li>                
                            </ul>
                         </div>
                      </div>
                   </div>
                </div>
             </div>
-         </div>
-         <div id="noti_Container">            
-              <div id="noti_Count">            
-                <span id="noti_Counter">1</span>                                                       
-              </div>                     
-                             
-
-                <div id="notifications">
-                    <h3>Notifications</h3>
-                    <div id="contentNotice">                
-                      <a href='#'>
-                        <div style="height:60px;background: #edf2fa">                   
-                          <img class="col-md-2" style="padding:5px" src="" height="60" width="60"/>                          
-                            <div class="col-md-10" style="padding-top: 3px;color: black">
-                              <span style="font-family: VnArabia;">KKKK</span>
-                              <span> thích một bài viết của bạn</span>                            
-                            </div>
-                          <hr style="margin: 3px">  
-                        </div>
-                      </a>                                    
-                    <div class="seeAll"><a href="#">See All</a></div>
-                </div>  
-                </div>                              
-            </div>
-            <div id="noti_Button">
-                  <input type="hidden" name="_method" value="put">
-                  <span class="col-md-4 col-xs-4" style="color: white; padding: 0px;font-family: arial;font-size: 15px">
-              <span style="color: white; font-size: 14px">Thông báo</span>
-            </span>
-        </div>    
-		 
-	<section style="margin: 15px">
-		<div class="container-fluid">
-			<h2>List Order</h2>
-			<form style="float:right;margin-bottom: 10px">
-				<input class="search" placeholder="Search Order..." type="text" value="" name="search">
-			</form>
-			
-		  <table class="table table-striped">
-			<thead>
-			  <tr>
-				<th>ProductID</th>
-				<th>Order Time</th>
-        <th>Price</th>
-				<th>Status</th>
-        <th>Option</th>
-			  </tr>
-			</thead>
-			<tbody>
-        @foreach($ls_order as $order)
-				  <tr>
-					<td>{{$order->productID}}</td>
-					<td>{{$order->dateofbirth}}</td>
-          <td>{{$order->price}}</td>
-					<td style="width: 150px;">
-            @if($order->status == 0)                                      
-              @if($user->typeofuser == 1)
-                Confirming
-              @else              
-                <input type="checkbox" class="order" id="{{$order->orderID}}" name="status" value="1">
-              @endif              
-            @elseif($order->status == 1)
-              @if($user->typeofuser == 1 || $user->typeofuser == 2 || $user->typeofuser == 4)              
-                Transporting
-              @else
-                <input type="checkbox" class="order" id="{{$order->orderID}}" name="status" value="2">
-              @endif              
-            @else
-              Finsish
+         </div>         
+     
+  <section style="margin: 15px">
+    <div class="container-fluid">
+      <h2 style="margin-bottom: 20px">List Order</h2>      
+      @if($user->typeofuser != 4)
+        @if($user->typeofuser != 3)
+          <a href="/list-order=0"><button class="btn btn-success">Chưa xác nhận</button></a>
+        @endif
+        <a href="/list-order=1"><button class="btn btn-success">Chưa giao hàng</button></a>
+        <a href="/list-order=2"><button class="btn btn-success">Thành công</button></a>
+      @endif
+      
+      <table class="table table-striped" style="margin-bottom: 0px; margin-top: 20px">
+      <thead>
+        <tr>
+          <th>Mã đơn hàng</th>
+          <th>Tên</th>
+          <th>Địa Chỉ</th>
+          <th>Số Điện Thoại</th>
+          <th>Thời gian đặt hàng</th>       
+          <th>Tổng tiền</th>
+          <th>Trạng thái</th>
+          <th>Lựa chọn</th>          
+        </tr>
+      </thead>
+      <tbody>           
+        <?php $total = 0;?>
+          @foreach($ls_bill as $bill)          
+            @if($bill->status == 2)  
+              <?php $total+= (int)$bill->price?>                    
             @endif
-          </td>
-          <td style="width: 8%">
-             @if($order->status == 0)                                                    
-              <a href="register={{$order->orderID}}"><button class="edit btn btn-primary addAcc" style="float: right;margin-left: 5px;"><span class="glyphicon glyphicon-edit"></span></button></a>
-              <button id="{{$order->orderID}}" class="btn btn-danger delete" style="float: right"><span class="glyphicon glyphicon-trash"></span></button>                            
-            @else
-              <a href="register={{$order->orderID}}"><button class="edit btn btn-primary addAcc" style="float: right;margin-right: 23px;"><span class="glyphicon glyphicon-edit"></span></button></a>
-            @endif          
-          </td> 
-				  </tr>
-        @endforeach				  
-			</tbody>
-		  </table>
-		</div>
-	</section>
-	<script>
-		$(document).ready(function(){
-			$('.edit').click(function(){
-				$('#add').click();
-			});  
-      $('.order').click(function(){
-        var value = $('.order').val();
+            <tr>
+            <td>Order_{{$bill->bill_ID}}</td>
+            <td>{{$bill->name}}</td>
+            <td>{{$bill->adress}}</td>
+            <td>{{$bill->telephone}}</td>          
+            <td>{{$bill->dateofbirth}}</td>
+            <td>{{$bill->price}}</td>          
+            <td style="width: 150px;">
+              @if($bill->status == 0)                                      
+                @if($user->typeofuser == 1 || $user->typeofuser == 4)
+                  Chưa xác nhận
+                @else              
+                  <input type="checkbox" class="bill" id="{{$bill->bill_ID}}" name="status" value="1">
+                @endif              
+              @elseif($bill->status == 1)
+                @if($user->typeofuser == 1 || $user->typeofuser == 2 || $user->typeofuser == 4)              
+                  Đang giao hàng
+                @else
+                  <input type="checkbox" class="bill" id="{{$bill->bill_ID}}" name="status" value="2">
+                @endif              
+              @else
+                Thành công
+              @endif
+            </td>
+            <td><a href="bill={{$bill->bill_ID}}">Chi tiết</a></td>            
+          </tr>
+          @endforeach               
+        </tbody>
+        </table>
+      @if(count($ls_bill) == 0)          
+        <div class="btn-warning" align="center"><h4 style="padding: 5px">Không có đơn hàng nào</h4></div>
+      @endif
+    </div>
+    @if($user->typeofuser == 1)
+      <div class="total" hidden style="float: right;margin-right: 30px; margin-top: 30px"><span style="font-size: 20px"><span style="color: red">Doanh Thu: </span>{{$total}} (Vnđ)</span></div>
+    @endif
+    @if(isset($ls_bill))
+        <div class="col-md-6" style="margin-top: 10px;margin-left: 550px">
+          {{$ls_bill->links()}}
+        </div>    
+    @endif  
+  </section>
+  <script>
+    $(document).ready(function(){     
+      $('.bill').click(function(){
+        var value = $('.bill').val();
         var id = $(this).attr('id');
         document.location = '/checkorder?val='+value+id;
-      });
-     $('#noti_Counter')
-          .css({ opacity: 0 })            
-          .css({ top: '-10px' })
-          .animate({ top: '-2px', opacity: 1 }, 500);
-
-      $('#noti').click(function () {                         
-          $('#notifications').fadeToggle('fast', 'linear', function () {
-              if ($('#notifications').is(':hidden')) {
-                  $('#noti_Button').css('background-color', '#2E467C');                     
-              }
-              else $('#noti_Button').css('background-color', '#FFF');        
-          });                          
-
-          $('#noti_Counter').fadeOut('slow');               
-      //     var id = {{$user->id}};            
-
-      //     $.ajax({
-      // url : 'http://localhost/notice/'+id,
-      // type: 'put'
-      // });
-
-          return false;
-      });
-      
-      $(document).click(function () {
-          $('#notifications').hide();
-          if ($('#noti_Counter').is(':hidden')) {                 
-              $('#noti_Button').css('background-color', '#2E467C');
-          }
-      });       
-		});
-	</script>
+      });        
+      if(window.location.pathname == '/list-order=2')
+        $('.total').show();
+    });
+  </script>
 </body>
 </html>

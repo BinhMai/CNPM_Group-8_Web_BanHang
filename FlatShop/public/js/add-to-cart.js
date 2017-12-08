@@ -6,7 +6,7 @@ $.getJSON('//freegeoip.net/json/?callback=?', function(data) {
     $('.add-cart').click(function(){                       
        var id_prd_string =$(this).attr('id');
        var id_prd = id_prd_string.substr(6,id_prd_string.length-6);                              
-       var v = $('#cart_no').text();
+       var v = $('.cart_no').text();
        if(v == ''){
           v = '0';
        }
@@ -23,7 +23,7 @@ $.getJSON('//freegeoip.net/json/?callback=?', function(data) {
           dataType: 'json',
           success:function(data){   
             console.log(data);            
-            $('#cart_no').text(data.amount);
+            $('.cart_no').text(data.amount);
             if(data.status = "OK"){
                 var id = data['prd']['productID'];            
                 $('.button_group_'+id).html('<a href="/cart"><button class="button">Go to Cart</button></a><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button>');                                

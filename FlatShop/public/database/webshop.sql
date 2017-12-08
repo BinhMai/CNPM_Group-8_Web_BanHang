@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 04, 2017 at 09:27 AM
+-- Generation Time: Dec 08, 2017 at 06:00 AM
 -- Server version: 5.6.22
 -- PHP Version: 7.1.7
 
@@ -29,11 +29,37 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `bill_detail` (
-  `billID` int(20) NOT NULL,
-  `userID` int(20) DEFAULT NULL,
-  `orderID` int(20) NOT NULL,
-  `dateofbirth` datetime NOT NULL
+  `bill_ID` int(20) NOT NULL,
+  `userID` varchar(20) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
+  `name` varchar(20) COLLATE utf8mb4_vietnamese_ci NOT NULL,
+  `adress` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
+  `telephone` int(13) NOT NULL,
+  `email` varchar(30) COLLATE utf8mb4_vietnamese_ci NOT NULL,
+  `price` int(50) NOT NULL DEFAULT '0',
+  `dateofbirth` datetime NOT NULL,
+  `status` int(1) NOT NULL DEFAULT '0',
+  `isActive` int(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
+
+--
+-- Dumping data for table `bill_detail`
+--
+
+INSERT INTO `bill_detail` (`bill_ID`, `userID`, `name`, `adress`, `telephone`, `email`, `price`, `dateofbirth`, `status`, `isActive`) VALUES
+(20, '13', 'Ninh', 'Bắc Giang', 123456789, 'ngninh96@gmail.com', 550000, '2017-12-07 15:09:19', 2, 1),
+(22, '12', 'Bình', 'Hà Nội', 1277079411, 'hoangbinhnt1996@gmail.com', 550000, '2017-12-08 09:23:05', 0, 1),
+(23, '12', 'Bình', 'Hà Nội', 1277079411, 'hoangbinhnt1996@gmail.com', 550000, '2017-12-08 09:25:30', 0, 1),
+(24, '12', 'Bình', 'Hà Nội', 1277079411, 'hoangbinhnt1996@gmail.com', 550000, '2017-12-08 09:26:34', 0, 1),
+(25, '12', 'Bình', 'Hà Nội', 1277079411, 'hoangbinhnt1996@gmail.com', 550000, '2017-12-08 09:28:26', 0, 1),
+(26, '14', 'Loan', 'Hưng Yên', 1111111111, 'loan@gmail.com', 7640000, '2017-12-08 09:32:26', 0, 1),
+(27, '14', 'Loan', 'Hưng Yên', 1111111111, 'loan@gmail.com', 7640000, '2017-12-08 09:33:13', 0, 1),
+(28, '118.70.184.228', 'Hoàng Bình', 'Hà Nội', 1277079411, 'hoangxuanbinh_t59@hus.edu.vn', 1828000, '2017-12-08 09:35:29', 1, 1),
+(29, '118.70.184.228', 'Hoàng Bình', 'Hà Nội', 1277079411, 'hoangxuanbinh_t59@hus.edu.vn', 970000, '2017-12-08 09:37:53', 1, 1),
+(30, '118.70.184.228', 'Hoàng Bình', 'Hà Nội', 1277079411, 'hoangxuanbinh_t59@hus.edu.vn', 970000, '2017-12-08 09:39:01', 1, 1),
+(31, '118.70.184.228', 'Hoàng Bình', 'Hà Nội', 1277079411, 'hoangxuanbinh_t59@hus.edu.vn', 970000, '2017-12-08 09:39:48', 1, 1),
+(32, '14', 'Loan', 'Hưng Yên', 1111111111, 'loan@gmail.com', 100000, '2017-12-08 11:48:11', 0, 1),
+(33, '14', 'Loan', 'Hưng Yên', 1111111111, 'loan@gmail.com', 1170000, '2017-12-08 11:54:19', 0, 1),
+(34, '5', 'admin', 'Nam Định', 1697444444, 'flatshop2017@gmail.com', 100000, '2017-12-08 12:50:41', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -96,12 +122,12 @@ CREATE TABLE `media_detail` (
 
 CREATE TABLE `order_detail` (
   `orderID` int(20) NOT NULL,
+  `bill_ID` int(20) NOT NULL DEFAULT '0',
   `userID` varchar(20) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
   `productID` int(20) NOT NULL,
   `dateofbirth` datetime NOT NULL,
   `dateofend` datetime NOT NULL,
   `amount` int(20) NOT NULL,
-  `status` int(1) NOT NULL DEFAULT '0',
   `isActive` int(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
@@ -109,8 +135,29 @@ CREATE TABLE `order_detail` (
 -- Dumping data for table `order_detail`
 --
 
-INSERT INTO `order_detail` (`orderID`, `userID`, `productID`, `dateofbirth`, `dateofend`, `amount`, `status`, `isActive`) VALUES
-(59, '15', 22, '2017-12-04 16:02:30', '2017-12-04 16:02:30', 1, 0, 1);
+INSERT INTO `order_detail` (`orderID`, `bill_ID`, `userID`, `productID`, `dateofbirth`, `dateofend`, `amount`, `isActive`) VALUES
+(61, 19, '12', 23, '2017-12-07 14:09:38', '2017-12-07 14:09:38', 1, 1),
+(62, 19, '12', 22, '2017-12-07 14:09:39', '2017-12-07 14:09:39', 1, 1),
+(63, 0, '13', 23, '2017-12-07 15:08:42', '2017-12-07 15:08:42', 1, 1),
+(64, 20, '13', 23, '2017-12-07 15:09:09', '2017-12-07 15:09:09', 1, 1),
+(65, 20, '13', 22, '2017-12-07 15:09:10', '2017-12-07 15:09:10', 1, 1),
+(66, 0, '118.70.184.228', 21, '2017-12-07 15:09:41', '2017-12-07 15:09:41', 1, 1),
+(67, 0, '118.70.184.228', 23, '2017-12-07 15:09:43', '2017-12-07 15:09:43', 1, 1),
+(68, 25, '12', 23, '2017-12-08 09:22:57', '2017-12-08 09:22:57', 1, 1),
+(69, 25, '12', 22, '2017-12-08 09:22:58', '2017-12-08 09:22:58', 1, 1),
+(70, 27, '14', 21, '2017-12-08 09:32:21', '2017-12-08 09:32:21', 1, 1),
+(71, 28, '118.70.184.228', 19, '2017-12-08 09:35:12', '2017-12-08 09:35:12', 1, 1),
+(72, 28, '118.70.184.228', 18, '2017-12-08 09:35:13', '2017-12-08 09:35:13', 1, 1),
+(73, 28, '118.70.184.228', 17, '2017-12-08 09:35:15', '2017-12-08 09:35:15', 1, 1),
+(74, 31, '118.70.184.228', 22, '2017-12-08 09:37:33', '2017-12-08 09:37:33', 1, 1),
+(75, 31, '118.70.184.228', 1, '2017-12-08 09:37:39', '2017-12-08 09:37:39', 1, 1),
+(76, 31, '118.70.184.228', 2, '2017-12-08 09:37:40', '2017-12-08 09:37:40', 1, 1),
+(77, 0, '5', 23, '2017-12-08 09:49:18', '2017-12-08 09:49:18', 1, 0),
+(78, 0, '14', 23, '2017-12-08 11:40:06', '2017-12-08 11:40:06', 1, 1),
+(79, 32, '14', 23, '2017-12-08 11:46:47', '2017-12-08 11:46:47', 1, 1),
+(80, 33, '14', 22, '2017-12-08 11:54:10', '2017-12-08 11:54:10', 1, 1),
+(81, 33, '14', 20, '2017-12-08 11:54:11', '2017-12-08 11:54:11', 1, 1),
+(82, 34, '5', 23, '2017-12-08 12:50:09', '2017-12-08 12:50:09', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -183,8 +230,8 @@ INSERT INTO `product_detail` (`productID`, `productname`, `desciption`, `price`,
 (18, 'Đồng hồ cơ Tevise 1000 dây đúc lộ máy (Đen)  ', 'Tevies chính hãng công nghệ Thụy Sỹ\r\nĐường kính 43mm, dày 15mm\r\nMặt kính cường lực chống trấy xước\r\nDây inox đặc không gỉ, thâu cắt được', 800000, 0, 'images/product/Watch1.jpg', 30, 4, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1),
 (19, 'Đồng hồ nam dây da Casio Anh Khuê MTP-1183Q-7ADF  \r\n', 'Thương hiệu: Casio Nhật Bản\r\nChính hãng: Casio Anh Khuê\r\nBảo hành: 1 năm về máy\r\nĐầy đủ phụ kiện chính hãng\r\nTem chống hàng giả AK\r\nHộp và thẻ chính hãng Anh Khuê\r\nĐặc biệt: miễn phí thay pin trọn đời tại shop Phố Đồng Hồ', 908000, 0, 'images/product/Watch2.jpg', 19, 4, 2, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1),
 (20, 'ĐỒNG HỒ SEIKO CHỐNG NƯỚC NAM, NỮ  ', 'Chất liệu cao cấp\r\nĐộ bền cao\r\nAn toàn khi sử dụng', 720000, 0, 'images/product/Watch3.jpg', 30, 4, 3, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1),
-(21, 'Đồng hồ nữ dây thép không gỉ Seiko Lord SUR802P1 (Vàng)  ', 'Dây thép không gỉ\r\nDành cho nữ\r\nThiết kế tinh tế; phù hợp nhiều phong cách', 7640000, 0, 'images/product/Watch4.jpg', 10, 4, 5, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1),
-(22, 'Bộ Trang Sức Nữ Mạ 24K-01  ', '-Chất liệu hợp titan inox KHÔNG ĐEN - KHÔNG RỈ SÉT \r\n-Sản phẩm được sản xuất theo công nghệ mới tiên tiến nhất của Hàn Quốc\r\n-Được Xi mạ 4 lớp màu trong môi trường chân không\r\n-Lớp ngoài cùng được xi một lớp bảo vệ chống dị ứng, ngứa (ngoại trừ một số trường hợp đặc biệt như mồ hôi muối có tính acid quá cao)\r\n-Sản phẩm cao cấp bán chạy của UHA jewels & accessories\r\n-Tặng kèm hộp Sang Trọng khi mua sản phẩm hộp có chất hút ẩm để bảo vệ sản phẩm', 450000, 0, 'images/product/Jewelry1.jpg', 20, 5, 6, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1),
+(21, 'Đồng hồ nữ dây thép không gỉ Seiko Lord SUR802P1 (Vàng)  ', 'Dây thép không gỉ\r\nDành cho nữ\r\nThiết kế tinh tế; phù hợp nhiều phong cách', 7640000, 0, 'images/product/Watch4.jpg', 10, 4, 5, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0),
+(22, 'Bộ Trang Sức Nữ Mạ 24K-01', '-Chất liệu hợp titan inox KHÔNG ĐEN - KHÔNG RỈ SÉT \r\n-Sản phẩm được sản xuất theo công nghệ mới tiên tiến nhất của Hàn Quốc\r\n-Được Xi mạ 4 lớp màu trong môi trường chân không\r\n-Lớp ngoài cùng được xi một lớp bảo vệ chống dị ứng, ngứa (ngoại trừ một số trường hợp đặc biệt như mồ hôi muối có tính acid quá cao)\r\n-Sản phẩm cao cấp bán chạy của UHA jewels & accessories\r\n-Tặng kèm hộp Sang Trọng khi mua sản phẩm hộp có chất hút ẩm để bảo vệ sản phẩm', 450000, 0, 'images/product/Jewelry1.jpg', 20, 5, 1, '2017-12-08 11:17:39', '2017-12-08 11:17:39', 1),
 (23, 'Hoa tai thời trang dáng dài hoa lụa BT7286  ', 'Kiểu dáng thời trang, dễ kết hợp với nhiều loại trang phục\r\nChất liệu: Hợp kim, vải lụa\r\nKích thước: dài 13 cm\r\nMàu sắc: Đỏ và Hồng\r\nKhối lượng: 10g', 100000, 0, 'images/product/Jewelry2.jpg', 150000, 5, 6, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1);
 
 -- --------------------------------------------------------
@@ -228,11 +275,11 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`userID`, `username`, `password`, `email`, `address`, `firstname`, `lastname`, `telephone`, `mediaID`, `gender`, `dateofbirth`, `typeofuser`, `dateofcreate`, `remember_token`, `isActive`) VALUES
-(5, 'admin', '$2y$10$Uht67Pofr0Y97oOavIEHZ.wiWotQ53JToZEHOcA.gf8sA.B9/IqYK', 'flatshop2017@gmail.com', 'Nam Định', 'admin', 'admin', 1697444444, 'images/avatar/anh1.png', 0, '2017-12-04', 1, '2017-12-04 15:44:32', 'Az1ycNzTqxDL0x83GsMBLy52yF4Q4MUib4Bb0R1ueaGLZL3BBjteB2Dzz3Pn', 1),
-(12, 'binh', '$2y$10$TPdj06asWyDONALp/9NZlOlhW2uc4qQTSsUEeZPzjhmk.BDBE1i.K', 'hoangbinhnt1996@gmail.com', 'Hà Nội', 'Hoàng', 'Bình', 1277079411, 'images/avatar/Defaul.png', 1, '1996-10-31', 4, '2017-12-04 15:55:53', 'cHcKJkXhdw2FZFlWfNZmZXxEi9g8B9jH6CqqgSRTkV5YV8aaomU2f2mvDHGY', 1),
-(13, 'ninh', '$2y$10$o3DHM7lj/haZhnpIAJzGfu2nH7UbZfGk./gAcZrMsRPGzwkJg6qPK', 'ngninh96@gmail.com', 'Bắc Giang', 'Nguyễn', 'Ninh', 123456789, 'images/avatar/Defaul.png', 0, NULL, 3, '2017-12-04 15:59:18', 'NBHgowIayyCoyPZ7hRKUKJfNJiDRg4OXXU0PcQ8w2uXeLkhsg6vHmRev41l1', 1),
-(14, 'loan', '$2y$10$cxCizxTbFSo7S2N2jugrf.KMh6Wq.mv.3M0kPI4qul2aViahji0NS', 'loan@gmail.com', 'Hưng Yên', 'Nguyễn', 'Loan', 1111111111, 'images/avatar/Defaul.png', 0, NULL, 4, '2017-12-04 16:01:05', '576CcDJLuLGuakH40p4SywHpX1UNF3dvavKHSawwA5cXszKExopAEiOyMeZj', 1),
-(15, 'thoa', '$2y$10$vuv1yUoCyBAKB1miyoVE8OmVXH9y19ssWnPiVgs5.uM8f/INRLqBO', 'thoa@gmail.com', 'Nam Định', 'Nguyễn', 'Thoa', 222222222, 'images/avatar/Defaul.png', 0, NULL, 4, '2017-12-04 16:02:19', NULL, 1);
+(5, 'admin', '$2y$10$Uht67Pofr0Y97oOavIEHZ.wiWotQ53JToZEHOcA.gf8sA.B9/IqYK', 'flatshop2017@gmail.com', 'Nam Định', 'admin', 'admin', 1697444444, 'images/avatar/anh1.png', 0, '2017-12-04', 1, '2017-12-07 10:30:07', 'pXorb2EZmFKWp9RbtY6rbdSW5EEdXhOdFzrLQborEpzU5mRGrWJpK3FS8Lvk', 1),
+(12, 'binh', '$2y$10$TPdj06asWyDONALp/9NZlOlhW2uc4qQTSsUEeZPzjhmk.BDBE1i.K', 'hoangbinhnt1996@gmail.com', 'Hà Nội', 'Hoàng', 'Bình', 1277079411, 'images/avatar/Defaul.png', 1, '1996-10-31', 2, '2017-12-07 09:21:24', 'r0sYthDi9o7D6i23OLCDVqK36GJqGdPVb4OJRwoQCnM5cwcxGgg7Frufnh0h', 1),
+(13, 'ninh', '$2y$10$o3DHM7lj/haZhnpIAJzGfu2nH7UbZfGk./gAcZrMsRPGzwkJg6qPK', 'ngninh96@gmail.com', 'Bắc Giang', 'Nguyễn', 'Ninh', 123456789, 'images/avatar/Defaul.png', 0, NULL, 3, '2017-12-04 15:59:18', 'OTyD9faOqxV6BVwyeH2VjfKRtJ8J2xIC0TggMEiS069W0yMXElyTF1uLsjc2', 1),
+(14, 'loan', '$2y$10$cxCizxTbFSo7S2N2jugrf.KMh6Wq.mv.3M0kPI4qul2aViahji0NS', 'loan@gmail.com', 'Hưng Yên', 'Nguyễn', 'Loan', 1111111111, 'images/avatar/Defaul.png', 0, NULL, 4, '2017-12-04 16:01:05', 'duB7S7rbII74hIgYayHHorYFl3qZvAf09mfAmvPOhkq7wl0Qqi6SvYcvgrc6', 1),
+(15, 'thoa', '$2y$10$vuv1yUoCyBAKB1miyoVE8OmVXH9y19ssWnPiVgs5.uM8f/INRLqBO', 'thoa@gmail.com', 'Nam Định', 'Nguyễn', 'Thoa', 222222222, 'images/avatar/Defaul.png', 0, NULL, 4, '2017-12-04 16:02:19', 'mPjHkkDhueTXnpYiZfn3pu3F1bj3dbO5OOvArnDd3LJihNGpTzDoXjZ4IZ9O', 1);
 
 --
 -- Indexes for dumped tables
@@ -242,7 +289,7 @@ INSERT INTO `user` (`userID`, `username`, `password`, `email`, `address`, `first
 -- Indexes for table `bill_detail`
 --
 ALTER TABLE `bill_detail`
-  ADD PRIMARY KEY (`billID`);
+  ADD PRIMARY KEY (`bill_ID`);
 
 --
 -- Indexes for table `category_detail`
@@ -307,7 +354,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `bill_detail`
 --
 ALTER TABLE `bill_detail`
-  MODIFY `billID` int(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `bill_ID` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 --
 -- AUTO_INCREMENT for table `category_detail`
 --
@@ -327,7 +374,7 @@ ALTER TABLE `media_detail`
 -- AUTO_INCREMENT for table `order_detail`
 --
 ALTER TABLE `order_detail`
-  MODIFY `orderID` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `orderID` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
 --
 -- AUTO_INCREMENT for table `order_product_reference`
 --

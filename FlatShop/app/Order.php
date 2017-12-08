@@ -12,10 +12,9 @@ class Order extends Authenticatable
     protected $table = 'order_detail';
 
     protected $fillable = [
-        'orderID','userID','dateofbirth','coupon','dateofend','price','isActive'
+        'orderID','userID','bill_ID','productID','dateofbirth','dateofend','amount','status','isActive'
     ];
 
     protected $primaryKey = 'orderID';
-    public $timestamps = false;
-
+    public $timestamps = false;   
 }

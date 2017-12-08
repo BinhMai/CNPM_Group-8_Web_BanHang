@@ -83,11 +83,15 @@
                               <form><input class="search-submit" type="submit" value=""><input class="search-input" placeholder="Enter your search term..." type="text" value="" name="search"></form>
                            </li>
                           <li class="option-cart">
-                              <a href="#" class="cart-icon">cart <span class="cart_no" id="cart_no">{{Cookie::get('amount') < 10 ? '0'.Cookie::get('amount') : Cookie::get('amount')}}</span></a>
+                              <a href="#" class="cart-icon">cart <span class="cart_no">{{Cookie::get('amount') < 10 ? '0'.Cookie::get('amount') : Cookie::get('amount')}}</span></a>
                               <ul class="option-cart-item"> 
                                  <div class="list-order">
-                                    <?php                                                             
-                                       $ls_order = App\Order::where('userID',Auth::check() ? Auth::id() : Cookie::get('user_ip'))->where('isActive',1)->orderBy('orderID','desc')->limit(Cookie::get('amount'))->get();                                             
+                                    <?php    
+                                       if(Cookie::get('amount') < 4)                                                         
+                                          $limit = Cookie::get('amount');
+                                       else
+                                          $limit = 3;
+                                       $ls_order = App\Order::where('userID',Auth::check() ? Auth::id() : Cookie::get('user_ip'))->where('isActive',1)->orderBy('orderID','desc')->limit($limit)->get();                                             
                                        $total = 0;
                                        foreach($ls_order as $order){
                                           $prd = App\Product::find($order->productID);
@@ -110,7 +114,7 @@
                                  </div>     
                                  <div class="total-cart">
                                     @if(count($ls_order) > 0)                                  
-                                       <li><span class="total" style="margin-left: 56px;padding-top: 0px">Total <strong id="total">${{$total}}</strong></span><button class="login" onClick="location.href='/cart'" style="margin-top: 8px;float: right;">CheckOut</button></li>
+                                       <li><span class="total" style="margin-left: 56px;padding-top: 0px">Total <strong id="total">${{$total}}</strong></span><button class="login" onClick="location.href='/cart'" style="margin-top: 8px;float: right;">See All</button></li>
                                     @else
                                        <li>Bạn Chưa Order Sản Phẩm Nào.</li>
                                     @endif
@@ -151,14 +155,13 @@
 		  <table class="table table-striped">
 			<thead>
 			  <tr>
-        <th>Avatar</th>  
-				<th>Name</th>				
-        <th>Username</th>
+        <th>Ảnh đại diện</th>  
+				<th>Tên</th>				
+        <th>Tên tài khoản</th>
 				<th>Email</th>
-        <th>Telephone</th>
-        <th>TypeofUser</th>
-        <th>IsActive</th>
-				<th>Option</th>
+        <th>Số điện thoại</th>
+        <th>Chức vụ</th>        
+				<th>Lựa chọn</th>
 			  </tr>
 			</thead>
 			<tbody>
@@ -173,23 +176,27 @@
                   @if($acc->typeofuser == 1)
                     {{'Admin'}}
                   @elseif($acc->typeofuser == 3)
-                    {{'Shipper'}}
+                    {{'Nhân viên giao hàng'}}
                   @elseif($acc->typeofuser == 2)
-                    {{'Employee'}}
+                    {{'Nhân viên bán hàng'}}
                   @else
-                    {{'Customer'}}
+                    {{'Khách hàng'}}
                   @endif
-                </td>  
-                <td>{{$acc->isActive}}</td>              
+                </td>                  
                 <td style="width: 8%;">
-                  <a href="register={{$acc->userID}}"><button class="edit btn btn-primary addAcc" style="float: right;margin-left: 5px;"><span class="glyphicon glyphicon-edit"></span></button></a>
-                  <button id="{{$acc->userID}}" class="btn btn-danger delete" style="float: right"><span class="glyphicon glyphicon-trash"></span></button>
+                  <a href="register={{$acc->userID}}"><button class="edit btn btn-primary addAcc" style="float: right;margin-left: 5px;padding: 10px"><span class="glyphicon glyphicon-edit"></span></button></a>
+                  <button id="{{$acc->userID}}" class="btn btn-danger delete" style="float: right;padding: 10px"><span class="glyphicon glyphicon-trash"></span></button>
                 </td>		
 				      </tr>			
           @endforeach     	  
 			</tbody>
 		  </table>
 		</div>
+    @if(isset($ls_account))
+        <div class="col-md-6" style="margin-top: 10px;margin-left: 550px">
+          {{$ls_account->links()}}
+        </div>    
+    @endif  
 	</section>	
   <script type="text/javascript">
     $('.delete').click(function(){

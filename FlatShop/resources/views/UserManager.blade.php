@@ -86,11 +86,15 @@
                               <form><input class="search-submit" type="submit" value=""><input class="search-input" placeholder="Enter..." type="text" value="" name="search"></form>
                            </li>
                            <li class="option-cart">
-                              <a href="#" class="cart-icon">cart <span class="cart_no" id="cart_no">{{Cookie::get('amount') < 10 ? '0'.Cookie::get('amount') : Cookie::get('amount')}}</span></a>
+                              <a href="#" class="cart-icon">cart <span class="cart_no">{{Cookie::get('amount') < 10 ? '0'.Cookie::get('amount') : Cookie::get('amount')}}</span></a>
                               <ul class="option-cart-item"> 
                                  <div class="list-order">
-                                    <?php                                                             
-                                       $ls_order = App\Order::where('userID',Auth::check() ? Auth::id() : Cookie::get('user_ip'))->where('isActive',1)->orderBy('orderID','desc')->limit(Cookie::get('amount'))->get();                                             
+                                    <?php    
+                                       if(Cookie::get('amount') < 4)                                                         
+                                          $limit = Cookie::get('amount');
+                                       else
+                                          $limit = 3;
+                                       $ls_order = App\Order::where('userID',Auth::check() ? Auth::id() : Cookie::get('user_ip'))->where('isActive',1)->orderBy('orderID','desc')->limit($limit)->get();                                             
                                        $total = 0;
                                        foreach($ls_order as $order){
                                           $prd = App\Product::find($order->productID);
@@ -113,7 +117,7 @@
                                  </div>     
                                  <div class="total-cart">
                                     @if(count($ls_order) > 0)                                  
-                                       <li><span class="total" style="margin-left: 56px;padding-top: 0px">Total <strong id="total">${{$total}}</strong></span><button class="login" onClick="location.href='/cart'" style="margin-top: 8px;float: right;">CheckOut</button></li>
+                                       <li><span class="total" style="margin-left: 56px;padding-top: 0px">Total <strong id="total">${{$total}}</strong></span><button class="login" onClick="location.href='/cart'" style="margin-top: 8px;float: right;">See All</button></li>
                                     @else
                                        <li>Bạn Chưa Order Sản Phẩm Nào.</li>
                                     @endif
@@ -143,28 +147,34 @@
             </div>
          </div>		 
 		 
-	<section style="margin: 15px">
-		<div class="container-fluid">
-			<h2>List Product</h2>	
+	<section style="margin: 15px">		
+			<h2 style="margin-bottom: 10px">Danh Sách Sản Phẩm</h2>	
 			<button id="add" class="btn btn-success" data-toggle="modal" data-target="#addproduct"  style="float: right;margin-right: 17px;"><span class="glyphicon glyphicon-plus"></span></button>
 			<form style="float:right; margin-right: 5px;margin-bottom: 10px">
 				<input class="search-submit" type="submit" value=""><input class="search" placeholder="Search product..." type="text" value="" name="search">
 			</form>
 			
-			@include('product-form')
+			@include('product-form')      
+      <a href="/list-product=Men"><button class="btn btn-danger">Nam</button></a>
+      <a href="/list-product=Women"><button class="btn btn-danger">Nữ</button></a>
+      <a href="/list-product=Kids"><button class="btn btn-danger">Trẻ em</button></a>
+      <a href="/list-product=Watch"><button class="btn btn-danger">Đồng hồ</button></a>
+      <a href="/list-product=Jewelry"><button class="btn btn-danger">Trang sức</button></a>
+      @if($user->typeofuser == 1 || $user->typeofuser == 2)
+        <a href="/list-product=NoActive"><button class="btn btn-danger">Không hoạt động</button></a>
+      @endif
 			
 		  <table class="table table-striped">
 			<thead>
 			  <tr>
-        <th>Pictures</th>         
-				<th>Name</th>       
-        <th>Desciption</th>
-        <th>Price</th>
-        <th>Quantuminstock</th>
-        <th>CategoryID</th>
-        <th>OwnerID</th>
-        <th>IsActive</th>
-        <th>Option</th>				
+        <th>Ảnh</th>         
+				<th>Tên sản phẩm</th>       
+        <th>Mô tả</th>
+        <th>Giá</th>
+        <th>Số lượng</th>
+        <th>Thể loại</th>
+        <th>Chủ shop</th>        
+        <th>Lựa chọn</th>				
 			  </tr>
 			</thead>
 			<tbody>
@@ -172,19 +182,28 @@
           @foreach($ls_product as $product)
   				  <tr>
             <td style="width: 8%">
-              <img src="http://localhost/{{$product->pictures}}" class="img-square" alt="Cinque Terre" style="border: #cccccc solid 1px;width:40px;height:40px">           
+              <img src="http://localhost/{{$product->pictures}}" class="img-square" alt="Cinque Terre" style="border: #cccccc solid 1px;width:70px;height:70px">           
             </td>
   					<td>{{$product->productname}}</td>
             <td>{{$product->desciption}}</td>
             <td>{{$product->price}}</td>
             <td>{{$product->quantuminstock}}</td>
-            <td>{{$product->categoryID}}</td>         
-            <td>{{$product->ownerID}}</td> 
-            <td>{{$product->isActive}}</td>
-            <td style="width: 120px;">
-              <a href="list-product={{$product->productID}}"><button class="edit btn btn-primary" style="float: right;margin-left: 5px;margin-right: 9px;"><span class="glyphicon glyphicon-edit"></span></button></a>
-              <a href="delete-product?id={{$product->productID}}"><button class="btn btn-danger" style="float: right"><span class="glyphicon glyphicon-trash"></span></button></a>
-            </td>
+            <td>{{$product->category->name}}</td>         
+            <td>{{$product->ownerID}}</td>             
+            @if($_SERVER['REQUEST_URI']!='/list-product=NoActive')
+              <td style="width: 120px;">
+                @if($user->typeofuser == 1 || $user->typeofuser == 2)
+                  <a href="edit-product={{$product->productID}}"><button class="edit btn btn-primary" style="float: right;margin-left: 5px;margin-right: 9px;padding: 10px"><span class="glyphicon glyphicon-edit"></span></button></a>
+                  <a href="delete-product?id={{$product->productID}}"><button class="btn btn-danger" style="float: right;padding: 10px"><span class="glyphicon glyphicon-trash"></span></button></a>
+                @else
+                  <a href="delete-product?id={{$product->productID}}"><button class="btn btn-danger" style="padding: 10px"><span class="glyphicon glyphicon-trash"></span></button></a>
+                @endif
+              </td>
+            @else
+              <td>
+                <a href="re-product?id={{$product->productID}}"><button class="btn btn-warning" style="float: right;padding: 10px"><span class="glyphicon glyphicon-repeat"></span></button></a>
+              </td>
+            @endif
   				  </tr>				  
           @endforeach
         @endif
@@ -200,9 +219,9 @@
 	</section>	
   <script type="text/javascript">
     $(document).ready(function(){
-      var pathname = window.location.pathname;
-      var pathedit = '/list-product';
-      if(pathname != pathedit)
+      var pathname = window.location.pathname;      
+      var check = pathname.indexOf('/edit-product=');      
+      if(check == 0)
         $('#add').click();
     });
   </script>

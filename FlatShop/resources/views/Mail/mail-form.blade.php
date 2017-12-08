@@ -6,59 +6,47 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
-<style type="text/css">
-	#formbill{
-		margin-top: 50px;
-		border: #fbe3f1 solid 1px;
-		height: auto;
-		width: 50%;
-		position: absolute;
-		left: 27%;
-		background: #f1e887;
-	}
 
-</style>
+<?php 
+	$bill = App\Bill::find($id);
+    $ls_product =  App\Bill::find($id)->ProductBill()->get();
+?>
 
-<div id="formbill">
+<div class="container-fuild">
 	<h2 align="center">Hóa Đơn</h2>
-	<span style="margin-left: 20px">Tên : </span><span>Hoàng Xuân Bình</span>
+	<span style="margin-left: 20px">Tên : </span><span>{{$bill->name}}</span>
 	<br>
-	<span style="margin-left: 20px">Địa chỉ nhận hàng : </span><span>Phùng Khoang-Hà Nội</span>
+	<span style="margin-left: 20px">Địa chỉ nhận hàng : </span><span>{{$bill->adress}}</span>
 	<br>
 	<h2 align="center" style="color: #e671dd">Danh Sách Sản Phẩm</h2>
 	<table class="table table-striped">
 		<thead>
 		 <tr>
-			<th>Name</th>	
+			<th>Tên sản phẩm</th>	
 			<th>Thông tin</th>	
 			<th>Giá</th>	
 			<th>Số lượng</th>
 	  	</tr>
 		</thead>
 		<tbody>
+			<?php $total=0;?>
+			@foreach($ls_product as $product)
 			<tr>
-				<td>Áo</td>
-				<td>Đẹp, rẻ, ok</td>
-				<td>100000</td>
-				<td>1</td>
-			</tr>
-			<tr>
-				<td>Áo</td>
-				<td>Đẹp, rẻ, ok</td>
-				<td>100000</td>
-				<td>1</td>
-			</tr>
-			<tr>
-				<td>Áo</td>
-				<td>Đẹp, rẻ, ok</td>
-				<td>100000</td>
-				<td>1</td>
-			</tr>	  
+				<?php 
+					$amount = App\Order::where('bill_ID',$bill->bill_ID)->where('productID',$product->productID)->pluck('amount')->first();
+					$total+= (int)$product->price * (int)$amount;
+				?>				
+				<td>{{$product->productname}}</td>
+				<td>{{$product->desciption}}</td>
+				<td>{{$product->price}}</td>
+				<td>{{$amount}}</td>
+			</tr>			
+			@endforeach
 		</tbody>
 	</table>
-	<span style="float: right;margin-right: 20px">1000000000$</span>
-	<span style="float: right;">Tổng: </span>
-	<br>	
+	<span style="float: right;margin-right: 50px; font-size: 20px">{{$total }}(Vnđ)</span>
+	<span style="float: right;font-size: 20px">Tổng: </span>
+	<br>		
 	<button class="btn btn-danger" style="float: right;margin: 10px 20px 40px 0px">Hủy Đơn Hàng</button>
 	<button class="btn btn-success" style="float: right;margin: 10px">Xác Nhận</button>
 

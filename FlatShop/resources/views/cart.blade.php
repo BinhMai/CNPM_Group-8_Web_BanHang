@@ -153,8 +153,12 @@
                     <a href="#" class="cart-icon">cart <span class="cart_no" id="cart_no">{{Cookie::get('amount') < 10 ? '0'.Cookie::get('amount') : Cookie::get('amount')}}</span></a>
                     <ul class="option-cart-item"> 
                        <div class="list-order">
-                          <?php                                                             
-                             $ls_order = App\Order::where('userID',Auth::check() ? Auth::id() : Cookie::get('user_ip'))->where('isActive',1)->orderBy('orderID','desc')->limit(Cookie::get('amount'))->get();                                             
+                          <?php  
+                            if(Cookie::get('amount') < 4)                                                         
+                                $limit = Cookie::get('amount');
+                             else
+                                $limit = 3;
+                             $ls_order = App\Order::where('userID',Auth::check() ? Auth::id() : Cookie::get('user_ip'))->where('isActive',1)->orderBy('orderID','desc')->limit($limit)->get();                                             
                              $total = 0;
                              foreach($ls_order as $order){
                                 $prd = App\Product::find($order->productID);
@@ -177,7 +181,7 @@
                        </div>     
                        <div class="total-cart">
                           @if(count($ls_order) > 0)                                  
-                             <li><span class="total">Total <strong id="total">${{$total}}</strong></span><button class="login" onClick="location.href='/cart'">CheckOut</button></li>
+                             <li><span class="total">Total <strong id="total">${{$total}}</strong></span><button class="login" onClick="location.href='/cart'">See All</button></li>
                           @else
                              <li>Bạn Chưa Order Sản Phẩm Nào.</li>
                           @endif
@@ -1015,9 +1019,18 @@
                      }else{
                         $('#openModal').click();
                      }
-                  }else{
-                      alert("Đặt Hàng Thành Công.");
-                     document.location = '/mail';
+                  }else{       
+                    alert("Đặt Hàng Thành Công.");             
+                    var total = {{$total}};
+                    $.ajax({
+                      type : 'GET',
+                      url  : '/add-bill', 
+                      data: {total:total},                     
+                      success:  function(result)
+                      {        
+                          document.location = '/mail='+result;                        
+                      }
+                     });                     
                   }
                 return false;
               });
@@ -1093,17 +1106,18 @@
                    submitHandler: submitFormUpdateUser
               });              
               function submitFormUpdateUser(){                      
-                  var id = "<?php echo Cookie::get('user_ip')?>";                                                
-                  var data = $('#update_user').serialize();                                    
+                  var id = "<?php echo Cookie::get('user_ip')?>";  
+                  var total = {{$total}};                                              
+                  var data = $('#update_user').serialize()+'&total='+total;                                    
                   $.ajax({
                       type : 'POST',
-                      url  : '/update-customer?id='+id,
+                      url  : '/add-bill?id='+id,
                       data : data,                                        
                       success:  function(data)
                       {        
-                        if(data == "true"){
+                        if(data != ""){
                           alert("Đặt Hàng Thành Công.");
-                          document.location = '/mail';
+                          document.location = '/mail='+data;
                         }                                                         
                       }
                   });
@@ -1325,14 +1339,7 @@
           </div>
         </div>
       </div>
-    </div>
-    <script type="text/javascript">
-      $(document).ready(function(){
-        $.getJSON('//freegeoip.net/json/?callback=?', function(data) {
-               console.log(JSON.stringify(data, null, 2));
-            });
-      });
-    </script>
+    </div>  
     <!-- Bootstrap core JavaScript==================================================-->
     <script type="text/javascript" src="js/jquery-1.10.2.min.js">
     </script>

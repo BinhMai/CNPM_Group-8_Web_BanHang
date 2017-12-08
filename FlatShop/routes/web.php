@@ -4,20 +4,22 @@ use Illuminate\Http\RedirectResponse;
 use App\User;
 use App\Order;
 use App\Product;
+use App\Bill;
+use Carbon\Carbon;
 use App\Mail\NotificationMail;
 use Illuminate\Support\Facades\Mail;
 
-Route::get('/test',function(){
-    return view('Mail.mail-form');
+Route::get('/bill={id}',function($id){
+    return view('Mail.mail-form',['id'=>$id]);
 });
 
-Route::get('/mail',function(){    
+Route::get('/mail={id}',function($id){    
     if(Auth::check())
-        Mail::to(Auth::user()->email)->send(new NotificationMail(Auth::id(),Cookie::get('amount')));
+        Mail::to(Auth::user()->email)->send(new NotificationMail($id));
     else{
-        $order = Order::where('userID',Cookie::get('user_ip'))->orderBy('orderID','desc')->first(); 
-        if($order->email != "")              
-            Mail::to($order->email)->send(new NotificationMail(Cookie::get('user_ip'),Cookie::get('amount')));
+        $bill = Bill::find($id); 
+        if($bill->email != "")              
+            Mail::to($bill->email)->send(new NotificationMail($id));
     }
     return redirect('/');
 });
@@ -60,9 +62,29 @@ Route::get('/cart', function () {
 Route::get('/list-product', function () {
     $type = Auth::user()->typeofuser;
     if($type == 1 || $type == 2)
-        $ls_product = Product::paginate(5);    
+        $ls_product = Product::orderBy('productID','desc')->where('isActive',1)->paginate(5);    
+    else{
+        $ls_product = Auth::user()->product()->where('product_detail.isActive',1)->where('bill_ID','<>',0)->paginate(5);
+    }        
+    return view('UserManager',['ls_product'=>$ls_product,'type'=>0,'product'=>null,'user'=>Auth::user()]);
+});
+
+Route::get('/edit-product={productID}', function ($productID) {    
+    $product = Product::where('productID',$productID)->get();    
+    $ls_product = Product::where('isActive',1)->paginate(5);    
+    return view('UserManager',['product'=>$product,'ls_product'=>$ls_product,'type'=>1,'user'=>Auth::user()]);
+});
+
+Route::get('/list-product={id}', function ($id) {
+    $typeofuser = Auth::user()->typeofuser;
+    $categoryID = App\Category::where('name',$id)->pluck('categoryID')->first();
+    if($typeofuser == 1 || $typeofuser == 2)
+        if($categoryID == null)
+            $ls_product = Product::orderBy('productID','desc')->where('product_detail.isActive',0)->paginate(5);
+        else
+            $ls_product = Product::orderBy('productID','desc')->where('categoryID',$categoryID)->where('product_detail.isActive',1)->paginate(5);    
     else
-        $ls_product = Product::paginate(5);    
+        $ls_product = Auth::user()->product()->where('categoryID',$categoryID)->where('product_detail.isActive',1)->where('order_detail.bill_ID','<>',0)->paginate(5);
     return view('UserManager',['ls_product'=>$ls_product,'type'=>0,'product'=>null,'user'=>Auth::user()]);
 });
 
@@ -71,21 +93,35 @@ Route::get('/manager',function(){
 });
 
 Route::get('/list-order', function () {
-    $ls_order = Order::all(); 
+    $ls_bill = Bill::orderBy('bill_ID','desc')->paginate(5); 
     $typeofuser = Auth::user()->typeofuser;   
     if($typeofuser == 3){
-        $ls_order = Order::where('status','!=',0)->get();
-        return view('ListOrder',['ls_order'=>$ls_order,'user'=>Auth::user()]);    
+        $ls_bill = Bill::orderBy('bill_ID','desc')->where('status','<>',0)->where('isActive',1)->paginate(5);
+        return view('ListOrder',['ls_bill'=>$ls_bill,'user'=>Auth::user()]);    
     }
     if($typeofuser == 4){
-        $ls_order = Order::where('userID',Auth::id())->get();
-        return view('ListOrder',['ls_order'=>$ls_order,'user'=>Auth::user()]);    
+        $ls_bill = Bill::orderBy('bill_ID','desc')->where('userID',Auth::id())->where('isActive',1)->paginate(5);
+        return view('ListOrder',['ls_bill'=>$ls_bill,'user'=>Auth::user()]);    
     }
-    return view('ListOrder',['ls_order'=>$ls_order,'user'=>Auth::user()]);
+    return view('ListOrder',['ls_bill'=>$ls_bill,'user'=>Auth::user()]);
+});
+
+Route::get('/list-order={id}', function ($id) {
+    $ls_bill = Bill::orderBy('bill_ID','desc')->where('status',$id)->paginate(5); 
+    $typeofuser = Auth::user()->typeofuser;   
+    if($typeofuser == 3){
+        $ls_bill = Bill::orderBy('bill_ID','desc')->where('status','<>',0)->where('status',$id)->where('isActive',1)->paginate(5);
+        return view('ListOrder',['ls_bill'=>$ls_bill,'user'=>Auth::user()]);    
+    }
+    if($typeofuser == 4){
+        $ls_bill = Bill::orderBy('bill_ID','desc')->where('userID',Auth::id())->where('status',$id)->where('isActive',1)->paginate(5);
+        return view('ListOrder',['ls_bill'=>$ls_bill,'user'=>Auth::user()]);    
+    }
+    return view('ListOrder',['ls_bill'=>$ls_bill,'user'=>Auth::user()]);
 });
 
 Route::get('/list-account', function () {
-    $ls_account = User::where('typeofuser','!=','1')->get();
+    $ls_account = User::where('typeofuser','!=','1')->paginate(5);
     $typeofuser = Auth::user()->typeofuser;
     if ($typeofuser == 1){
         return view('AccountManager',['ls_account'=>$ls_account,'type'=>0,'product'=>null,'user'=>Auth::user()]);
@@ -116,12 +152,6 @@ Route::get('/contact', function () {
     return view('contact',['user'=>Auth::user()]);
 });
 
-Route::get('/list-product={productID}', function ($productID) {    
-    $product = Product::where('productID',$productID)->get();    
-    $ls_product = Product::where('isActive',1)->paginate(5);    
-    return view('UserManager',['product'=>$product,'ls_product'=>$ls_product,'type'=>1,'user'=>Auth::user()]);
-});
-
 Route::post('/login','UserController@login');
 
 Route::post('/add-user','UserController@index');
@@ -131,9 +161,32 @@ Route::get('/delete-user','UserController@index');
 Route::post('/add-product','ProductController@index');
 Route::post('/edit-product','ProductController@index');
 Route::get('/delete-product','ProductController@index');
-Route::post('/update-customer','OrderController@order_user');
+Route::get('/re-product','ProductController@re_product');
+Route::post('/add-bill','OrderController@order_user');
+Route::get('/add-bill',function(){
+    $bill = new Bill;
+    $bill->userID = Auth::id();
+    $bill->name = Auth::user()->lastname;
+    $bill->adress = Auth::user()->address;
+    $bill->telephone = Auth::user()->telephone;
+    $bill->email = Auth::user()->email;
+    $bill->price = $_GET['total'];
+    $bill->dateofbirth = Carbon::now()->toDateTimeString();
+    $bill->save();
+    
+    $ls_order = Order::orderBy('orderID','desc')->where('userID',Auth::id())->limit(Cookie::get('amount'))->where('isActive',1)->get();    
+    foreach ($ls_order as $order) {
+        $order->bill_ID = $bill->bill_ID;
+        $order->save();
+    }
+    $staffs = User::where('typeofuser',2)->get();
+    foreach ($staffs as $staff) {
+        Mail::to($staff->email)->send(new NotificationMail($bill->bill_ID));      
+    }
+    return $bill->bill_ID;
+});
 
-Route::get('/checkorder','OrderController@index');
+Route::get('/checkorder','BillController@index');
 Route::post('/add-order','OrderController@store');
 Route::get('/delete-order','OrderController@destroy');
 

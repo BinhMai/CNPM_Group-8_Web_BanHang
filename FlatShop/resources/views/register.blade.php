@@ -149,11 +149,15 @@
                     </form>
                   </li>
                   <li class="option-cart">
-                              <a href="#" class="cart-icon">cart <span class="cart_no" id="cart_no">{{Cookie::get('amount') < 10 ? '0'.Cookie::get('amount') : Cookie::get('amount')}}</span></a>
+                              <a href="#" class="cart-icon">cart <span class="cart_no">{{Cookie::get('amount') < 10 ? '0'.Cookie::get('amount') : Cookie::get('amount')}}</span></a>
                               <ul class="option-cart-item"> 
                                  <div class="list-order">
-                                    <?php                                                             
-                                       $ls_order = App\Order::where('userID',Auth::check() ? Auth::id() : Cookie::get('user_ip'))->where('isActive',1)->orderBy('orderID','desc')->limit(Cookie::get('amount'))->get();                                             
+                                    <?php    
+                                       if(Cookie::get('amount') < 4)                                                         
+                                          $limit = Cookie::get('amount');
+                                       else
+                                          $limit = 3;
+                                       $ls_order = App\Order::where('userID',Auth::check() ? Auth::id() : Cookie::get('user_ip'))->where('isActive',1)->orderBy('orderID','desc')->limit($limit)->get();                                             
                                        $total = 0;
                                        foreach($ls_order as $order){
                                           $prd = App\Product::find($order->productID);
@@ -176,7 +180,7 @@
                                  </div>     
                                  <div class="total-cart">
                                     @if(count($ls_order) > 0)                                  
-                                       <li><span class="total" style="margin-left: 56px;padding-top: 0px">Total <strong id="total">${{$total}}</strong></span><button class="login" onClick="location.href='/cart'" style="margin-top: 8px;float: right;">CheckOut</button></li>
+                                       <li><span class="total" style="margin-left: 56px;padding-top: 0px">Total <strong id="total">${{$total}}</strong></span><button class="login" onClick="location.href='/cart'" style="margin-top: 8px;float: right;">See All</button></li>
                                     @else
                                        <li>Bạn Chưa Order Sản Phẩm Nào.</li>
                                     @endif
@@ -597,11 +601,11 @@
                           <div class="col-md-6 col-sm-6">
                             <div class="your-details">
                               <h5>
-                                Your Persional Details
+                                Thông tin cá nhân
                               </h5>
                               <div class="form-row">
                                 <label class="lebel-abs">
-                                  First Name 
+                                  Họ 
                                   <strong class="red">
                                     *
                                   </strong>
@@ -610,7 +614,7 @@
                               </div>
                               <div class="form-row">
                                 <label class="lebel-abs">
-                                  Last Name 
+                                  Tên  
                                   <strong class="red">
                                     *
                                   </strong>
@@ -627,13 +631,13 @@
                               </div>                              
                               <div class="form-row">
                                 <label class="lebel-abs">
-                                  BirthDay                                  
+                                  Ngày sinh                                  
                                 </label>                                
                                 <input type="date" class="input namefild form-date" name="dateofbirth" value="{{ isset($user) ? $user[0]['dateofbirth'] : ''}}">
                               </div>
                               <div class="form-row">
                                 <label class="lebel-abs">
-                                  Address
+                                  Địa chỉ
                                   <strong class="red">
                                     *
                                   </strong>
@@ -651,7 +655,7 @@
                               </div>
                               <div class="form-row">
                                 <label class="lebel-abs">
-                                  Telephone
+                                  Số điện thoại
                                   <strong class="red">
                                     *
                                   </strong>
@@ -661,15 +665,15 @@
                               @if(Auth::check())
                                 <div class="form-row">
                                   <label class="lebel-abs">
-                                    Position
+                                    Chức vụ
                                     <strong class="red">
                                       *
                                     </strong>
                                   </label>
                                   <select class="form-control form-date" id="position" {{isset($user)?'disabled':''}} name="typeofuser" style="padding-left: 100px;height: 7%;margin-left: 0px">
-                                    <option value="4" {{ isset($user) && $user[0]['typeofuser'] == 4 ? 'selected' : ""}} >Customer</option>
-                                    <option value="3" {{ isset($user) && $user[0]['typeofuser'] == 3 ? 'selected' : ""}}>Shipper</option>
-                                    <option value="2" {{ isset($user) && $user[0]['typeofuser'] == 2 ? 'selected' : ""}}>Employee</option>                                    
+                                    <option value="4" {{ isset($user) && $user[0]['typeofuser'] == 4 ? 'selected' : ""}} >Khách hàng</option>
+                                    <option value="3" {{ isset($user) && $user[0]['typeofuser'] == 3 ? 'selected' : ""}}>Nhân viên giao hàng</option>
+                                    <option value="2" {{ isset($user) && $user[0]['typeofuser'] == 2 ? 'selected' : ""}}>Nhân viên bán hàng</option>                                    
                                   </select>
                                 </div>                                                            
                               @endif
@@ -678,7 +682,7 @@
                           <div class="col-md-6 col-sm-6">
                             <div class="your-details">
                               <h5>
-                                Your UserName
+                                Tài khoản
                               </h5>                              
                               <div class = "col-md-12" id="images-to-upload">
                                 @if(isset($user))
@@ -689,7 +693,7 @@
                               </div>
                               <div class="form-row" style="margin-top: 15px">
                                     <label class="lebel-abs">
-                                      Avatar
+                                      Ảnh đại diện
                                       <strong class="red">
                                         *
                                       </strong>
@@ -698,7 +702,7 @@
                                   </div>
                               <div class="form-row">                                  
                                   <label class="lebel-abs">
-                                    UserName
+                                    Tên tài khoản
                                     <strong class="red">
                                       *
                                     </strong>
@@ -712,7 +716,7 @@
                                 @if(!isset($user))
                                   <div class="form-row">
                                     <label class="lebel-abs">
-                                      Password 
+                                      Mật khẩu
                                       <strong class="red">
                                         *
                                       </strong>
@@ -721,7 +725,7 @@
                                   </div>
                                   <div class="form-row">
                                     <label class="lebel-abs">
-                                      RePassword 
+                                      Nhập lại mật khẩu
                                       <strong class="red">
                                         *
                                       </strong>

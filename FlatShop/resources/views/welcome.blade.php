@@ -82,7 +82,7 @@
                               <form><input class="search-submit" type="submit" value=""><input class="search-input" placeholder="Enter your search term..." type="text" value="" name="search"></form>
                            </li>
                            <li class="option-cart">
-                              <a href="#" class="cart-icon">cart <span class="cart_no" id="cart_no">{{Cookie::get('amount') < 10 ? '0'.Cookie::get('amount') : Cookie::get('amount')}}</span></a>
+                              <a href="#" class="cart-icon">cart <span class="cart_no">{{Cookie::get('amount') < 10 ? '0'.Cookie::get('amount') : Cookie::get('amount')}}</span></a>
                               <ul class="option-cart-item"> 
                                  <div class="list-order">
                                     <?php    
@@ -238,7 +238,7 @@
                      <li>
                         <div class="row">
                             <?php 
-                              $pr=App\Product::orderBy('productID','desc')->get();
+                              $pr = App\Product::orderBy('productID','desc')->where('isActive',1)->get();
                               if(Auth::check()) $id = Auth::id(); else $id = Cookie::get('user_ip');    
                               $ls_order = App\Order::orderBy('orderID','desc')->where('userID',$id)->limit(Cookie::get('amount'))->get();                                    
                               for($i=0;$i<12;$i++){
@@ -271,8 +271,11 @@
                      <li>
                         <div class="row">
                             <?php 
-                     
-                                for($i=12;$i<23;$i++){
+                              if(count($pr) < 23)
+                                 $limit = count($pr);
+                              else
+                                 $limit = 23;
+                                for($i=12;$i<$limit;$i++){
                            ?>
                            <div class="col-md-3 col-sm-6">
                               <div class="products">
@@ -418,7 +421,7 @@
                }
             });            
          });
-      </script>>
+      </script>
       <!-- Bootstrap core JavaScript==================================================-->
 	  <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
 	  <script type="text/javascript" src="js/jquery.easing.1.3.js"></script>

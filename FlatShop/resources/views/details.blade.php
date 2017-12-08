@@ -14,6 +14,11 @@
     <link href="css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/flexslider.css" type="text/css" media="screen"/>
     <link href="css/style.css" rel="stylesheet" type="text/css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>
+      <meta name="csrf-token" content="<?= csrf_token() ?>">
     <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js">
 </script>
@@ -147,11 +152,15 @@
                     </form>
                   </li>
                  <li class="option-cart">
-                              <a href="#" class="cart-icon">cart <span class="cart_no" id="cart_no">{{Cookie::get('amount') < 10 ? '0'.Cookie::get('amount') : Cookie::get('amount')}}</span></a>
+                              <a href="#" class="cart-icon">cart <span class="cart_no">{{Cookie::get('amount') < 10 ? '0'.Cookie::get('amount') : Cookie::get('amount')}}</span></a>
                               <ul class="option-cart-item"> 
                                  <div class="list-order">
-                                    <?php                                                             
-                                       $ls_order = App\Order::where('userID',Auth::check() ? Auth::id() : Cookie::get('user_ip'))->where('isActive',1)->orderBy('orderID','desc')->limit(Cookie::get('amount'))->get();                                             
+                                    <?php    
+                                       if(Cookie::get('amount') < 4)                                                         
+                                          $limit = Cookie::get('amount');
+                                       else
+                                          $limit = 3;
+                                       $ls_order = App\Order::where('userID',Auth::check() ? Auth::id() : Cookie::get('user_ip'))->where('isActive',1)->orderBy('orderID','desc')->limit($limit)->get();                                             
                                        $total = 0;
                                        foreach($ls_order as $order){
                                           $prd = App\Product::find($order->productID);
@@ -174,7 +183,7 @@
                                  </div>     
                                  <div class="total-cart">
                                     @if(count($ls_order) > 0)                                  
-                                       <li><span class="total" style="margin-left: 56px;padding-top: 0px">Total <strong id="total">${{$total}}</strong></span><button class="login" onClick="location.href='/cart'" style="margin-top: 8px;">CheckOut</button></li>
+                                       <li><span class="total" style="margin-left: 56px;padding-top: 0px">Total <strong id="total">${{$total}}</strong></span><button class="login" onClick="location.href='/cart'" style="margin-top: 8px;float: right;">See All</button></li>
                                     @else
                                        <li>Bạn Chưa Order Sản Phẩm Nào.</li>
                                     @endif
@@ -469,23 +478,18 @@
                         </option>
                       </select>
                     </div>
-                    <div class="button_group">
-                      <button class="button" >
-                        Add To Cart
-                      </button>
-                      <button class="button compare">
-                        <i class="fa fa-exchange">
-                        </i>
-                      </button>
-                      <button class="button favorite">
-                        <i class="fa fa-heart-o">
-                        </i>
-                      </button>
-                      <button class="button favorite">
-                        <i class="fa fa-envelope-o">
-                        </i>
-                      </button>
-                    </div>
+                    <?php   
+                        $check = false;
+                        foreach ($ls_order as $order) {
+                           if($order->productID == (int)$product[$i]['productID'])
+                              $check = true;
+                        }                                                                   
+                     ?>                                 
+                     @if($check == true)
+                        <div class="button_group_{{$product->productID}}"><a href="/cart"><button class="button" style="margin-left: 25px; padding: 12px">Go to Cart</button></a><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
+                     @else
+                        <div class="button_group_{{$product->productID}}"><button class="button add-cart" id="order_{{$product->productID}}" style="margin-left: 25px; padding: 12px" type=" button">Add To Cart</button><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
+                     @endif
                   </div>
                   <div class="clearfix">
                   </div>
@@ -745,8 +749,7 @@
                                  <div class="offer">new</div>
                                  <div class="thumbnail"><a href="details={{$pr[$i]['productID']}}"><img src="{{$pr[$i]['pictures']}}" alt="Product Name"></a></div>
                                  <div class="productname">{{$pr[$i]['productname']}}</div>
-                                 <h4 class="price">${{$pr[$i]['price']}}</h4>
-                                 <div class="button_group"><button class="button add-cart" type="button">Add To Cart</button><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
+                                 <h4 class="price">${{$pr[$i]['price']}}</h4>                                 
                               </div>
                            </div> 
                            <?php } ?>
@@ -1147,6 +1150,15 @@
         </div>
       </div>
     </div>
+    <script type="text/javascript">
+         $(document).ready(function(){            
+            $.ajaxSetup({
+               headers: {
+                  'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+               }
+            });            
+         });
+      </script>
     <!-- Bootstrap core JavaScript==================================================-->    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
@@ -1157,6 +1169,8 @@
     <script type="text/javascript" src='js/jquery.elevatezoom.js'>
     </script>
     <script type="text/javascript" src="js/script.min.js" >
+    </script>
+    <script type="text/javascript" src="js/add-to-cart.js" >
     </script>
   </body>
 </html>

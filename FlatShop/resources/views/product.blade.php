@@ -14,9 +14,10 @@
     <link rel="stylesheet" href="css/flexslider.css" type="text/css" media="screen"/>
     <link href="css/style.css" rel="stylesheet">
 
-     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
       <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>
+      <meta name="csrf-token" content="<?= csrf_token() ?>">
   </head>
   <body>
     <div class="wrapper">
@@ -147,8 +148,13 @@
                               <a href="#" class="cart-icon">cart <span class="cart_no" id="cart_no">{{Cookie::get('amount') < 10 ? '0'.Cookie::get('amount') : Cookie::get('amount')}}</span></a>
                               <ul class="option-cart-item"> 
                                  <div class="list-order">
-                                    <?php                                                             
-                                       $ls_order = App\Order::where('userID',Auth::check() ? Auth::id() : Cookie::get('user_ip'))->where('isActive',1)->orderBy('orderID','desc')->limit(Cookie::get('amount'))->get();                                             
+                                    <?php    
+                                      if(Cookie::get('amount') < 4)
+                                        $limit = Cookie::get('amount');
+                                      else
+                                        $limit = 3;
+
+                                       $ls_order = App\Order::where('userID',Auth::check() ? Auth::id() : Cookie::get('user_ip'))->where('isActive',1)->orderBy('orderID','desc')->limit($limit)->get();                                             
                                        $total = 0;
                                        foreach($ls_order as $order){
                                           $prd = App\Product::find($order->productID);
@@ -171,7 +177,7 @@
                                  </div>     
                                  <div class="total-cart">
                                     @if(count($ls_order) > 0)                                  
-                                       <li><span class="total" style="margin-left: 56px;padding-top: 0px">Total <strong id="total">${{$total}}</strong></span><button class="login" onClick="location.href='/cart'" style="margin-top: 8px;float: right;">CheckOut</button></li>
+                                       <li><span class="total" style="margin-left: 56px;padding-top: 0px">Total <strong id="total">${{$total}}</strong></span><button class="login" onClick="location.href='/cart'" style="margin-top: 8px;float: right;">See All</button></li>
                                     @else
                                        <li>Bạn Chưa Order Sản Phẩm Nào.</li>
                                     @endif
@@ -780,19 +786,18 @@
                       <h4 class="price">
                        {{$pr->price}}
                       </h4>
-                      <div class="button_group">
-                        <button class="button add-cart" type="button">
-                          Add To Cart
-                        </button>
-                        <button class="button compare" type="button">
-                          <i class="fa fa-exchange">
-                          </i>
-                        </button>
-                        <button class="button wishlist" type="button">
-                          <i class="fa fa-heart-o">
-                          </i>
-                        </button>
-                      </div>
+                      <?php   
+                        $check = false;
+                        foreach ($ls_order as $order) {
+                           if($order->productID == (int)$pr->productID)
+                              $check = true;
+                        }                                                                   
+                     ?>                                 
+                     @if($check == true)
+                        <div class="button_group_{{$pr->productID}}"><a href="/cart"><button class="button" style="margin-left: 25px">Go to Cart</button></a><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
+                     @else
+                        <div class="button_group_{{$pr->productID}}"><button class="button add-cart" id="order_{{$pr->productID}}" type=" button">Add To Cart</button><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
+                     @endif
                     </div>
                   </div>
                   @endforeach
@@ -1079,6 +1084,15 @@
         </div>
       </div>
     </div>
+    <script type="text/javascript">
+         $(document).ready(function(){            
+            $.ajaxSetup({
+               headers: {
+                  'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+               }
+            });            
+         });
+      </script>
     <script type="text/javascript" src="js/jquery-1.10.2.min.js">
     </script>
     <script type="text/javascript" src="js/jquery.easing.1.3.js">
@@ -1092,6 +1106,8 @@
     <script type="text/javascript" src="js/jquery.carouFredSel-6.2.1-packed.js">
     </script>
     <script type="text/javascript" src="js/script.min.js" >
+    </script>
+    <script type="text/javascript" src="js/add-to-cart.js" >
     </script>
   </body>
 </html>

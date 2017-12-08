@@ -18,6 +18,6 @@ class Product extends Authenticatable
     protected $primaryKey = 'productID';    
     public $timestamps = false;
      public function category(){
-       return $this->hasOne('App\Category') ;
+       return $this->hasOne('App\Category','categoryID','categoryID') ;
     }
 }

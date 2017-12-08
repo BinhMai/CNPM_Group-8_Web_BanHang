@@ -76,7 +76,7 @@ class UserController extends Controller
 
         if (Auth::attempt(['username' => $name, 'password' => $password])) {    
             Cookie::queue('login', 1, 180);                          
-            Order::where('userID',Cookie::get('user_ip'))->limit(Cookie::get('amount'))->update(['userID' => (string)Auth::id()]);            
+            Order::orderBy('orderID','desc')->where('userID',Cookie::get('user_ip'))->limit(Cookie::get('amount'))->update(['userID' => (string)Auth::id()]);            
             echo $_POST['oldurl'];
         }
     }

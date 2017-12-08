@@ -18,4 +18,7 @@ class User extends Authenticatable
     protected $primaryKey = 'userID';    
     public $timestamps = false;
 
+    public function product(){
+        return $this->belongsToMany('App\Product','order_detail','userID','productID');    
+    }    
 }

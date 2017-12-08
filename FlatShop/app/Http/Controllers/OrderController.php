@@ -5,9 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Order;
 use Carbon\Carbon;
+use App\User;
+use App\Mail\NotificationMail;
+use Illuminate\Support\Facades\Mail;
 use Auth;
 use App\Product;
 use Cookie;
+use App\Bill;
 
 class OrderController extends Controller
 {
@@ -18,14 +22,7 @@ class OrderController extends Controller
      */
     public function index()
     {   
-        $string =  $_GET['val'];
-        $val = substr($string, 0,1);
-        $id = substr($string, 1,strlen($string)-1);  
-        
-        $order = Order::find($id);
-        $order->status = $val;
-        if($order->save())
-            return back()->withInput();   
+        //        
     }
 
     /**
@@ -39,16 +36,27 @@ class OrderController extends Controller
     }
 
     public function order_user(){
+        $bill = new Bill;    
+        $bill->userID = Cookie::get('user_ip');
+        $bill->name = $_POST['nameOrder'];
+        $bill->adress = $_POST['address'];
+        $bill->telephone = $_POST['telephone'];
+        $bill->email = $_POST['email'];
+        $bill->price = $_POST['total'];
+        $bill->dateofbirth = Carbon::now()->toDateTimeString();
+        $bill->save();
+
         $id_order = $_GET['id'];
-        $ls_order = Order::orderBy('orderID','desc')->where('userID',$id_order)->limit(Cookie::get('amount'))->where('status',0)->where('isActive',1)->get();
+        $ls_order = Order::orderBy('orderID','desc')->where('userID',$id_order)->limit(Cookie::get('amount'))->where('isActive',1)->get();
         foreach ($ls_order as $order) {
-            $order->name = $_POST['nameOrder'];
-            $order->adress = $_POST['address'];
-            $order->telephone = $_POST['telephone'];
-            $order->email = $_POST['email'];
+            $order->bill_ID = $bill->bill_ID;
             $order->save();
         }
-        return "true";
+        $staffs = User::where('typeofuser',2)->get();
+        foreach ($staffs as $staff) {
+            Mail::to($staff->email)->send(new NotificationMail($bill->bill_ID));      
+        }
+        return $bill->bill_ID;
     }
 
     /**
@@ -80,11 +88,7 @@ class OrderController extends Controller
             Cookie::queue('amount', $request->am_after, 180);
             $order = new Order;    
             if(Auth::check()){           
-                $order->userID= $id;
-                $order->name = Auth::user()->lastname;  
-                $order->adress = Auth::user()->address;   
-                $order->telephone = Auth::user()->telephone;    
-                $order->email = Auth::user()->email;                                          
+                $order->userID= $id;                
             }
             $order->userID= $id;
             $order->productID = $request->id_prd;

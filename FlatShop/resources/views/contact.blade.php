@@ -150,88 +150,44 @@
                     </form>
                   </li>
                   <li class="option-cart">
-                    <a href="#" class="cart-icon">
-                      cart 
-                      <span class="cart_no">
-                        02
-                      </span>
-                    </a>
-                    <ul class="option-cart-item">
-                      <li>
-                        <div class="cart-item">
-                          <div class="image">
-                            <img src="images/products/thum/products-01.png" alt="">
-                          </div>
-                          <div class="item-description">
-                            <p class="name">
-                              Lincoln chair
-                            </p>
-                            <p>
-                              Size: 
-                              <span class="light-red">
-                                One size
-                              </span>
-                              <br>
-                              Quantity: 
-                              <span class="light-red">
-                                01
-                              </span>
-                            </p>
-                          </div>
-                          <div class="right">
-                            <p class="price">
-                              $30.00
-                            </p>
-                            <a href="#" class="remove">
-                              <img src="images/remove.png" alt="remove">
-                            </a>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="cart-item">
-                          <div class="image">
-                            <img src="images/products/thum/products-02.png" alt="">
-                          </div>
-                          <div class="item-description">
-                            <p class="name">
-                              Lincoln chair
-                            </p>
-                            <p>
-                              Size: 
-                              <span class="light-red">
-                                One size
-                              </span>
-                              <br>
-                              Quantity: 
-                              <span class="light-red">
-                                01
-                              </span>
-                            </p>
-                          </div>
-                          <div class="right">
-                            <p class="price">
-                              $30.00
-                            </p>
-                            <a href="#" class="remove">
-                              <img src="images/remove.png" alt="remove">
-                            </a>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <span class="total">
-                          Total 
-                          <strong>
-                            $60.00
-                          </strong>
-                        </span>
-                        <button class="checkout" onClick="location.href='checkout'">
-                          CheckOut
-                        </button>
-                      </li>
+                    <a href="#" class="cart-icon">cart <span class="cart_no">{{Cookie::get('amount') < 10 ? '0'.Cookie::get('amount') : Cookie::get('amount')}}</span></a>
+                    <ul class="option-cart-item"> 
+                       <div class="list-order">
+                          <?php    
+                             if(Cookie::get('amount') < 4)                                                         
+                                $limit = Cookie::get('amount');
+                             else
+                                $limit = 3;
+                             $ls_order = App\Order::where('userID',Auth::check() ? Auth::id() : Cookie::get('user_ip'))->where('isActive',1)->orderBy('orderID','desc')->limit($limit)->get();                                             
+                             $total = 0;
+                             foreach($ls_order as $order){
+                                $prd = App\Product::find($order->productID);
+                                $total+= $prd->price;
+                                ?>
+                                   <li>
+                                      <div class="cart-item"><div class="image"><img src="{{$prd->pictures}}" alt=""></div>
+                                         <div class="item-description">
+                                            <p class="name">{{$prd->productname}}</p>
+                                            <p>Size: <span class="light-red">One size</span><br>Quantity: <span class="light-red">01</span></p>
+                                         </div>
+                                         <div class="right"><p class="price" style="margin-top: -3em">${{$prd->price}}.00</p>
+                                            <a href="/delete-order?id={{$order->orderID}}" class="remove"><img src="images/remove.png" alt="remove"></a>
+                                         </div>
+                                      </div>
+                                   </li>
+                                <?php
+                             }                                                    
+                          ?>                                     
+                       </div>     
+                       <div class="total-cart">
+                          @if(count($ls_order) > 0)                                  
+                             <li><span class="total" style="margin-left: 56px;padding-top: 0px">Total <strong id="total">${{$total}}</strong></span><button class="login" onClick="location.href='/cart'" style="margin-top: 8px;float: right;">See All</button></li>
+                          @else
+                             <li>Bạn Chưa Order Sản Phẩm Nào.</li>
+                          @endif
+                       </div>                                                               
                     </ul>
-                  </li>
+                 </li>
                 </ul>
                 <div class="navbar-header">
                   <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -457,9 +413,8 @@
               </h5>
               <div class="clearfix">
               </div>
-              <div class="map">
-                <iframe width="600" height="350" src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=Vietnam&amp;aq=&amp;sll=14.058324,108.277199&amp;sspn=21.827722,43.286133&amp;ie=UTF8&amp;hq=&amp;hnear=Vietnam&amp;ll=14.058324,108.277199&amp;spn=8.883583,21.643066&amp;t=m&amp;z=6&amp;output=embed">
-                </iframe>
+              <div class="map">                
+                <iframe width="600" height="350" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q=place_id:EkAxNDAgUGjDuW5nIEtob2FuZywgVHJ1bmcgVsSDbiwgVOG7qyBMacOqbSwgSMOgIE7hu5lpLCBWaeG7h3QgTmFt&key=AIzaSyAhSN8x6hUdyayCr7o7SV7_OwBE8QpLU84" allowfullscreen></iframe>
               </div>
               <div class="clearfix">
               </div>
