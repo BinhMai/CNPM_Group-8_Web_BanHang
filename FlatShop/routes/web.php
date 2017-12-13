@@ -38,14 +38,12 @@ Route::get('/Trang-Chu',function(){
 });
 
 Route::get('/details={id}', 'ProductController@detail');
-Route::get('/Men', 'ProductController@product');
-Route::get('/Women', 'ProductController@product');
-Route::get('/Kids', 'ProductController@product');
-Route::get('/Watch', 'ProductController@product');
-Route::get('/Jewelry', 'ProductController@product');
-// Route::get('/productlitst', function () {
-//     return view('productlitst',['user'=>Auth::user()]);
-// });
+
+Route::get('/nam', 'ProductController@product');
+Route::get('/nu', 'ProductController@product');
+Route::get('/tre-em', 'ProductController@product');
+Route::get('/dong-ho', 'ProductController@product');
+Route::get('/trang-suc', 'ProductController@product');
 
 Route::get('/productgird', function () {
     return view('productgird',['user'=>Auth::user()]);
@@ -69,10 +67,11 @@ Route::get('/list-product', function () {
     return view('UserManager',['ls_product'=>$ls_product,'type'=>0,'product'=>null,'user'=>Auth::user()]);
 });
 
-Route::get('/edit-product={productID}', function ($productID) {    
-    $product = Product::where('productID',$productID)->get();    
-    $ls_product = Product::where('isActive',1)->paginate(5);    
-    return view('UserManager',['product'=>$product,'ls_product'=>$ls_product,'type'=>1,'user'=>Auth::user()]);
+Route::get('/edit-product={productID}', function ($productID) {     
+    $product = Product::where('productID',$productID)->get();            
+    // $ls_product = Product::orderBy('productID','desc')->where('isActive',1)->paginate(5);        
+    // return view('UserManager',['product'=>$product,'ls_product'=>$ls_product,'type'=>1,'user'=>Auth::user()]);
+    return json_encode(array('product'=>$product));
 });
 
 Route::get('/list-product={id}', function ($id) {
@@ -131,18 +130,18 @@ Route::get('/list-account', function () {
     }    
 });
 
-Route::get('/login', function () {
+Route::get('/dang-nhap', function () {
     if(isset($_GET['update']))
         return view('login',['update'=>$_GET['update']]);
     return view('login',['update'=>0]);
 });
 
-Route::get('/register', function () {
+Route::get('/dang-ki', function () {
     $oldURL = $_SERVER['HTTP_REFERER'];
     return view('register',['url'=>$oldURL]);
 });
 
-Route::get('/register={userID}', function ($userID) {    
+Route::get('/dang-ki={userID}', function ($userID) {    
     $oldURL = $_SERVER['HTTP_REFERER'];
     $user = User::where('userID',$userID)->get();
     return view('register',['user'=>$user,'url'=>$oldURL,'type'=>1,'userAd'=>Auth::user()]);

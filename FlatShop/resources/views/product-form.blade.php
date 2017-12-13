@@ -3,7 +3,7 @@
       <div class="modal-content" style="width: 850px">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">{{isset($product) ? 'Edit Product' : 'Add New Product'}}</h4>
+          <h4 class="modal-title">Thêm sản phẩm</h4>
         </div>
         <div class="modal-body" style="padding: 20px 20px 0px 20px">
           <form id="product-form" action="@php                               
@@ -17,7 +17,8 @@
 
               <div class="row">
                 <div class="col-md-6 col-sm-6">
-                  <div class="your-details">                    
+                  <div class="your-details">  
+                    <input type="text" value="0" class="prdID" hidden>                  
                     <div class = "col-md-12" id="images-to-upload" style="border: #cccccc solid 1px;padding-top: 15px;">
                       @if(isset($product))
                         <img id="pictures" src="http://localhost/{{$product[0]['pictures']}}" alt="Cinque Terre" style="margin-bottom: 20px;width:500px;height:262px">                               
@@ -45,7 +46,7 @@
                           *
                         </strong>
                       </label>
-                      <input type="text" class="input namefild" style="margin-top: 8px;" name="prdname" value="{{ isset($product) ? $product[0]['productname'] : ''}}" required>
+                      <input type="text" id="namePrd" class="input namefild" style="margin-top: 8px;" name="prdname" required>
                     </div>
                     <div class="form-row">
                       <label class="lebel-abs">
@@ -54,7 +55,7 @@
                           *
                         </strong>
                       </label>
-                      <textarea type="text" class="input namefild" name="desciption" required>{{ isset($product) ? $product[0]['desciption'] : ''}}</textarea>
+                      <textarea type="text" id="desPrd" class="input namefild" name="desciption" required></textarea>
                     </div>                    
                     <div class="form-row">
                       <label class="lebel-abs">
@@ -63,13 +64,13 @@
                           *
                         </strong>
                       </label>
-                      <input type="number" class="input namefild" name="price" value="{{ isset($product) ? $product[0]['price'] : ''}}"  required>
+                      <input type="number" id="pricePrd" class="input namefild" name="price" required>
                     </div>
                     <div class="form-row">
                       <label class="lebel-abs">
                         Sale Price                        
                       </label>
-                      <input type="number" class="input namefild" name="saleprice" value="{{ isset($product) ? $product[0]['saleprice'] : ''}}">
+                      <input type="number" id="salePrd" class="input namefild" name="saleprice">
                     </div>
                     <div class="form-row">
                       <label class="lebel-abs">
@@ -78,7 +79,7 @@
                           *
                         </strong>
                       </label>
-                      <input type="number" class="input namefild" name="quantuminstock" value="{{ isset($product) ? $product[0]['quantuminstock'] : ''}}"  required>
+                      <input type="number" class="input namefild quantumPrd" name="quantuminstock" required>
                     </div>
                     <?php 
                       $ls_category = App\Category::all();                      
@@ -94,7 +95,7 @@
                         <?php 
                           for ($i = 0; $i <count($ls_category); $i++) {
                               ?>
-                              <option value={{($i+1)}} {{ isset($product) && $product[0]['categoryID'] == ($i+1) ? 'selected' : ""}}>{{$ls_category[$i]['name']}}</option>
+                              <option value={{($i+1)}}>{{$ls_category[$i]['name']}}</option>
                               <?php
                           }                     
                         ?>                                            
@@ -108,10 +109,10 @@
                         </strong>
                       </label>
                       <select class="form-control form-date" id="owner" name="owner" style="padding-left: 100px;height: 9%;margin-left: 0px">
-                        <option value=1 {{ isset($product) && $product[0]['ownerID'] == 1 ? 'selected' : ""}} >1</option>
-                        <option value=2 {{ isset($product) && $product[0]['ownerID'] == 2 ? 'selected' : ""}}>2</option>
-                        <option value=3 {{ isset($product) && $product[0]['ownerID'] == 3 ? 'selected' : ""}}>3</option>
-                        <option value=4 {{ isset($product) && $product[0]['ownerID'] == 4 ? 'selected' : ""}}>4</option>
+                        <option value=1>1</option>
+                        <option value=2>2</option>
+                        <option value=3>3</option>
+                        <option value=4>4</option>
                       </select>
                     </div>                                                            
                     <button type="submit" style="float: right;position: absolute;top: 395px ;right: 20px">
@@ -134,7 +135,13 @@
           headers: {
             'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
           }
+        });     
+        $('.close').click(function(){
+          location.reload();
         });        
+        
+        if($('#prdID').val() != 0)          
+          $('.modal-title').text('Sửa sản phẩm');          
 
         var fileCollection = new Array();
         $('#images').on('change',function(e){
@@ -161,16 +168,12 @@
         $("#product-form").validate({          
              submitHandler: submitForm
         });
-        function submitForm(){                                                                              
-          var url = '';          
-          var check = {{$type}};                            
-
-          if(check == 0){              
+        function submitForm(){ 
+          var id = $('.prdID').val();           
+          if(id == 0)              
             url = 'add-product';
-          }else{            
-            id = '{{$product[0]["productID"]}}';
-            url = '/edit-product?productID='+id;                      
-          }         
+          else                       
+            url = '/edit-product?productID='+id;                               
 
           var form = $('#product-form')[0];
           var formData = new FormData(form);                
@@ -183,13 +186,10 @@
                 processData: false,
                 success:  function(data)
                 {                                          
-                  document.location = "http://localhost/list-product";            
+                  location.reload();
                 }
             });
             return false;
         }
-
-
-
       });
     </script> 

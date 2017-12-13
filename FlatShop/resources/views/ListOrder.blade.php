@@ -24,124 +24,12 @@
   }
 </style>
 <body>
-  <div class="header">
-            <div class="container">
-               <div class="row">
-                  <div class="col-md-2 col-sm-2">
-                     <div class="logo"><a href="/Trang-Chu"><img src="images/logo.png" alt="FlatShop"></a></div>
-                  </div>
-                  <div class="col-md-10 col-sm-10">
-                     <div class="header_top">
-                        <div class="row">
-                           <div class="col-md-3">
-                              <ul class="option_nav">
-                                 <li class="dorpdown">
-                                    <a href="#">Eng</a>
-                                    <ul class="subnav">
-                                       <li><a href="#">Eng</a></li>
-                                       <li><a href="#">Vns</a></li>
-                                       <li><a href="#">Fer</a></li>
-                                       <li><a href="#">Gem</a></li>
-                                    </ul>
-                                 </li>
-                                 <li class="dorpdown">
-                                    <a href="#">USD</a>
-                                    <ul class="subnav">
-                                       <li><a href="#">USD</a></li>
-                                       <li><a href="#">UKD</a></li>
-                                       <li><a href="#">FER</a></li>
-                                    </ul>
-                                 </li>
-                              </ul>
-                           </div>
-                           <div class="col-md-6">
-                              <ul class="topmenu">
-                                 <li><a href="#">About Us</a></li>
-                                 <li><a href="#">News</a></li>
-                                 <li><a href="#">Service</a></li>
-                                 <li><a href="#">Recruiment</a></li>
-                                 <li><a href="#">Media</a></li>
-                                 <li><a href="#">Support</a></li>
-                              </ul>
-                           </div>
-                           <div class="col-md-3">
-                              <ul class="usermenu">
-                                 @if(isset($user))
-                                    <li><a href="register={{$user->userID}}" class="log">{{$user->username}}</a></li> 
-                                    <li><a href="/logout" class="reg" >LogOut</a></li>
-                                 @else
-                                    <li><a href="login" class="log">Login</a></li>
-                                    <li><a href="register" class="reg">Register</a></li>
-                                 @endif     
-                              </ul>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="clearfix"></div>
-                     <div class="header_bottom">
-                        <ul class="option">
-                           <li id="search" class="search">
-                              <form><input class="search-submit" type="submit" value=""><input class="search-input" placeholder="Enter your search term..." type="text" value="" name="search"></form>
-                           </li>
-                           <li class="option-cart">
-                              <a href="#" class="cart-icon">cart <span class="cart_no" id="cart_no">{{Cookie::get('amount') < 10 ? '0'.Cookie::get('amount') : Cookie::get('amount')}}</span></a>
-                              <ul class="option-cart-item"> 
-                                 <div class="list-order">
-                                    <?php                                                             
-                                       $list_order = App\Order::where('userID',Auth::check() ? Auth::id() : Cookie::get('user_ip'))->where('isActive',1)->orderBy('orderID','desc')->limit(Cookie::get('amount'))->get();                                             
-                                       $total = 0;
-                                       foreach($list_order as $order){
-                                          $prd = App\Product::find($order->productID);
-                                          $total+= $prd->price;
-                                          ?>
-                                             <li>
-                                                <div class="cart-item"><div class="image"><img src="{{$prd->pictures}}" alt=""></div>
-                                                   <div class="item-description">
-                                                      <p class="name">{{$prd->productname}}</p>
-                                                      <p>Size: <span class="light-red">One size</span><br>Quantity: <span class="light-red">01</span></p>
-                                                   </div>
-                                                   <div class="right"><p class="price" style="margin-top: -3em">${{$prd->price}}.00</p>
-                                                      <a href="/delete-order?id={{$order->orderID}}" class="remove"><img src="images/remove.png" alt="remove"></a>
-                                                   </div>
-                                                </div>
-                                             </li>
-                                          <?php
-                                       }                                                    
-                                    ?>                                     
-                                 </div>     
-                                 <div class="total-cart">
-                                    @if(count($list_order) > 0)                                  
-                                       <li><span class="total" style="margin-left: 56px;padding-top: 0px">Total <strong id="total">${{$total}}</strong></span><button class="login" onClick="location.href='/cart'" style="margin-top: 8px;float: right;">CheckOut</button></li>
-                                    @else
-                                       <li>Bạn Chưa Order Sản Phẩm Nào.</li>
-                                    @endif
-                                 </div>                                                               
-                              </ul>
-                           </li>
-                        </ul>
-                        <div class="navbar-header"><button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button></div>
-                        <div class="navbar-collapse collapse">
-                           <ul class="nav navbar-nav">
-                <li><a href="register={{Auth::user()->userID}}">Profile</a></li>
-                @if($user->typeofuser == 1)
-                  <li><a href="list-account">Account Manager</a></li>
-                @endif    
-                @if($user->typeofuser != 3)
-                  <li><a href="list-product">Product Manager</a></li>
-                @endif
-                <li><a href="list-order">Order Manager</a></li>                
-                           </ul>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>         
-     
+  @include('header_manager');   
   <section style="margin: 15px">
     <div class="container-fluid">
-      <h2 style="margin-bottom: 20px">List Order</h2>      
+      <h2 style="margin-bottom: 20px">Danh sách đơn hàng</h2>      
       @if($user->typeofuser != 4)
+        <a href="/list-order"><button class="btn btn-success">Tất cả</button></a>
         @if($user->typeofuser != 3)
           <a href="/list-order=0"><button class="btn btn-success">Chưa xác nhận</button></a>
         @endif
@@ -210,6 +98,8 @@
         </div>    
     @endif  
   </section>
+  <div class="clearfix"></div>
+  @include('footer');
   <script>
     $(document).ready(function(){     
       $('.bill').click(function(){

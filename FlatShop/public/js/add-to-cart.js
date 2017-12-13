@@ -26,7 +26,7 @@ $.getJSON('//freegeoip.net/json/?callback=?', function(data) {
             $('.cart_no').text(data.amount);
             if(data.status = "OK"){
                 var id = data['prd']['productID'];            
-                $('.button_group_'+id).html('<a href="/cart"><button class="button">Go to Cart</button></a><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button>');                                
+                $('.button_group_'+id).html('<a href="/cart"><button class="button">Giỏ hàng</button></a><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button>');                                
                 if(data.amount < 4){
                   $('ul.option-cart-item div.list-order').append('<li><div class="cart-item"><div class="image"><img src="'+data['prd']['pictures']+'" alt=""></div><div class="item-description"><p class="name">'+data['prd']['productname']+'</p><p>Size: <span class="light-red">One size</span><br>Quantity: <span class="light-red">01</span></p></div><div class="right"><p class="price" style="margin-top: -3em">$'+data['prd']['price']+'</p><a href="/delete-order?id='+data['orderID']+'" class="remove"><img src="images/remove.png" alt="remove"></a></div></div></li>');                  
                   var string = $('#total').text();   
@@ -34,7 +34,7 @@ $.getJSON('//freegeoip.net/json/?callback=?', function(data) {
                     string = '$0';
                   }                  
                   var total = parseInt(string.substr(1,string.length-1))+data['prd']['price'];                                 
-                  $('ul.option-cart-item div.total-cart').html('<li><span class="total" style="margin-left: 56px;padding-top: 0px">Total <strong id="total">$'+total+'.00</strong></span><a href="/cart"><button class="checkout" style="margin-top: 8px">CheckOut</button></a></li>');
+                  $('ul.option-cart-item div.total-cart').html('<li><span class="total" style="margin-left: 56px;padding-top: 0px">Tổng : <strong id="total">$'+total+'.00</strong></span><a href="/cart"><button class="checkout" style="margin-top: 8px">Giỏ hàng</button></a></li>');
                 }
             }            
           }
