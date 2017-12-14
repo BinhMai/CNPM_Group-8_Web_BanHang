@@ -646,27 +646,36 @@
             </div>
           </div>
           <script type="text/javascript">
-            $(document).ready(function(){
+            $(document).ready(function(){          
               $('#pay').click(function(){
-                var type = {{$type}}
-                if(type == 0){
-                     if(confirm('Bạn có muốn đăng nhập?')){
-                        document.location = '/login';   
-                     }else{
-                        $('#openModal').click();
-                     }
-                  }else{       
-                    alert("Đặt Hàng Thành Công.");             
-                    var total = {{$total}};
-                    $.ajax({
-                      type : 'GET',
-                      url  : '/add-bill', 
-                      data: {total:total},                     
-                      success:  function(result)
-                      {        
-                          document.location = '/mail='+result;                        
-                      }
-                     });                     
+                var total = '{{$total}}'; 
+                if(total == '0'){
+                  alert('Bạn chưa mua hàng');
+                }else{
+                  var type = {{$type}}
+                  if(type == 0){
+                       if(confirm('Bạn có muốn đăng nhập?')){
+                          document.location = '/login';   
+                       }else{
+                          $('#openModal').click();
+                       }
+                    }else{       
+                      alert("Đặt Hàng Thành Công.");             
+                      var total = {{$total}};
+                      $.ajax({
+                        beforeSend: function () {
+                            $('.close').click();
+                            $('body').html('<body style="style="background: #434343"><h2 align="center">Đang xử lý ...</h2></body>');                          
+                        },
+                        type : 'GET',
+                        url  : '/add-bill', 
+                        data: {total:total},                     
+                        success:  function(result)
+                        {        
+                            document.location = '/mail='+result;                        
+                        }
+                       });                     
+                    }
                   }
                 return false;
               });
@@ -747,6 +756,10 @@
                   var data = $('#update_user').serialize()+'&total='+total;
                   alert("Đặt Hàng Thành Công.");                                    
                   $.ajax({
+                      beforeSend: function () {
+                          $('.close').click();
+                          $('body').html('<body style="style="background: #434343"><h2 align="center">Đang xử lý ...</h2></body>');                          
+                      },
                       type : 'POST',
                       url  : '/add-bill?id='+id,
                       data : data,                                        
