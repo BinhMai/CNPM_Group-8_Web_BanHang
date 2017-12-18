@@ -29,7 +29,9 @@
   @include('header_manager');	 
 	<section style="margin: 15px">		
 			<h2 style="margin-bottom: 10px">Danh Sách Sản Phẩm</h2>	
+      @if($user->typeofuser == 1 || $user->typeofuser == 2)
 			<button id="add" class="btn btn-success" data-toggle="modal" data-target="#addproduct"  style="float: right;margin-right: 17px;"><span class="glyphicon glyphicon-plus"></span></button>
+      @endif
 			<form style="float:right; margin-right: 5px;margin-bottom: 10px">
 				<input class="search-submit" type="submit" value=""><input class="search" placeholder="Search product..." type="text" value="" name="search">
 			</form>
