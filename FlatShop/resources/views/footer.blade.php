@@ -6,26 +6,26 @@
                <div class="footer-logo"><a href="#"><img src="images/logo.png" alt=""></a></div>
             </div>
             <div class="col-md-3 col-sm-6">
-               <h4 class="title">Contact <strong>Info</strong></h4>
-               <p>No. 08, Nguyen Trai, Hanoi , Vietnam</p>
-               <p>Call Us : (084) 1900 1008</p>
-               <p>Email : michael@leebros.us</p>
+               <h4 class="title" style="font-family: sans-serif;">Thông tin <strong> Liên hệ</strong></h4>
+               <p>Số 08, Nguyễn Trãi, Hà Nội , Việt Nam</p>
+               <p>Số điện thoại : (084) 1900 1008</p>
+               <p>Email : flatshop@gmail.com</p>
             </div>
             <div class="col-md-3 col-sm-6">
-               <h4 class="title">Customer<strong> Support</strong></h4>
+               <h4 class="title" style="font-family: sans-serif;">Hỗ trợ<strong> Khách hàng</strong></h4>
                <ul class="support">
                   <li><a href="#">FAQ</a></li>
-                  <li><a href="#">Payment Option</a></li>
-                  <li><a href="#">Booking Tips</a></li>
-                  <li><a href="#">Infomation</a></li>
+                  <li><a href="#">Phương thức thanh toán</a></li>
+                  <li><a href="#">Mẹo đặt hàng</a></li>
+                  <li><a href="#">Thông tin</a></li>
                </ul>
             </div>
             <div class="col-md-3">
-               <h4 class="title">Get Our <strong>Newsletter </strong></h4>
-               <p>Lorem ipsum dolor ipsum dolor.</p>
+               <h4 class="title" style="font-family: sans-serif;">Nhận <strong>Bản tin</strong></h4>
+               <p>Vui lòng nhập địa chỉ email của bạn tại đây.</p>
                <form class="newsletter">
-				<input type="text" name="" placeholder="Type your email....">
-				<input type="submit" value="SignUp" class="button">
+				<input type="text" name="" placeholder="Email của bạn....">
+				<input type="submit" value="Đăng ký" class="button">
 			</form>
             </div>
          </div>
@@ -35,7 +35,7 @@
       <div class="container">
          <div class="row">
             <div class="col-md-6">
-               <p>Copyright © 2012. Designed by <a href="#">Michael Lee</a>. All rights reseved</p>
+               <p>Copyright © 2012. Designed by <a href="#">Flatshop</a>.</p>
             </div>
             <div class="col-md-6">
                <ul class="social-icon">

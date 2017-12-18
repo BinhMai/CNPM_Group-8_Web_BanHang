@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="images/favicon.png">
     <title>
-      Welcome to FlatShop
+      Chào mừng đến FlatShop
     </title>
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,700,500italic,100italic,100' rel='stylesheet' type='text/css'>
@@ -39,126 +39,126 @@
             <div class="col-md-3">
               <div class="special-deal leftbar" style="margin-top:0;">
                 <h4 class="title">
-                  Special 
                   <strong>
-                    Deals
+                    Ưu đãi 
                   </strong>
+                   Đặc biệt
                 </h4>
                 <div class="special-item">
                   <div class="product-image">
                     <a href="details">
-                      <img src="images/products/thum/products-01.png" alt="">
+                      <img src="images1/products/thum/products-01.png" alt="">
                     </a>
                   </div>
                   <div class="product-info">
                     <p>
                       <a href="details">
-                        Licoln Corner Unit
+                        Váy ngắn tay
                       </a>
                     </p>
                     <h5 class="price">
-                      $300.00
+                      100.000đ
                     </h5>
                   </div>
                 </div>
                 <div class="special-item">
                   <div class="product-image">
                     <a href="details">
-                      <img src="images/products/thum/products-02.png" alt="">
+                      <img src="images1/products/thum/products-02.png" alt="">
                     </a>
                   </div>
                   <div class="product-info">
                     <p>
                       <a href="details">
-                        Licoln Corner Unit
+                        Váy nalio
                       </a>
                     </p>
                     <h5 class="price">
-                      $300.00
+                      100.000đ
                     </h5>
                   </div>
                 </div>
                 <div class="special-item">
                   <div class="product-image">
                     <a href="details">
-                      <img src="images/products/thum/products-03.png" alt="">
+                      <img src="images1/products/thum/products-03.png" alt="">
                     </a>
                   </div>
                   <div class="product-info">
                     <p>
                       <a href="details">
-                        Licoln Corner Unit
+                        Đầm hitte
                       </a>
                     </p>
                     <h5 class="price">
-                      $300.00
+                      120.000đ
                     </h5>
                   </div>
                 </div>
               </div>
               <div class="product-tag leftbar">
                 <h3 class="title">
-                  Products 
                   <strong>
-                    Tags
+                    Thẻ
                   </strong>
+                   Sản phẩm
                 </h3>
                 <ul>
                   <li>
                     <a href="#">
-                      Lincoln us
+                      Aó khoác đẹp
                     </a>
                   </li>
                   <li>
                     <a href="#">
-                      SDress for Girl
+                      Sale lớn
                     </a>
                   </li>
                   <li>
                     <a href="#">
-                      Corner
+                      FlatShop
                     </a>
                   </li>
                   <li>
                     <a href="#">
-                      Window
+                      Mẫu mới
                     </a>
                   </li>
                   <li>
                     <a href="#">
-                      PG
+                      Chất liệu đẹp
                     </a>
                   </li>
                   <li>
                     <a href="#">
-                      Oscar
+                      Cửa hàng FlatShop
                     </a>
                   </li>
                   <li>
                     <a href="#">
-                      Bath room
+                      Gía rẻ
                     </a>
                   </li>
                   <li>
                     <a href="#">
-                      PSD
+                      Hàng mới về
                     </a>
                   </li>
                 </ul>
               </div>
               <div class="get-newsletter leftbar">
                 <h3 class="title">
-                  Get 
+                  Nhận
                   <strong>
-                    newsletter
+                    Bản tin
                   </strong>
                 </h3>
                 <p>
-                  Casio G Shock Digital Dial Black.
+                  Các loại mặt hàng mới về.
                 </p>
                 <form>
-                  <input class="email" type="text" name="" placeholder="Your Email...">
-                  <input class="submit" type="submit" value="Submit">
+                  <input class="email" type="text" name="" placeholder="Email của bạn...">
+                  <input class="submit" type="submit" value="Gửi">
                 </form>
               </div>
             </div>              
@@ -167,12 +167,12 @@
                 <ol class="login-steps">
                   <li class="steps">
                     <div class="step-title">
-                      01. login opition
+                      01. Tùy chọn đăng nhập
                     </div>
                   </li>
                   <li class="steps active">
                     <a href="login" class="step-title">
-                      02. billing information
+                      02. Thông tin thanh toán
                     </a>
                     <div class="step-description" style="padding: 40px">                      
                       <form action="@php 
@@ -323,7 +323,7 @@
                                   </div> 
                                 @endif                             
                               <button type="submit" style="float: right;position: absolute;top: 365px;right: 16px">
-                                Continue
+                                Tiếp tục
                               </button>                              
                             </div>
                           </div>
@@ -333,22 +333,22 @@
                   </li>
                   <li class="steps">
                     <a href="register" class="step-title">
-                      03. Shipping information
+                      03. Thông tin vận chuyển
                     </a>
                   </li>
                   <li class="steps">
                     <a href="#" class="step-title">
-                      04. shipping method 
+                      04. Phương thức vận chuyển 
                     </a>
                   </li>
                   <li class="steps">
                     <a href="#" class="step-title">
-                      05. payment information 
+                      05. Thông tin sau khi thanh toán 
                     </a>
                   </li>
                   <li class="steps">
                     <a href="#" class="step-title">
-                      06. oder review
+                      06. Xem lại
                     </a>
                   </li>
                 </ol>
@@ -358,11 +358,11 @@
           <div class="clearfix">
           </div>
           <div class="our-brand">
-            <h3 class="title">
+            <h3 class="title" style="font-family: sans-serif;">
               <strong>
-                Our 
+                Nhãn hiệu
               </strong>
-              Brands
+               của chúng tôi
             </h3>
             <div class="control">
               <a id="prev_brand" class="prev" href="#">
@@ -457,118 +457,7 @@
       </div>
       <div class="clearfix">
       </div>
-      <div class="footer">
-        <div class="footer-info">
-          <div class="container">
-            <div class="row">
-              <div class="col-md-3">
-                <div class="footer-logo">
-                  <a href="#">
-                    <img src="images/logo.png" alt="">
-                  </a>
-                </div>
-              </div>
-              <div class="col-md-3 col-sm-6">
-                <h4 class="title">
-                  Contact 
-                  <strong>
-                    Info
-                  </strong>
-                </h4>
-                <p>
-                  No. 08, Nguyen Trai, Hanoi , Vietnam
-                </p>
-                <p>
-                  Call Us : (084) 1900 1008
-                </p>
-                <p>
-                  Email : michael@leebros.us
-                </p>
-              </div>
-              <div class="col-md-3 col-sm-6">
-                <h4 class="title">
-                  Customer
-                  <strong>
-                    Support
-                  </strong>
-                </h4>
-                <ul class="support">
-                  <li>
-                    <a href="#">
-                      FAQ
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      Payment Option
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      Booking Tips
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      Infomation
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div class="col-md-3">
-                <h4 class="title">
-                  Get Our 
-                  <strong>
-                    Newsletter 
-                  </strong>
-                </h4>
-                <p>
-                  Lorem ipsum dolor ipsum dolor.
-                </p>
-                <form class="newsletter">
-                  <input type="text" name="" placeholder="Type your email....">
-                  <input type="submit" value="SignUp" class="button">
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="copyright-info">
-          <div class="container">
-            <div class="row">
-              <div class="col-md-6">
-                <p>
-                  Copyright © 2012. Designed by 
-                  <a href="#">
-                    Michael Lee
-                  </a>
-                  . All rights reseved
-                </p>
-              </div>
-              <div class="col-md-6">
-                <ul class="social-icon">
-                  <li>
-                    <a href="#" class="linkedin">
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" class="google-plus">
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" class="twitter">
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" class="facebook">
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      @include('footer');
     </div>
     <!-- Bootstrap core JavaScript==================================================-->
     <script type="text/javascript">

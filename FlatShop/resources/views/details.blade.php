@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="images/favicon.png">
     <title>
-      Welcome to FlatShop
+      Chào mừng đến FlatShop
     </title>
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,700,500italic,100italic,100' rel='stylesheet' type='text/css'>
@@ -71,21 +71,21 @@
                   <p>
                     <img alt="" src="images/star.png">
                     <a class="review_num" href="#">
-                      02 Review(s)
+                      02 Đánh giá
                     </a>
                   </p>
                   <p>
-                    Availability:
+                    Tình trạng:
                     <?php if($product->quantuminstock >0) {
                     ?>
                     <span class=" light-red">
-                      In Stock
+                      Còn hàng
                     </span>
                     <?php 
                       }else{
                     ?>
                      <span class=" light-red">
-                      Out of Stock
+                      Hết hàng
                     </span><?php } ?>
                   </p>
                   <p>
@@ -94,7 +94,7 @@
                   </p>
                   <hr class="border">
                   <div class="price">
-                    Price : 
+                    Gía : 
                     <span class="new_price">
                       {{$product->price}}
                       <sup>
@@ -111,7 +111,7 @@
                   <hr class="border">
                   <div class="wided">
                     <div class="qty">
-                      Qty &nbsp;&nbsp;: 
+                      Số lượng &nbsp;&nbsp;: 
                       <select>
                         <option>
                           1
@@ -149,17 +149,17 @@
                   <ul>
                     <li>
                       <a href="#Descraption">
-                        DESCRIPTION
+                        Mô tả
                       </a>
                     </li>
                     <li>
                       <a href="#Reviews">
-                        REVIEW
+                        Đánh giá
                       </a>
                     </li>
                     <li>
                       <a href="#tags">
-                        PRODUCT TAGS
+                        Thẻ sản phẩm
                       </a>
                     </li>
                   </ul>
@@ -180,26 +180,26 @@
                               &nbsp;
                             </th>
                             <th>
-                              1 star
+                              1 sao
                             </th>
                             <th>
-                              2 stars
+                              2 sao
                             </th>
                             <th>
-                              3 stars
+                              3 sao
                             </th>
                             <th>
-                              4 stars
+                              4 sao
                             </th>
                             <th>
-                              5 stars
+                              5 sao
                             </th>
                           </tr>
                         </thead>
                         <tbody>
                           <tr>
                             <td>
-                              Quality
+                              Chất lượng
                             </td>
                             <td>
                               <input type="radio" name="quality" value="Blue"/>
@@ -219,7 +219,7 @@
                           </tr>
                           <tr>
                             <td>
-                              Price
+                              Gía
                             </td>
                             <td>
                               <input type="radio" name="price" value="">
@@ -239,7 +239,7 @@
                           </tr>
                           <tr>
                             <td>
-                              Value
+                              Gía trị
                             </td>
                             <td>
                               <input type="radio" name="value" value="">
@@ -263,7 +263,7 @@
                         <div class="col-md-6 col-sm-6">
                           <div class="form-row">
                             <label class="lebel-abs">
-                              Your Name 
+                              Tên của bạn
                               <strong class="red">
                                 *
                               </strong>
@@ -272,7 +272,7 @@
                           </div>
                           <div class="form-row">
                             <label class="lebel-abs">
-                              Your Email 
+                              Email của bạn
                               <strong class="red">
                                 *
                               </strong>
@@ -281,7 +281,7 @@
                           </div>
                           <div class="form-row">
                             <label class="lebel-abs">
-                              Summary of You Review 
+                              Nhận xét của bạn 
                               <strong class="red">
                                 *
                               </strong>
@@ -292,7 +292,7 @@
                         <div class="col-md-6 col-sm-6">
                           <div class="form-row">
                             <label class="lebel-abs">
-                              Your Name 
+                              Tên của bạn 
                               <strong class="red">
                                 *
                               </strong>
@@ -322,13 +322,13 @@
                         </i>
                       </p>
                       <h5 class="reviewer">
-                        Reviewer name
+                        Tên người đánh giá
                       </h5>
                       <p class="review-date">
-                        Date: 01-01-2014
+                        Date: 26-12-2017
                       </p>
                       <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer a eros neque. In sapien est, malesuada non interdum id, cursus vel neque.
+                        Gía cả hợp lý, chất lượng tốt.
                       </p>
                     </div>
                     <div class="review">
@@ -345,19 +345,19 @@
                         </i>
                       </p>
                       <h5 class="reviewer">
-                        Reviewer name
+                        Tên người đánh giá
                       </h5>
                       <p class="review-date">
-                        Date: 01-01-2014
+                        Date: 26-12-2017
                       </p>
                       <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer a eros neque. In sapien est, malesuada non interdum id, cursus vel neque.
+                        Shop nhanh lấy thêm hàng đi ạ. Mẫu đẹp quá!!!!
                       </p>
                     </div>
                   </div>
                   <div class="tab-content" id="tags">
                     <div class="tag">
-                      Add Tags : 
+                      Thêm từ khóa : 
                       <input type="text" name="">
                       <input type="submit" value="Tag">
                     </div>
@@ -368,10 +368,10 @@
               </div>
               <div id="productsDetails" class="hot-products">
                 <h3 class="title">
+                  Sản phẩm
                   <strong>
                     Hot
                   </strong>
-                  Products
                 </h3>
                 <div class="control">
                   <a id="prev_hot" class="prev" href="#">
@@ -391,7 +391,7 @@
                            <div class="col-md-3 col-sm-6">
                               <div class="products">
                                 
-                                 <div class="offer">new</div>
+                                 <div class="offer">Mới</div>
                                  <div class="thumbnail"><a href="details={{$pr[$i]['productID']}}"><img src="{{$pr[$i]['pictures']}}" alt="Product Name"></a></div>
                                  <div class="productname">{{$pr[$i]['productname']}}</div>
                                  <h4 class="price">${{$pr[$i]['price']}}</h4>                                 
@@ -427,10 +427,10 @@
             <div class="col-md-3">
               <div class="special-deal leftbar">
                 <h4 class="title">
-                  Special 
                   <strong>
-                    Deals
+                    Ưu đãi 
                   </strong>
+                   Đặc biệt
                 </h4>
                 @foreach($pro_category as $pro)                
                 <div class="special-item">
@@ -454,50 +454,50 @@
               </div>
               <div class="product-tag leftbar">
                 <h3 class="title">
-                  Products 
                   <strong>
-                    Tags
+                    Thẻ
                   </strong>
+                   Sản Phẩm
                 </h3>
                 <ul>
                   <li>
                     <a href="#">
-                      Lincoln us
+                      Aó khoác đẹp
                     </a>
                   </li>
                   <li>
                     <a href="#">
-                      SDress for Girl
+                      Sale lớn
                     </a>
                   </li>
                   <li>
                     <a href="#">
-                      Corner
+                      Mẫu mới
                     </a>
                   </li>
                   <li>
                     <a href="#">
-                      Window
+                      FlatShop
                     </a>
                   </li>
                   <li>
                     <a href="#">
-                      PG
+                      Chất liệu đẹp
                     </a>
                   </li>
                   <li>
                     <a href="#">
-                      Oscar
+                      Gía rẻ
                     </a>
                   </li>
                   <li>
                     <a href="#">
-                      Bath room
+                      Cửa hàng FlatShop
                     </a>
                   </li>
                   <li>
                     <a href="#">
-                      PSD
+                      Hàng mới về
                     </a>
                   </li>
                 </ul>
@@ -506,17 +506,17 @@
               </div>
               <div class="get-newsletter leftbar">
                 <h3 class="title">
-                  Get 
+                  Nhận
                   <strong>
-                    newsletter
+                    bản tin
                   </strong>
                 </h3>
                 <p>
-                  Casio G Shock Digital Dial Black.
+                  Các loại mặt hàng mới về.
                 </p>
                 <form>
-                  <input class="email" type="text" name="" placeholder="Your Email...">
-                  <input class="submit" type="submit" value="Submit">
+                  <input class="email" type="text" name="" placeholder="Email của bạn...">
+                  <input class="submit" type="submit" value="Gửi">
                 </form>
               </div>
               <div class="clearfix">
@@ -531,7 +531,7 @@
                   </a>
                 </span>
                 <p>
-                  12k people like Flat Shop.
+                  12k người thích Flat Shop.
                 </p>
                 <ul>
                   <li>
@@ -572,7 +572,7 @@
                     <span>
                       <img src="images/fbicon.png" alt="">
                     </span>
-                    Facebook social plugin
+                    Liên kết với Facebook
                   </a>
                 </div>
               </div>
@@ -583,11 +583,11 @@
           <div class="clearfix">
           </div>
           <div class="our-brand">
-            <h3 class="title">
+            <h3 class="title" style="font-family: sans-serif;">
               <strong>
-                Our 
+                Nhãn hiệu 
               </strong>
-              Brands
+              của chúng tôi
             </h3>
             <div class="control">
               <a id="prev_brand" class="prev" href="#">
@@ -682,118 +682,7 @@
       </div>
       <div class="clearfix">
       </div>
-      <div class="footer">
-        <div class="footer-info">
-          <div class="container">
-            <div class="row">
-              <div class="col-md-3">
-                <div class="footer-logo">
-                  <a href="#">
-                    <img src="images/logo.png" alt="">
-                  </a>
-                </div>
-              </div>
-              <div class="col-md-3 col-sm-6">
-                <h4 class="title">
-                  Contact 
-                  <strong>
-                    Info
-                  </strong>
-                </h4>
-                <p>
-                  No. 08, Nguyen Trai, Hanoi , Vietnam
-                </p>
-                <p>
-                  Call Us : (084) 1900 1008
-                </p>
-                <p>
-                  Email : michael@leebros.us
-                </p>
-              </div>
-              <div class="col-md-3 col-sm-6">
-                <h4 class="title">
-                  Customer
-                  <strong>
-                    Support
-                  </strong>
-                </h4>
-                <ul class="support">
-                  <li>
-                    <a href="#">
-                      FAQ
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      Payment Option
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      Booking Tips
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      Infomation
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div class="col-md-3">
-                <h4 class="title">
-                  Get Our 
-                  <strong>
-                    Newsletter 
-                  </strong>
-                </h4>
-                <p>
-                  Lorem ipsum dolor ipsum dolor.
-                </p>
-                <form class="newsletter">
-                  <input type="text" name="" placeholder="Type your email....">
-                  <input type="submit" value="SignUp" class="button">
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="copyright-info">
-          <div class="container">
-            <div class="row">
-              <div class="col-md-6">
-                <p>
-                  Copyright © 2012. Designed by 
-                  <a href="#">
-                    Michael Lee
-                  </a>
-                  . All rights reseved
-                </p>
-              </div>
-              <div class="col-md-6">
-                <ul class="social-icon">
-                  <li>
-                    <a href="#" class="linkedin">
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" class="google-plus">
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" class="twitter">
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" class="facebook">
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      @include('footer');    
     </div>
     <script type="text/javascript">
          $(document).ready(function(){            
