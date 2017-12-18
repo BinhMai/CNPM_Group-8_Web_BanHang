@@ -83,69 +83,92 @@
          <div class="clearfix"></div>
          <div class="container_fullwidth">
             <div class="container">
-              
+               <?php 
+                  $category = App\Category::all();                          
+               ?>                               
+               @foreach($category as $cate)               
                <div class="clearfix"></div>
                <div class="featured-products">
-                  <h3 class="title" style="font-family: sans-serif">Sản phẩm<strong> Nổi bật</strong> </h3>
-                  <div class="control"><a id="prev_featured" class="prev" href="#">&lt;</a><a id="next_featured" class="next" href="#">&gt;</a></div>
-                  <ul id="featured">
+                  @if($cate->categoryID == 4 || $cate->categoryID == 5)
+                     <h3 class="title"><strong>{{$cate->name_tv}}</strong></h3>
+                  @else
+                     <h3 class="title"><strong>Thời Trang </strong> {{$cate->name_tv}}</h3>
+                  @endif
+                  <div class="control">
+                     <a id="prev_featured_{{$cate->categoryID}}" class="prev" href="#">&lt;</a>
+                     <a id="next_featured_{{$cate->categoryID}}" class="next" href="#">&gt;</a>
+                  </div>
+                  <ul id="featured_{{$cate->categoryID}}">
                      <li>
                         <div class="row">
-                            <?php 
-                              $pr = App\Product::orderBy('productID','desc')->where('isActive',1)->get();
+                            <?php                                                       
+                              $product = App\Category::find($cate->categoryID)->product()->orderBy('productID','desc')->where('isActive',1)->limit(4)->get();                              
                               if(Auth::check()) $id = Auth::id(); else $id = Cookie::get('user_ip');    
-                              $ls_order = App\Order::orderBy('orderID','desc')->where('userID',$id)->limit(Cookie::get('amount'))->get();                                    
-                              for($i=0;$i<12;$i++){
+                              $ls_order = App\Order::orderBy('orderID','desc')->where('userID',$id)->limit(Cookie::get('amount'))->get();                             
                            ?>
+                           @foreach($product as $prd)
                            <div class="col-md-3 col-sm-6">
                               <div class="products">
                                 
-                                 <div class="offer">Mới</div>
-                                 <div class="thumbnail" style="margin: 32px 0 5px 0"><a href="details={{$pr[$i]['productID']}}"><img src="{{$pr[$i]['pictures']}}" alt="Product Name" style="height: 115%;max-width:92%;margin-top:-35px;"></a></div>
-                                 <div class="productname">{{$pr[$i]['productname']}}</div>
-                                 <h4 class="price">${{$pr[$i]['price']}}</h4>
+                                 <div class="offer">Mới</div>
+                                 <div class="thumbnail" style="margin: 32px 0 5px 0"><a href="details={{$prd->productID}}"><img src="{{$prd->pictures}}" alt="Product Name" style="height: 115%;max-width:92%;margin-top:-35px;"></a></div>
+                                 <div class="productname">{{$prd->productname}}</div>
+                                 <h4 class="price">${{$prd->price}}</h4>
 
                                  <?php   
                                     $check = false;
                                     foreach ($ls_order as $order) {
-                                       if($order->productID == (int)$pr[$i]['productID'])
+                                       if($order->productID == (int)$prd->productID)
                                           $check = true;
                                     }                                                                   
                                  ?>                                 
                                  @if($check == true)
-                                    <div class="button_group_{{$pr[$i]['productID']}}"><a href="/cart"><button class="button" style="margin-left: 25px">Giỏ hàng</button></a><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
+                                    <div class="button_group_{{$prd->productID}}"><a href="/cart"><button class="button" style="margin-left: 25px">Giỏ hàng</button></a><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
                                  @else
-                                    <div class="button_group_{{$pr[$i]['productID']}}"><button class="button add-cart" id="order_{{$pr[$i]['productID']}}" type=" button">Mua</button><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
+                                    <div class="button_group_{{$prd->productID}}"><button class="button add-cart" id="order_{{$prd->productID}}" type=" button">Mua</button><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
+                                 @endif
+                              </div>
+                           </div> 
+                           @endforeach
+                        </div>
+                     </li>
+                     <li>                        
+                        <div class="row">
+                            <?php                              
+                              $prds = App\Category::find($cate->categoryID)->product()->orderBy('productID','desc')->where('isActive',1)->get();                                              
+                              if(count($prds) < 8)
+                                 $limit = count($prds);
+                              else
+                                 $limit = 8;
+                              for($i=4;$i<$limit;$i++){                                 
+                           ?>
+                            <div class="col-md-3 col-sm-6">
+                              <div class="products">
+                                 <div class="offer">Mới</div>
+                                 <div class="thumbnail"><a href="details"><img src="{{$prds[$i]->pictures}}" alt="Product Name"></a></div>
+                                 <div class="productname">{{$prds[$i]->productname}}</div>
+                                 <h4 class="price">${{$prds[$i]->price}}</h4>
+
+                                 <?php   
+                                    $check = false;
+                                    foreach ($ls_order as $order) {
+                                       if($order->productID == (int)$prds->productID)
+                                          $check = true;
+                                    }                                                                   
+                                 ?>                                 
+                                 @if($check == true)
+                                    <div class="button_group_{{$prds[$i]->productID}}"><a href="/cart"><button class="button" style="margin-left: 25px">Giỏ hàng</button></a><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
+                                 @else
+                                    <div class="button_group_{{$prds[$i]->productID}}"><button class="button add-cart" id="order_{{$prds[$i]->productID}}" type=" button">Mua</button><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
                                  @endif
                               </div>
                            </div> 
                            <?php } ?>
-                        </div>
-                     </li>
-                     <li>
-                        <div class="row">
-                            <?php 
-                              if(count($pr) < 23)
-                                 $limit = count($pr);
-                              else
-                                 $limit = 23;
-                                for($i=12;$i<$limit;$i++){
-                           ?>
-                           <div class="col-md-3 col-sm-6">
-                              <div class="products">
-                                
-                                 <div class="offer">Mới</div>
-                                 <div class="thumbnail"><a href="details"><img src="{{$pr[$i]['pictures']}}" alt="Product Name"></a></div>
-                                 <div class="productname">{{$pr[$i]['productname']}}</div>
-                                 <h4 class="price">${{$pr[$i]['price']}}</h4>
-                                 <div class="button_group"><button class="button add-cart" type="button">Thêm vào giỏ hàng</button><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
-                              </div>
-                           </div> 
-                           <?php } ?>
-                        </div>
+                        </div>                        
                      </li>
                   </ul>
                </div>
+               @endforeach
                <div class="clearfix"></div>
                <div class="our-brand">
                   <h3 class="title" style="font-family: sans-serif;"><strong>Nhãn hiệu </strong>của chúng tôi</h3>
@@ -227,13 +250,13 @@
          });
       </script>
       <!-- Bootstrap core JavaScript==================================================-->
-	  <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
-	  <script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
-	  <script type="text/javascript" src="js/bootstrap.min.js"></script>
-	  <script type="text/javascript" src="js/jquery.sequence-min.js"></script>
-	  <script type="text/javascript" src="js/jquery.carouFredSel-6.2.1-packed.js"></script>
-	  <script defer src="js/jquery.flexslider.js"></script>
-	  <script type="text/javascript" src="js/script.min.js" ></script>
+     <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+     <script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
+     <script type="text/javascript" src="js/bootstrap.min.js"></script>
+     <script type="text/javascript" src="js/jquery.sequence-min.js"></script>
+     <script type="text/javascript" src="js/jquery.carouFredSel-6.2.1-packed.js"></script>
+     <script defer src="js/jquery.flexslider.js"></script>
+     <script type="text/javascript" src="js/script.min.js" ></script>
      <script type="text/javascript" src="js/add-to-cart.js"></script>
    </body>
 </html>
