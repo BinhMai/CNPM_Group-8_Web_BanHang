@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="images/favicon.png">
     <title>
-      Welcome to FlatShop
+      Chào mừng đến FlatShop
     </title>
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,700,500italic,100italic,100' rel='stylesheet' type='text/css'>
@@ -34,7 +34,7 @@
           <div class="row">
             <div class="col-md-12">
               <h3 class="title">
-                Shopping Cart
+                Giỏ hàng
               </h3>
               <div class="clearfix">
               </div>
@@ -42,22 +42,22 @@
                 <thead>
                   <tr>
                     <th>
-                      Image
+                      Hình ảnh
                     </th>
                     <th>
-                      Dtails
+                      Chi tiết
                     </th>
                     <th>
-                      Price
+                      Gía
                     </th>
                     <th>
-                      Quantity
+                      Số lượng
                     </th>
                     <th>
-                      Price
+                      Gía
                     </th>
                     <th>
-                      Delete
+                      Xóa
                     </th>
                   </tr>
                 </thead>
@@ -78,16 +78,16 @@
                               <div class="productname">{{$prd->productname}}</div>
                               <p>
                                 <img alt="" src="images/star.png">
-                                <a class="review_num" href="#">02 Review(s)</a>
+                                <a class="review_num" href="#">02 Đánh giá</a>
                               </p>
                               <div class="color-choser">
-                                <span class="text">Product Color : </span>
+                                <span class="text">Màu sản phẩm : </span>
                                 <ul>
                                   <li><a class="black-bg " href="#">black</a></li>
                                   <li><a class="red-bg" href="#">light red</a></li>
                                 </ul>
                               </div>
-                              <p>Product Code : <strong class="pcode">Dress 120</strong></p>
+                              <p>Mã sản phẩm : <strong class="pcode">Dress 120</strong></p>
                             </div>
                           </td>
                           <td><h5>${{$prd->price}}</h5></td>
@@ -112,7 +112,7 @@
                   <tr>
                     <td colspan="6">
                       <a href="/Trang-Chu"><button class="pull-left">
-                        Continue Shopping
+                        Tiếp tục mua hàng
                       </button></a>                      
                     </td>
                   </tr>
@@ -124,505 +124,17 @@
                 <div class="col-md-4 col-sm-6">
                   <div class="shippingbox">
                     <h5>
-                      Estimate Shipping And Tax
+                      Mã giảm giá
                     </h5>
                     <form>
                       <label>
-                        Select Country *
-                      </label>
-                      <select class="">
-                        <option value="AL">
-                          Alabama
-                        </option>
-                        <option value="AK">
-                          Alaska
-                        </option>
-                        <option value="AZ">
-                          Arizona
-                        </option>
-                        <option value="AR">
-                          Arkansas
-                        </option>
-                        <option value="CA">
-                          California
-                        </option>
-                        <option value="CO">
-                          Colorado
-                        </option>
-                        <option value="CT">
-                          Connecticut
-                        </option>
-                        <option value="DE">
-                          Delaware
-                        </option>
-                        <option value="DC">
-                          District Of Columbia
-                        </option>
-                        <option value="FL">
-                          Florida
-                        </option>
-                        <option value="GA">
-                          Georgia
-                        </option>
-                        <option value="HI">
-                          Hawaii
-                        </option>
-                        <option value="ID">
-                          Idaho
-                        </option>
-                        <option selected="" value="IL">
-                          Illinois
-                        </option>
-                        <option value="IN">
-                          Indiana
-                        </option>
-                        <option value="IA">
-                          Iowa
-                        </option>
-                        <option value="KS">
-                          Kansas
-                        </option>
-                        <option value="KY">
-                          Kentucky
-                        </option>
-                        <option value="LA">
-                          Louisiana
-                        </option>
-                        <option value="ME">
-                          Maine
-                        </option>
-                        <option value="MD">
-                          Maryland
-                        </option>
-                        <option value="MA">
-                          Massachusetts
-                        </option>
-                        <option value="MI">
-                          Michigan
-                        </option>
-                        <option value="MN">
-                          Minnesota
-                        </option>
-                        <option value="MS">
-                          Mississippi
-                        </option>
-                        <option value="MO">
-                          Missouri
-                        </option>
-                        <option value="MT">
-                          Montana
-                        </option>
-                        <option value="NE">
-                          Nebraska
-                        </option>
-                        <option value="NV">
-                          Nevada
-                        </option>
-                        <option value="NH">
-                          New Hampshire
-                        </option>
-                        <option value="NJ">
-                          New Jersey
-                        </option>
-                        <option value="NM">
-                          New Mexico
-                        </option>
-                        <option value="NY">
-                          New York
-                        </option>
-                        <option value="NC">
-                          North Carolina
-                        </option>
-                        <option value="ND">
-                          North Dakota
-                        </option>
-                        <option value="OH">
-                          Ohio
-                        </option>
-                        <option value="OK">
-                          Oklahoma
-                        </option>
-                        <option value="OR">
-                          Oregon
-                        </option>
-                        <option value="PA">
-                          Pennsylvania
-                        </option>
-                        <option value="RI">
-                          Rhode Island
-                        </option>
-                        <option value="SC">
-                          South Carolina
-                        </option>
-                        <option value="SD">
-                          South Dakota
-                        </option>
-                        <option value="TN">
-                          Tennessee
-                        </option>
-                        <option value="TX">
-                          Texas
-                        </option>
-                        <option value="UT">
-                          Utah
-                        </option>
-                        <option value="VT">
-                          Vermont
-                        </option>
-                        <option value="VA">
-                          Virginia
-                        </option>
-                        <option value="WA">
-                          Washington
-                        </option>
-                        <option value="WV">
-                          West Virginia
-                        </option>
-                        <option value="WI">
-                          Wisconsin
-                        </option>
-                        <option value="WY">
-                          Wyoming
-                        </option>
-                      </select>
-                      <label>
-                        State / Province *
-                      </label>
-                      <select class="">
-                        <option value="AL">
-                          Alabama
-                        </option>
-                        <option value="AK">
-                          Alaska
-                        </option>
-                        <option value="AZ">
-                          Arizona
-                        </option>
-                        <option value="AR">
-                          Arkansas
-                        </option>
-                        <option value="CA">
-                          California
-                        </option>
-                        <option value="CO">
-                          Colorado
-                        </option>
-                        <option value="CT">
-                          Connecticut
-                        </option>
-                        <option value="DE">
-                          Delaware
-                        </option>
-                        <option value="DC">
-                          District Of Columbia
-                        </option>
-                        <option value="FL">
-                          Florida
-                        </option>
-                        <option value="GA">
-                          Georgia
-                        </option>
-                        <option value="HI">
-                          Hawaii
-                        </option>
-                        <option value="ID">
-                          Idaho
-                        </option>
-                        <option selected="" value="IL">
-                          Illinois
-                        </option>
-                        <option value="IN">
-                          Indiana
-                        </option>
-                        <option value="IA">
-                          Iowa
-                        </option>
-                        <option value="KS">
-                          Kansas
-                        </option>
-                        <option value="KY">
-                          Kentucky
-                        </option>
-                        <option value="LA">
-                          Louisiana
-                        </option>
-                        <option value="ME">
-                          Maine
-                        </option>
-                        <option value="MD">
-                          Maryland
-                        </option>
-                        <option value="MA">
-                          Massachusetts
-                        </option>
-                        <option value="MI">
-                          Michigan
-                        </option>
-                        <option value="MN">
-                          Minnesota
-                        </option>
-                        <option value="MS">
-                          Mississippi
-                        </option>
-                        <option value="MO">
-                          Missouri
-                        </option>
-                        <option value="MT">
-                          Montana
-                        </option>
-                        <option value="NE">
-                          Nebraska
-                        </option>
-                        <option value="NV">
-                          Nevada
-                        </option>
-                        <option value="NH">
-                          New Hampshire
-                        </option>
-                        <option value="NJ">
-                          New Jersey
-                        </option>
-                        <option value="NM">
-                          New Mexico
-                        </option>
-                        <option value="NY">
-                          New York
-                        </option>
-                        <option value="NC">
-                          North Carolina
-                        </option>
-                        <option value="ND">
-                          North Dakota
-                        </option>
-                        <option value="OH">
-                          Ohio
-                        </option>
-                        <option value="OK">
-                          Oklahoma
-                        </option>
-                        <option value="OR">
-                          Oregon
-                        </option>
-                        <option value="PA">
-                          Pennsylvania
-                        </option>
-                        <option value="RI">
-                          Rhode Island
-                        </option>
-                        <option value="SC">
-                          South Carolina
-                        </option>
-                        <option value="SD">
-                          South Dakota
-                        </option>
-                        <option value="TN">
-                          Tennessee
-                        </option>
-                        <option value="TX">
-                          Texas
-                        </option>
-                        <option value="UT">
-                          Utah
-                        </option>
-                        <option value="VT">
-                          Vermont
-                        </option>
-                        <option value="VA">
-                          Virginia
-                        </option>
-                        <option value="WA">
-                          Washington
-                        </option>
-                        <option value="WV">
-                          West Virginia
-                        </option>
-                        <option value="WI">
-                          Wisconsin
-                        </option>
-                        <option value="WY">
-                          Wyoming
-                        </option>
-                      </select>
-                      <label>
-                        Zip / Post Code *
-                      </label>
-                      <select class="">
-                        <option value="AL">
-                          Alabama
-                        </option>
-                        <option value="AK">
-                          Alaska
-                        </option>
-                        <option value="AZ">
-                          Arizona
-                        </option>
-                        <option value="AR">
-                          Arkansas
-                        </option>
-                        <option value="CA">
-                          California
-                        </option>
-                        <option value="CO">
-                          Colorado
-                        </option>
-                        <option value="CT">
-                          Connecticut
-                        </option>
-                        <option value="DE">
-                          Delaware
-                        </option>
-                        <option value="DC">
-                          District Of Columbia
-                        </option>
-                        <option value="FL">
-                          Florida
-                        </option>
-                        <option value="GA">
-                          Georgia
-                        </option>
-                        <option value="HI">
-                          Hawaii
-                        </option>
-                        <option value="ID">
-                          Idaho
-                        </option>
-                        <option selected="" value="IL">
-                          Illinois
-                        </option>
-                        <option value="IN">
-                          Indiana
-                        </option>
-                        <option value="IA">
-                          Iowa
-                        </option>
-                        <option value="KS">
-                          Kansas
-                        </option>
-                        <option value="KY">
-                          Kentucky
-                        </option>
-                        <option value="LA">
-                          Louisiana
-                        </option>
-                        <option value="ME">
-                          Maine
-                        </option>
-                        <option value="MD">
-                          Maryland
-                        </option>
-                        <option value="MA">
-                          Massachusetts
-                        </option>
-                        <option value="MI">
-                          Michigan
-                        </option>
-                        <option value="MN">
-                          Minnesota
-                        </option>
-                        <option value="MS">
-                          Mississippi
-                        </option>
-                        <option value="MO">
-                          Missouri
-                        </option>
-                        <option value="MT">
-                          Montana
-                        </option>
-                        <option value="NE">
-                          Nebraska
-                        </option>
-                        <option value="NV">
-                          Nevada
-                        </option>
-                        <option value="NH">
-                          New Hampshire
-                        </option>
-                        <option value="NJ">
-                          New Jersey
-                        </option>
-                        <option value="NM">
-                          New Mexico
-                        </option>
-                        <option value="NY">
-                          New York
-                        </option>
-                        <option value="NC">
-                          North Carolina
-                        </option>
-                        <option value="ND">
-                          North Dakota
-                        </option>
-                        <option value="OH">
-                          Ohio
-                        </option>
-                        <option value="OK">
-                          Oklahoma
-                        </option>
-                        <option value="OR">
-                          Oregon
-                        </option>
-                        <option value="PA">
-                          Pennsylvania
-                        </option>
-                        <option value="RI">
-                          Rhode Island
-                        </option>
-                        <option value="SC">
-                          South Carolina
-                        </option>
-                        <option value="SD">
-                          South Dakota
-                        </option>
-                        <option value="TN">
-                          Tennessee
-                        </option>
-                        <option value="TX">
-                          Texas
-                        </option>
-                        <option value="UT">
-                          Utah
-                        </option>
-                        <option value="VT">
-                          Vermont
-                        </option>
-                        <option value="VA">
-                          Virginia
-                        </option>
-                        <option value="WA">
-                          Washington
-                        </option>
-                        <option value="WV">
-                          West Virginia
-                        </option>
-                        <option value="WI">
-                          Wisconsin
-                        </option>
-                        <option value="WY">
-                          Wyoming
-                        </option>
-                      </select>
-                      <div class="clearfix">
-                      </div>
-                      <button>
-                        Get A Qoute
-                      </button>
-                    </form>
-                  </div>
-                </div>
-                <div class="col-md-4 col-sm-6">
-                  <div class="shippingbox">
-                    <h5>
-                      Discount Codes
-                    </h5>
-                    <form>
-                      <label>
-                        Enter your coupon code if you have one
+                        Nhập mã phiếu giảm giá của bạn nếu bạn có
                       </label>
                       <input type="text" name="">
                       <div class="clearfix">
                       </div>
                       <button>
-                        Get A Qoute
+                        Nhận ưu đãi
                       </button>
                     </form>
                   </div>
@@ -631,7 +143,7 @@
                   <div class="shippingbox">                    
                     <div class="grandtotal">
                       <h5>
-                        GRAND TOTAL 
+                        Tổng Tiền 
                       </h5>
                       <span>
                         ${{$total}}

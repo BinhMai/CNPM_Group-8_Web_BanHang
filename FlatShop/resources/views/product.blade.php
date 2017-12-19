@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html>;;
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="images/favicon.png">
     <title>
-      Welcome to FlatShop
+      Chào mừng đến FlatShop
     </title>
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,700,500italic,100italic,100' rel='stylesheet' type='text/css'>
@@ -30,85 +30,20 @@
             <div class="col-md-3">
               <div class="category leftbar">
                 <h3 class="title">
-                  Categories
+                  Phân loại
                 </h3>
                 <ul>
-                  <li>
-                    <a href="#">
-                      Men
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      Women
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      Salon
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      New Trend
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      Living room
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      Bed room
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div class="clearfix">
-              </div>
-              <div class="branch leftbar">
-                <h3 class="title">
-                  Branch
-                </h3>
-                <ul>
-                  <li>
-                    <a href="#">
-                      New
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      Sofa
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      Salon
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      New Trend
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      Living room
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      Bed room
-                    </a>
-                  </li>
+                  <?php $ca=App\Category::get(); ?>
+                    @foreach($ca as $ca)
+                     <li><a href="{{$ca->url}}">{{$ca->name_tv}}</a></li>
+                      @endforeach
                 </ul>
               </div>
               <div class="clearfix">
               </div>
               <div class="price-filter leftbar">
                 <h3 class="title">
-                  Price
+                  Gía
                 </h3>
                 <form class="pricing">
                   <label>
@@ -122,14 +57,14 @@
                     $ 
                     <input type="number">
                   </label>
-                  <input type="submit" value="Go">
+                  <input type="submit" value="Đặt">
                 </form>
               </div>
               <div class="clearfix">
               </div>
               <div class="clolr-filter leftbar">
                 <h3 class="title">
-                  Color
+                  Màu sắc
                 </h3>
                 <ul>
                   <li>
@@ -198,50 +133,50 @@
               </div>
               <div class="product-tag leftbar">
                 <h3 class="title">
-                  Products 
                   <strong>
-                    Tags
+                    Thẻ
                   </strong>
+                   Sản phẩm
                 </h3>
                 <ul>
                   <li>
                     <a href="#">
-                      Lincoln us
+                      Aó khoác đẹp
                     </a>
                   </li>
                   <li>
                     <a href="#">
-                      SDress for Girl
+                      Mẫu mới
                     </a>
                   </li>
                   <li>
                     <a href="#">
-                      Corner
+                      Gía rẻ
                     </a>
                   </li>
                   <li>
                     <a href="#">
-                      Window
+                      Sale lớn
                     </a>
                   </li>
                   <li>
                     <a href="#">
-                      PG
+                      FlatShop
                     </a>
                   </li>
                   <li>
                     <a href="#">
-                      Oscar
+                      Hàng mới về
                     </a>
                   </li>
                   <li>
                     <a href="#">
-                      Bath room
+                      Cửa hàng FlatShop
                     </a>
                   </li>
                   <li>
                     <a href="#">
-                      PSD
+                      Chất liệu đẹp
                     </a>
                   </li>
                 </ul>
@@ -250,14 +185,7 @@
               </div>
               <div class="others leftbar">
                 <h3 class="title">
-                  Others
-                </h3>
-              </div>
-              <div class="clearfix">
-              </div>
-              <div class="others leftbar">
-                <h3 class="title">
-                  Others
+                  Khác
                 </h3>
               </div>
               <div class="clearfix">
@@ -272,7 +200,7 @@
                   </a>
                 </span>
                 <p>
-                  12k people like Flat Shop.
+                  12k người thích Flat Shop.
                 </p>
                 <ul>
                   <li>
@@ -313,7 +241,7 @@
                     <span>
                       <img src="images/fbicon.png" alt="">
                     </span>
-                    Facebook social plugin
+                    Liên kết với Facebook 
                   </a>
                 </div>
               </div>
@@ -329,12 +257,12 @@
                   <ul class="slides">
                     <li>
                       <a href="#">
-                        <img src="images/banner-01.jpg" alt=""/>
+                        <img src="images/12.png" alt=""/>
                       </a>
                     </li>
                     <li>
                       <a href="#">
-                        <img src="images/banner-02.jpg" alt=""/>
+                        <img src="images/13.png" alt=""/>
                       </a>
                     </li>
                   </ul>
@@ -354,21 +282,21 @@
                       </a>
                     </div>
                     <div class="sort-by">
-                      Sort by : 
+                      Sắp xếp theo : 
                       <select name="" >
                         <option value="Default" selected>
-                          Default
+                          Mặc định
                         </option>
                         <option value="Name">
-                          Name
+                          Tên
                         </option>
                         <option value="Price">
-                          Price
+                          Giá
                         </option>
                       </select>
                     </div>
                     <div class="limiter">
-                      Show : 
+                      Hiển thị : 
                       <select name="" >
                         <option value="3" selected>
                           3
@@ -461,21 +389,21 @@
                       </a>
                     </div>
                     <div class="sort-by">
-                      Sort by : 
+                      Sắp xếp theo : 
                       <select name="">
                         <option value="Default" selected>
-                          Default
+                          Mặc định
                         </option>
                         <option value="Name">
-                          Name
+                          Tên
                         </option>
                         <option value="<strong>#</strong>">
-                          Price
+                          Giá
                         </option>
                       </select>
                     </div>
                     <div class="limiter">
-                      Show : 
+                      Hiển thị : 
                       <select name="" >
                         <option value="3" selected>
                           3
@@ -517,11 +445,11 @@
           <div class="clearfix">
           </div>
           <div class="our-brand">
-            <h3 class="title">
+            <h3 class="title" style="font-family: sans-serif;">
               <strong>
-                Our 
+                Nhãn hiệu  
               </strong>
-              Brands
+              của chúng tôi
             </h3>
             <div class="control">
               <a id="prev_brand" class="prev" href="#">
@@ -616,118 +544,7 @@
       </div>
       <div class="clearfix">
       </div>
-      <div class="footer">
-        <div class="footer-info">
-          <div class="container">
-            <div class="row">
-              <div class="col-md-3">
-                <div class="footer-logo">
-                  <a href="#">
-                    <img src="images/logo.png" alt="">
-                  </a>
-                </div>
-              </div>
-              <div class="col-md-3 col-sm-6">
-                <h4 class="title">
-                  Contact 
-                  <strong>
-                    Info
-                  </strong>
-                </h4>
-                <p>
-                  No. 08, Nguyen Trai, Hanoi , Vietnam
-                </p>
-                <p>
-                  Call Us : (084) 1900 1008
-                </p>
-                <p>
-                  Email : michael@leebros.us
-                </p>
-              </div>
-              <div class="col-md-3 col-sm-6">
-                <h4 class="title">
-                  Customer
-                  <strong>
-                    Support
-                  </strong>
-                </h4>
-                <ul class="support">
-                  <li>
-                    <a href="#">
-                      FAQ
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      Payment Option
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      Booking Tips
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      Infomation
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div class="col-md-3">
-                <h4 class="title">
-                  Get Our 
-                  <strong>
-                    Newsletter 
-                  </strong>
-                </h4>
-                <p>
-                  Lorem ipsum dolor ipsum dolor.
-                </p>
-                <form class="newsletter">
-                  <input type="text" name="" placeholder="Type your email....">
-                  <input type="submit" value="SignUp" class="button">
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="copyright-info">
-          <div class="container">
-            <div class="row">
-              <div class="col-md-6">
-                <p>
-                  Copyright © 2012. Designed by 
-                  <a href="#">
-                    Michael Lee
-                  </a>
-                  . All rights reseved
-                </p>
-              </div>
-              <div class="col-md-6">
-                <ul class="social-icon">
-                  <li>
-                    <a href="#" class="linkedin">
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" class="google-plus">
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" class="twitter">
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" class="facebook">
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      @include('footer');
     </div>
     <script type="text/javascript">
          $(document).ready(function(){            

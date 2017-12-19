@@ -28,7 +28,7 @@
                     </div>
                     <div class="form-row" style="margin-top: 15px">
                       <label class="lebel-abs">
-                        Pictures
+                        Hình ảnh
                         <strong class="red">
                           *
                         </strong>
@@ -41,7 +41,7 @@
                   <div class="your-details">                            
                       <div class="form-row">
                       <label class="lebel-abs">
-                        Name 
+                        Tên
                         <strong class="red">
                           *
                         </strong>
@@ -50,7 +50,7 @@
                     </div>
                     <div class="form-row">
                       <label class="lebel-abs">
-                        Desciption
+                        Mô tả
                         <strong class="red">
                           *
                         </strong>
@@ -59,7 +59,7 @@
                     </div>                    
                     <div class="form-row">
                       <label class="lebel-abs">
-                        Price
+                        Gía
                         <strong class="red">
                           *
                         </strong>
@@ -68,13 +68,13 @@
                     </div>
                     <div class="form-row">
                       <label class="lebel-abs">
-                        Sale Price                        
+                        Giảm giá                        
                       </label>
                       <input type="number" id="salePrd" class="input namefild" name="saleprice">
                     </div>
                     <div class="form-row">
                       <label class="lebel-abs">
-                        Quantum
+                        Số lượng
                         <strong class="red">
                           *
                         </strong>
@@ -86,7 +86,7 @@
                     ?>
                     <div class="form-row">
                       <label class="lebel-abs">
-                        Category
+                        Loại mặt hàng
                         <strong class="red">
                           *
                         </strong>
@@ -101,9 +101,9 @@
                         ?>                                            
                       </select>
                     </div>                                                            
-                    <div class="form-row">
+                    <div class="form-row" hidden="true">
                       <label class="lebel-abs">
-                        Owner
+                        Mã chủ shop
                         <strong class="red">
                           *
                         </strong>
@@ -116,7 +116,7 @@
                       </select>
                     </div>                                                            
                     <button type="submit" style="float: right;position: absolute;top: 395px ;right: 20px">
-                      Continue
+                      Tiếp tục
                     </button>
                   </div>
                 </div>
@@ -124,7 +124,7 @@
             </form>
           </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-right: 110px;border-radius: 10px">Close</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-right: 110px;border-radius: 10px">Đóng</button>
         </div>
       </div>
     </div>

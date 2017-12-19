@@ -10,32 +10,32 @@
                   <div class="col-md-3">
                      <ul class="option_nav">
                         <li class="dorpdown">
-                           <a href="#">Eng</a>
+                           <a href="#">Ngôn ngữ</a>
                            <ul class="subnav">
-                              <li><a href="#">Eng</a></li>
-                              <li><a href="#">Vns</a></li>
-                              <li><a href="#">Fer</a></li>
-                              <li><a href="#">Gem</a></li>
+                              <li><a href="#">English</a></li>
+                              <li><a href="#">Vietnamese</a></li>
+                              <li><a href="#">French</a></li>
+                              <li><a href="#">Spanish</a></li>
                            </ul>
                         </li>
                         <li class="dorpdown">
-                           <a href="#">USD</a>
+                           <a href="#">Tiền tệ</a>
                            <ul class="subnav">
                               <li><a href="#">USD</a></li>
-                              <li><a href="#">UKD</a></li>
-                              <li><a href="#">FER</a></li>
+                              <li><a href="#">Dong</a></li>
+                              <li><a href="#">Euro</a></li>
                            </ul>
                         </li>
                      </ul>
                   </div>
                   <div class="col-md-6">
                      <ul class="topmenu">
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">News</a></li>
-                        <li><a href="#">Service</a></li>
-                        <li><a href="#">Recruiment</a></li>
-                        <li><a href="#">Media</a></li>
-                        <li><a href="#">Support</a></li>
+                        <li><a href="#">Liên hệ</a></li>
+                        <li><a href="#">Mới</a></li>
+                        <li><a href="#">Dịch vụ</a></li>
+                        <li><a href="#">Tuyển dụng</a></li>
+                        <li><a href="#">Truyền thông</a></li>
+                        <li><a href="#">Hỗ trợ</a></li>
                      </ul>
                   </div>
                   <div class="col-md-3">
@@ -89,9 +89,9 @@
                         </div>     
                         <div class="total-cart">
                            @if(count($ls_order) > 0)                                  
-                              <li><span class="total" style="margin-left: 56px;padding-top: 0px">Tổng :<strong id="total">${{$total}}</strong></span><button class="login" onClick="location.href='/cart'" style="margin-top: 8px;float: right;">See All</button></li>
+                              <li><span class="total" style="margin-left: 56px;padding-top: 0px">Tổng :<strong id="total">${{$total}}</strong></span><button class="login" onClick="location.href='/cart'" style="margin-top: 8px;float: right;">Xem tất cả</button></li>
                            @else
-                              <li>Bạn Chưa Order Sản Phẩm Nào.</li>
+                              <li>Bạn chưa đặt mua sản phẩm nào.</li>
                            @endif
                         </div>                                                               
                      </ul>

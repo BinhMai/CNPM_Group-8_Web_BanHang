@@ -5,7 +5,7 @@
       <meta name="description" content="">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <link rel="shortcut icon" href="images/favicon.png">
-      <title>Welcome to FlatShop</title>
+      <title>Chào mừng đến FlatShop</title>
       <link href="{{asset('css/bootstrap.css')}}" rel="stylesheet">
       <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,700,500italic,100italic,100' rel='stylesheet' type='text/css'>
       <link href="{{asset('css/font-awesome.min.css')}}" rel="stylesheet">
@@ -31,34 +31,34 @@
                   <div class="sequence-next"><i class="fa fa-angle-right"></i></div>
                   <ul class="sequence-canvas">
                      <li class="animate-in">
-                        <div class="flat-caption caption1 formLeft delay300 text-center"><span class="suphead">Paris show 2017</span></div>
+                        <div class="flat-caption caption1 formLeft delay300 text-center"><span class="suphead">Thời trang nữ</span></div>
                         <div class="flat-caption caption2 formLeft delay400 text-center">
-                           <h1>Collection For Winter</h1>
+                           <h2>Bộ sưu tập cho mùa đông</h2>
                         </div>
                         <div class="flat-caption caption3 formLeft delay500 text-center">
-                           <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.<br>Lorem Ipsum is simply dummy text of the printing and typesetting</p>
+                           <p>FlatShop giới thiệu tới các bạn những bộ mẫu đầm thu đông được đánh giá là đẹp nhất thu đông năm nay tới thời điểm này.</p>
                         </div>
-                        <div class="flat-button caption4 formLeft delay600 text-center"><a class="more" href="#">More Details</a></div>
+                        <div class="flat-button caption4 formLeft delay600 text-center"><a class="more" href="#">Chi tiết hơn</a></div>
                         <div class="flat-image formBottom delay200" data-duration="5" data-bottom="true"><img src="images/slider-image-01.png" alt=""></div>
                      </li>
                      <li>
                         <div class="flat-caption caption2 formLeft delay400">
-                           <h1>Collection For Winter</h1>
+                           <h2>Bộ sưu tập cho mùa đông</h2>
                         </div>
                         <div class="flat-caption caption3 formLeft delay500">
-                           <h2>Etiam velit purus, luctus vitae velit sedauctor<br>egestas diam, Etiam velit purus.</h2>
+                           <h5>Những kiểu áo đẹp trẻ trung mùa thu đông<br>Mang lại sự thanh lịch, tao nhã.</h5>
                         </div>
-                        <div class="flat-button caption5 formLeft delay600"><a class="more" href="#">More Details</a></div>
+                        <div class="flat-button caption5 formLeft delay600"><a class="more" href="#">Chi tiết hơn</a></div>
                         <div class="flat-image formBottom delay200" data-bottom="true"><img src="images/slider-image-02.png" alt=""></div>
                      </li>
                      <li>
                         <div class="flat-caption caption2 formLeft delay400 text-center">
-                           <h1>New Fashion of 2017</h1>
+                           <h2>Thời trang mới năm 2017</h2>
                         </div>
                         <div class="flat-caption caption3 formLeft delay500 text-center">
-                           <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. <br>Lorem Ipsum is simply dummy text of the printing and typesetting</p>
+                           <p>Áo len nữ 2 lớp vẫn là sự lựa chọn hoàn hảo giúp chị em vừa ấm áp vừa xinh đẹp</p>
                         </div>
-                        <div class="flat-button caption4 formLeft delay600 text-center"><a class="more" href="#">More Details</a></div>
+                        <div class="flat-button caption4 formLeft delay600 text-center"><a class="more" href="#">Chi tiết hơn</a></div>
                         <div class="flat-image formBottom delay200" data-bottom="true"><img src="images/slider-image-03.png" alt=""></div>
                      </li>
                   </ul>
@@ -68,13 +68,13 @@
                <div class="container">
                   <div class="row">
                      <div class="col-md-4 col-sm-4 col-xs-4">
-                        <div class="promo-box"><img src="images/promotion-01.png" alt=""></div>
+                        <div class="promo-box"><img src="images/1.png" alt=""></div>
                      </div>
                      <div class="col-md-4 col-sm-4 col-xs-4">
-                        <div class="promo-box"><img src="images/promotion-02.png" alt=""></div>
+                        <div class="promo-box"><img src="images/10.png" alt=""></div>
                      </div>
                      <div class="col-md-4 col-sm-4 col-xs-4">
-                        <div class="promo-box"><img src="images/promotion-03.png" alt=""></div>
+                        <div class="promo-box"><img src="images/11.png" alt=""></div>
                      </div>
                   </div>
                </div>
@@ -110,7 +110,7 @@
                            <div class="col-md-3 col-sm-6">
                               <div class="products">
                                 
-                                 <div class="offer">new</div>
+                                 <div class="offer">Mới</div>
                                  <div class="thumbnail" style="margin: 32px 0 5px 0"><a href="details={{$prd->productID}}"><img src="{{$prd->pictures}}" alt="Product Name" style="height: 115%;max-width:92%;margin-top:-35px;"></a></div>
                                  <div class="productname">{{$prd->productname}}</div>
                                  <h4 class="price">${{$prd->price}}</h4>
@@ -144,8 +144,7 @@
                            ?>
                             <div class="col-md-3 col-sm-6">
                               <div class="products">
-                                
-                                 <div class="offer">new</div>
+                                 <div class="offer">Mới</div>
                                  <div class="thumbnail"><a href="details"><img src="{{$prds[$i]->pictures}}" alt="Product Name"></a></div>
                                  <div class="productname">{{$prds[$i]->productname}}</div>
                                  <h4 class="price">${{$prds[$i]->price}}</h4>
@@ -172,11 +171,8 @@
                @endforeach
                <div class="clearfix"></div>
                <div class="our-brand">
-                  <h3 class="title"><strong>Our </strong> Brands</h3>
-                  <div class="control">
-                     <a id="prev_brand" class="prev" href="#">&lt;</a>
-                     <a id="next_brand" class="next" href="#">&gt;</a>
-                  </div>
+                  <h3 class="title" style="font-family: sans-serif;"><strong>Nhãn hiệu </strong>của chúng tôi</h3>
+                  <div class="control"><a id="prev_brand" class="prev" href="#">&lt;</a><a id="next_brand" class="next" href="#">&gt;</a></div>
                   <ul id="braldLogo">
                      <li>
                         <ul class="brand_item">
