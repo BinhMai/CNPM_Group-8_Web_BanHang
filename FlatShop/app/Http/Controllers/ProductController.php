@@ -72,7 +72,7 @@ class ProductController extends Controller
     public function product(){
         $url = \Request::path();        
         $id = Category::where('url',$url)->pluck('categoryID');        
-        $product = Product::where('categoryID',$id[0])->get();
+        $product = Product::where('categoryID',$id[0])->where('isActive',1)->get();
         return view('product',['product'=>$product]);
     }
     /**
