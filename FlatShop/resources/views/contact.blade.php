@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="images/favicon.png">
     <title>
-      Welcome to FlatShop
+      Chào mừng đến FlatShop
     </title>
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,700,500italic,100italic,100' rel='stylesheet' type='text/css'>
@@ -44,7 +44,7 @@
           <div class="row">
             <div class="col-md-12">
               <h5 class="title contact-title">
-                Contact Us
+                Liên hệ
               </h5>
               <div class="clearfix">
               </div>
@@ -57,10 +57,10 @@
                 <div class="col-md-4">
                   <div class="contact-infoormation">
                     <h5>
-                      Contact Info
+                      Thông tin liên hệ
                     </h5>
                     <p>
-                      Lorem ipsum dolor sit amet, consectetur ad ipis cing elit. Suspendisse at sapien mascsa. Lorem ipsum dolor sit amet, consectetur se adipiscing elit. Sed fermentum, sapien scele risque volutp at tempor, lacus est sodales massa, a hendrerit dolor slase turpis non mi. 
+                       
                     </p>
                     <ul>
                       <li>
@@ -68,9 +68,9 @@
                           <img src="images/message.png" alt="">
                         </span>
                         <p>
-                          contact@michaeldesign.me
+                          flatshop@gmail.com
                           <br>
-                          support@michaeldesign.me
+                          admin_flatshop@gmail.com
                         </p>
                       </li>
                       <li>
@@ -88,9 +88,9 @@
                           <img src="images/address.png" alt="">
                         </span>
                         <p>
-                          No.86 ChuaBoc St, DongDa Dt,
+                          140 Phùng Khoang, Trung Văn, Nam Từ Liêm,
                           <br>
-                          Hanoi, Vietnam
+                          Hà Nội, Việt Nam
                         </p>
                       </li>
                     </ul>
@@ -99,13 +99,13 @@
                 <div class="col-md-8">
                   <div class="ContactForm">
                     <h5>
-                      Contact Form
+                      Mẫu liên hệ
                     </h5>
                     <form>
                       <div class="row">
                         <div class="col-md-6">
                           <label>
-                            Your Name 
+                            Tên của bạn 
                             <strong class="red">
                               *
                             </strong>
@@ -114,7 +114,7 @@
                         </div>
                         <div class="col-md-6">
                           <label>
-                            Your Email
+                            Email của bạn
                             <strong class="red">
                               *
                             </strong>
@@ -125,7 +125,7 @@
                       <div class="row">
                         <div class="col-md-12">
                           <label>
-                            Your Message 
+                            Lời nhắn của bạn 
                             <strong class="red">
                               *
                             </strong>
@@ -135,7 +135,7 @@
                         </div>
                       </div>
                       <button class="pull-right">
-                        Send Message
+                        Gửi
                       </button>
                     </form>
                   </div>
@@ -146,11 +146,11 @@
           <div class="clearfix">
           </div>
           <div class="our-brand">
-            <h3 class="title">
+            <h3 class="title" style="font-family: sans-serif;">
               <strong>
-                Our 
+                Nhãn hiệu 
               </strong>
-              Brands
+              của chúng tôi
             </h3>
             <div class="control">
               <a id="prev_brand" class="prev" href="#">

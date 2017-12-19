@@ -6,7 +6,7 @@
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" href="images/favicon.png">
-  <title>Welcome to FlatShop</title>
+  <title>Chào mừng đến FlatShop</title>
   <link href="{{asset('css/bootstrap.css')}}" rel="stylesheet">
   <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,700,500italic,100italic,100' rel='stylesheet' type='text/css'>
   <link href="{{asset('css/font-awesome.min.css')}}" rel="stylesheet">
@@ -33,7 +33,7 @@
 			<button id="add" class="btn btn-success" data-toggle="modal" data-target="#addproduct"  style="float: right;margin-right: 17px;"><span class="glyphicon glyphicon-plus"></span></button>
       @endif
 			<form style="float:right; margin-right: 5px;margin-bottom: 10px">
-				<input class="search-submit" type="submit" value=""><input class="search" placeholder="Search product..." type="text" value="" name="search">
+				<input class="search-submit" type="submit" value=""><input class="search" placeholder="Tìm kiếm sản phẩm..." type="text" value="" name="search">
 			</form>
 			
 			@include('product-form')      
@@ -56,7 +56,7 @@
         <th>Giá</th>
         <th>Số lượng</th>
         <th>Thể loại</th>
-        <th>Chủ shop</th>        
+        <!-- <th>Chủ shop</th> -->        
         <th>Lựa chọn</th>				
 			  </tr>
 			</thead>
@@ -72,7 +72,7 @@
             <td>{{$product->price}}</td>
             <td>{{$product->quantuminstock}}</td>
             <td>{{$product->category->name}}</td>         
-            <td>{{$product->ownerID}}</td>             
+            <!-- <td>{{$product->ownerID}}</td> -->             
             @if($_SERVER['REQUEST_URI']!='/list-product=NoActive')
               <td style="width: 120px;">
                 @if($user->typeofuser == 1 || $user->typeofuser == 2)                
