@@ -25,9 +25,9 @@
 </style>
 <body>
   @include('header_manager');   
-  <section style="margin: 15px">
+  <section style="margin: 30px">
     <div class="container-fluid">
-      <h2 style="margin-bottom: 20px">Danh sách đơn hàng</h2>      
+      <h2 style="margin-bottom: 20px; font-family: Times New Roman,bold">Danh sách đơn hàng</h2>      
       @if($user->typeofuser != 4)
         <a href="/list-order"><button class="btn btn-success">Tất cả</button></a>
         @if($user->typeofuser != 3)
@@ -37,9 +37,10 @@
         <a href="/list-order=2"><button class="btn btn-success">Thành công</button></a>
       @endif
       
-      <table class="table table-striped" style="margin-bottom: 0px; margin-top: 20px">
+      <table class="table table-striped" style="margin-bottom: 0px; margin-top: 15px; font-size: 15px;font-family: Times New Roman">
       <thead>
-        <tr>
+        <tr style="font-family:bold; font-size:18px">
+          <th>STT</th>
           <th>Mã đơn hàng</th>
           <th>Tên</th>
           <th>Địa Chỉ</th>
@@ -51,12 +52,13 @@
         </tr>
       </thead>
       <tbody>           
-        <?php $total = 0;?>
+        <?php $total = 0?>
           @foreach($ls_bill as $bill)          
             @if($bill->status == 2)  
-              <?php $total+= (int)$bill->price?>                    
+              <?php $total+= (int)$bill->price;?>                    
             @endif
             <tr>
+            <td>{{$bill->bill_ID}}</td>
             <td>Order_{{$bill->bill_ID}}</td>
             <td>{{$bill->name}}</td>
             <td>{{$bill->adress}}</td>

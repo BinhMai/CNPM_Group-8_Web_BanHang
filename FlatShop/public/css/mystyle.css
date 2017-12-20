@@ -2,13 +2,7 @@ hide{
 	display: none;
 }
 
-.table > thead > tr > th{
-    background: #cfe8dd !important;
-    border: #d0f1b1 solid 1px !important;
-}
-.table > tbody > tr > td{
-    border: #d0f1b1 solid 1px !important;   
-}
+
 .form-date{
 	width: 100%;
 	outline: none;
