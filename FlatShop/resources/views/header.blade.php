@@ -41,7 +41,7 @@
                   <div class="col-md-3">
                      <ul class="usermenu">
                         @if(Auth::check())
-                           <li><a href="register={{Auth::user()->userID}}" class="log">{{Auth::user()->username}}</a></li> 
+                           <li><a href="dang-ki={{Auth::user()->userID}}" class="log">{{Auth::user()->username}}</a></li> 
                            <li><a href="/logout" class="reg" >Đăng xuất</a></li>
                         @else
                            <li><a href="dang-nhap" class="log">Đăng nhập</a></li>

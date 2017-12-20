@@ -332,9 +332,15 @@
                 </div>
                 <div class="clearfix">
                 </div>
+                <?php $i=0;?>
                 <div class="row">
                   @foreach($product as $pr)                        
-                  <div class="col-md-4 col-sm-6">
+                  <?php $i++;?>
+                  @if($i%3 != 1)                  
+                    <div class="col-md-4 col-sm-6">
+                  @else
+                      <div class="col-md-4 col-sm-6" style="clear:both;">
+                  @endif  
                     <div class="products">
                       <div class="thumbnail">
                         <a href="/details={{$pr->productID}}">

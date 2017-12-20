@@ -152,7 +152,7 @@
                                  <?php   
                                     $check = false;
                                     foreach ($ls_order as $order) {
-                                       if($order->productID == (int)$prds->productID)
+                                       if($order->productID == (int)$prds[$i]->productID)
                                           $check = true;
                                     }                                                                   
                                  ?>                                 
