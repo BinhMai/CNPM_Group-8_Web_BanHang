@@ -46,7 +46,8 @@
           <th>Số Điện Thoại</th>
           <th>Thời gian đặt hàng</th>       
           <th>Tổng tiền</th>
-          <th>Trạng thái</th>
+          <th>Người giao hàng</th>
+          <th>Trạng thái</th>        
           <th>Lựa chọn</th>          
         </tr>
       </thead>
@@ -62,7 +63,8 @@
             <td>{{$bill->adress}}</td>
             <td>{{$bill->telephone}}</td>          
             <td>{{$bill->dateofbirth}}</td>
-            <td>{{$bill->price}}</td>          
+            <td>{{$bill->price}}</td>  
+            <td>{{$bill->shipper == ''?'Chưa có người giao hàng':$bill->shipper}}</td>
             <td style="width: 150px;">
               @if($bill->status == 0)                                      
                 @if($user->typeofuser == 1 || $user->typeofuser == 4)
@@ -79,7 +81,7 @@
               @else
                 Thành công
               @endif
-            </td>
+            </td>          
             <td><a href="bill={{$bill->bill_ID}}">Chi tiết</a></td>            
           </tr>
           @endforeach               
