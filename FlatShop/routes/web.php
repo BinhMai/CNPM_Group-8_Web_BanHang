@@ -10,7 +10,10 @@ use App\Mail\NotificationMail;
 use Illuminate\Support\Facades\Mail;
 
 Route::get('/bill={id}',function($id){
-    return view('Mail.mail-form',['id'=>$id]);
+    if(Bill::find($id) != null)
+        return view('Mail.mail-form',['id'=>$id]);
+    else
+        return redirect('/');
 });
 
 Route::get('/mail={id}',function($id){    
@@ -35,6 +38,26 @@ Route::get('/', function () {
 
 Route::get('/Trang-Chu',function(){            
     return view('welcome');
+});
+
+Route::get('/remove-bill={id}',function($id){    
+    $bill = Bill::find($id);
+    $bill->isActive = 0;
+    $bill->save();    
+});
+
+Route::get('/confirm-bill={id}',function($id){            
+    $bill = Bill::find($id);
+    $bill->status = 1;
+    $bill->save();    
+});
+
+Route::get('/update-bill={id}',function($id){    
+    $bill = Bill::find($id);
+    $bill->shipper = $_GET['shipper'];    
+    $bill->save();  
+    $shipper = User::where('lastname',$_GET['shipper'])->first();
+    Mail::to($shipper->email)->send(new NotificationMail($bill->bill_ID)); 
 });
 
 Route::get('/details={id}', 'ProductController@detail');
@@ -106,10 +129,10 @@ Route::get('/list-order', function () {
 });
 
 Route::get('/list-order={id}', function ($id) {
-    $ls_bill = Bill::orderBy('bill_ID','desc')->where('status',$id)->paginate(5); 
+    $ls_bill = Bill::orderBy('bill_ID','desc')->where('status',$id)->where('isActive',1)->paginate(5); 
     $typeofuser = Auth::user()->typeofuser;   
     if($typeofuser == 3){
-        $ls_bill = Bill::orderBy('bill_ID','desc')->where('status','<>',0)->where('status',$id)->where('isActive',1)->paginate(5);
+        $ls_bill = Bill::orderBy('bill_ID','desc')->where('status','<>',0)->where('status',$id)->where('shipper',Auth::user()->lastname)->where('isActive',1)->paginate(5);
         return view('ListOrder',['ls_bill'=>$ls_bill,'user'=>Auth::user()]);    
     }
     if($typeofuser == 4){

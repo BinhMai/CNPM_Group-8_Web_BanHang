@@ -12,6 +12,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <meta name="csrf-token" content="<?= csrf_token() ?>">
 </head>
 <style>
   th{
@@ -44,9 +45,9 @@
 		<div class="col-md-12" style="border-bottom: 2px solid #00E5EE; margin-top: 15px">
 	    	<div class="col-md-4">
             	<img src="images/logo.png" alt="FlatShop" style="background-color:black"></a>
-            	<p style="font-size: 15px">Số 08, Nguyễn Trãi, Hà Nội , Việt Nam</p>
+            	<p style="font-size: 15px">Số 144 Phùng Khoang, Trung Văn, Nam Từ Liêm, Hà Nội , Việt Nam</p>
                <p style="font-size: 15px">Số điện thoại : (084) 1900 1008</p>
-               <p style="font-size: 15px">Email : flatshop@gmail.com</p>
+               <p style="font-size: 15px">Email : flatshop_2017@gmail.com</p>
 	    	</div>
 	    	<div class="col-md-5" align="center" style="padding-bottom: 30px">
 				<h2 align="center" style="font-family:bold;color: #00E5EE; ">Hóa Đơn Bán Hàng</h2>
@@ -104,7 +105,69 @@
 		<span align='center' style="margin-bottom: 2px; padding-left: 160px;font-size: 15px">(Ký và ghi rõ họ tên)</span>
 		<span align='right' style="margin-bottom: 2px; padding-left: 235px;font-size: 15px">(Ký và ghi rõ họ tên)</span>
 		<br><br><br><br><br><br><br><br>
-		<button class="btn btn-danger" style="float: right;margin: 10px 20px 40px 0px">Hủy Đơn Hàng</button>
-		<button class="btn btn-success" style="float: right;margin: 10px">Xác Nhận</button>
+		@if(Auth::check() && (Auth::user()->typeofuser == 1 || Auth::user()->typeofuser == 2) && $bill->status ==1)
+		@php
+			$shipper = App\User::where('typeofuser',3)->get();
+		@endphp
+		<div class="form-group">
+			<a href="/list-order=1"><button class="btn btn-success" id="send_bill" style="float: right;margin: 20px">Gửi đơn hàng</button></a>			
+		  <select class="form-control" id="sell" style="width: 120px;float: right;margin-top: 20px; margin-bottom: 50px">
+		    @foreach($shipper as $ship)
+		    	<option>{{$ship->lastname}}</option>
+		    @endforeach
+		  </select>		
+		  <label style="float: right;margin-top: 25px; margin-right: 10px">Lựa chọn người giao hàng</label> 
+		</div>	
+	@endif
+	@if($bill->status == 0)
+		<button class="btn btn-danger" id="remove-bill" style="float: right;margin: 10px 20px 40px 0px">Hủy Đơn Hàng</button>
+		<button class="btn btn-success" id="confirm-bill" style="float: right;margin: 10px">Xác Nhận</button>	
+	@endif
 	</div>
+	<script type="text/javascript">
+	$(document).ready(function(){
+		 $.ajaxSetup({
+          headers: {
+            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+          }
+        });   
+		var id = '{{$id}}';
+		$('#remove-bill').click(function(){
+			$.ajax({
+				url: '/remove-bill='+id,
+				type: 'get',
+				success: function(){
+					alert('Hủy đơn hàng thành công');
+					window.location = '/';
+				}
+			});
+			return false;
+		});		
+		$('#confirm-bill').click(function(){
+			$.ajax({
+				url: '/confirm-bill='+id,
+				type: 'get',
+				success: function(){
+					alert('Xác nhận đơn hàng thành công');
+					window.location = '/';
+				}
+			});
+			return false;
+		});			
+		$('#send_bill').click(function(){
+			$.ajax({
+				beforeSend: function () {                
+                  $('body').html('<body style="style="background: #434343"><h2 align="center">Đang xử lý ...</h2></body>');                          
+              	},
+				url: '/update-bill='+id,
+				type: 'get',
+				data: {'shipper': $('#sell :selected').text()},
+				success: function(data){
+					window.location = "/list-order";
+				}
+			});			
+			return false;
+		});						
+	});
+</script>
 </body>

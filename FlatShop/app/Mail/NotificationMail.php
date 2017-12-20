@@ -29,7 +29,7 @@ class NotificationMail extends Mailable
      */
     public function build()
     {
-        return $this->view('Mail.mail-form')
+        return $this->view('Mail.mail')
                     ->with([                                           
                         'id' => $this->id                
                     ]);
