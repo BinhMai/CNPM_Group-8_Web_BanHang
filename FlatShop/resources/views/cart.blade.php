@@ -167,7 +167,7 @@
                   var type = {{$type}}
                   if(type == 0){
                        if(confirm('Bạn có muốn đăng nhập?')){
-                          document.location = '/login';   
+                          document.location = '/dang-nhap';   
                        }else{
                           $('#openModal').click();
                        }

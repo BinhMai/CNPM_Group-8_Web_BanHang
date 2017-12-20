@@ -352,7 +352,7 @@
                         
                       </div>
                       <h4 class="price">
-                       {{$pr->price}}
+                       ${{$pr->price}}
                       </h4>
                       <?php   
                         $check = false;

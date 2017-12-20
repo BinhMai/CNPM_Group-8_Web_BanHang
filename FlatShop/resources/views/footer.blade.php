@@ -7,7 +7,7 @@
             </div>
             <div class="col-md-3 col-sm-6">
                <h4 class="title" style="font-family: sans-serif;">Thông tin <strong> Liên hệ</strong></h4>
-               <p>Số 08, Nguyễn Trãi, Hà Nội , Việt Nam</p>
+               <p>140,Phùng Khoang, Hà Nội , Việt Nam</p>
                <p>Số điện thoại : (084) 1900 1008</p>
                <p>Email : flatshop@gmail.com</p>
             </div>
