@@ -342,7 +342,7 @@
                   </li>
                   <li class="steps">
                     <a href="#" class="step-title">
-                      05. pThông tin sau khi thanh toán
+                      05. Thông tin sau khi thanh toán
                     </a>
                   </li>
                   <li class="steps">

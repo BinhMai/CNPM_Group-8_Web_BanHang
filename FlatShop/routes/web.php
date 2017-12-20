@@ -56,8 +56,8 @@ Route::get('/update-bill={id}',function($id){
     $bill = Bill::find($id);
     $bill->shipper = $_GET['shipper'];    
     $bill->save();  
-    $shipper = User::where('lastname',$_GET['shipper'])->get();
-    Mail::to('hoangbinhnt1996@gmail.com')->send(new NotificationMail($bill->bill_ID)); 
+    $shipper = User::where('lastname',$_GET['shipper'])->first();
+    Mail::to($shipper->email)->send(new NotificationMail($bill->bill_ID)); 
 });
 
 Route::get('/details={id}', 'ProductController@detail');

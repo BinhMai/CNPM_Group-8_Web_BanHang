@@ -334,13 +334,13 @@
                 </div>
                 <?php $i=0;?>
                 <div class="row">
-                @foreach($product as $pr)                        
+                  @foreach($product as $pr)                        
                   <?php $i++;?>
                   @if($i%3 != 1)                  
                     <div class="col-md-4 col-sm-6">
                   @else
                       <div class="col-md-4 col-sm-6" style="clear:both;">
-                  @endif                  
+                  @endif  
                     <div class="products">
                       <div class="thumbnail">
                         <a href="/details={{$pr->productID}}">

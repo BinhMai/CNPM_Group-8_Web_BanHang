@@ -171,7 +171,7 @@
                     </div>
                   </li>
                   <li class="steps active">
-                    <a href="login" class="step-title">
+                    <a class="step-title">
                       02. Thông tin thanh toán
                     </a>
                     <div class="step-description" style="padding: 40px">                      
@@ -332,23 +332,18 @@
                     </div>
                   </li>
                   <li class="steps">
-                    <a href="register" class="step-title">
+                    <a class="step-title">
                       03. Thông tin vận chuyển
                     </a>
                   </li>
                   <li class="steps">
-                    <a href="#" class="step-title">
+                    <a class="step-title">
                       04. Phương thức vận chuyển 
                     </a>
                   </li>
                   <li class="steps">
-                    <a href="#" class="step-title">
+                    <a class="step-title">
                       05. Thông tin sau khi thanh toán 
-                    </a>
-                  </li>
-                  <li class="steps">
-                    <a href="#" class="step-title">
-                      06. Xem lại
                     </a>
                   </li>
                 </ol>
