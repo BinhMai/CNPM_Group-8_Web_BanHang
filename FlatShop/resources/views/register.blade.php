@@ -44,57 +44,26 @@
                   </strong>
                    Đặc biệt
                 </h4>
-                <div class="special-item">
+                <?php $ls_product = App\Product::orderBy('productID','desc')->limit(3)->get()?>
+                @foreach($ls_product as $product)
+                  <div class="special-item">
                   <div class="product-image">
-                    <a href="details">
-                      <img src="images1/products/thum/products-01.png" alt="">
+                    <a href="details={{$product->productID}}">
+                      <img src="{{$product->pictures}}" alt="">
                     </a>
                   </div>
                   <div class="product-info">
                     <p>
                       <a href="details">
-                        Váy ngắn tay
+                        {{$product->productname}}
                       </a>
                     </p>
                     <h5 class="price">
-                      100.000đ
+                      ${{$product->price}}
                     </h5>
                   </div>
                 </div>
-                <div class="special-item">
-                  <div class="product-image">
-                    <a href="details">
-                      <img src="images1/products/thum/products-02.png" alt="">
-                    </a>
-                  </div>
-                  <div class="product-info">
-                    <p>
-                      <a href="details">
-                        Váy nalio
-                      </a>
-                    </p>
-                    <h5 class="price">
-                      100.000đ
-                    </h5>
-                  </div>
-                </div>
-                <div class="special-item">
-                  <div class="product-image">
-                    <a href="details">
-                      <img src="images1/products/thum/products-03.png" alt="">
-                    </a>
-                  </div>
-                  <div class="product-info">
-                    <p>
-                      <a href="details">
-                        Đầm hitte
-                      </a>
-                    </p>
-                    <h5 class="price">
-                      120.000đ
-                    </h5>
-                  </div>
-                </div>
+                @endforeach                
               </div>
               <div class="product-tag leftbar">
                 <h3 class="title">
@@ -145,22 +114,7 @@
                     </a>
                   </li>
                 </ul>
-              </div>
-              <div class="get-newsletter leftbar">
-                <h3 class="title">
-                  Nhận
-                  <strong>
-                    Bản tin
-                  </strong>
-                </h3>
-                <p>
-                  Các loại mặt hàng mới về.
-                </p>
-                <form>
-                  <input class="email" type="text" name="" placeholder="Email của bạn...">
-                  <input class="submit" type="submit" value="Gửi">
-                </form>
-              </div>
+              </div>              
             </div>              
             <div class="col-md-9">
               <div class="login-page">

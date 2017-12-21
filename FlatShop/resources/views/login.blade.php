@@ -41,57 +41,26 @@
                   </strong>
                    Đặc biệt
                 </h4>
-                <div class="special-item">
+                <?php $ls_product = App\Product::orderBy('productID','desc')->limit(3)->get()?>
+                @foreach($ls_product as $product)
+                  <div class="special-item">
                   <div class="product-image">
-                    <a href="details">
-                      <img src="images1/products/thum/products-01.png" alt="">
+                    <a href="details={{$product->productID}}">
+                      <img src="{{$product->pictures}}" alt="">
                     </a>
                   </div>
                   <div class="product-info">
                     <p>
                       <a href="details">
-                        Váy ngắn tay
+                        {{$product->productname}}
                       </a>
                     </p>
                     <h5 class="price">
-                      100.000đ
+                      ${{$product->price}}
                     </h5>
                   </div>
                 </div>
-                <div class="special-item">
-                  <div class="product-image">
-                    <a href="details">
-                      <img src="images1/products/thum/products-02.png" alt="">
-                    </a>
-                  </div>
-                  <div class="product-info">
-                    <p>
-                      <a href="details">
-                        Váy nalio
-                      </a>
-                    </p>
-                    <h5 class="price">
-                      100.000đ
-                    </h5>
-                  </div>
-                </div>
-                <div class="special-item">
-                  <div class="product-image">
-                    <a href="details">
-                      <img src="images1/products/thum/products-03.png" alt="">
-                    </a>
-                  </div>
-                  <div class="product-info">
-                    <p>
-                      <a href="details">
-                        Đầm hitte
-                      </a>
-                    </p>
-                    <h5 class="price">
-                      120.000đ
-                    </h5>
-                  </div>
-                </div>
+                @endforeach        
               </div>
               <div class="product-tag leftbar">
                 <h3 class="title">
@@ -141,83 +110,13 @@
                     </a>
                   </li>
                 </ul>
-              </div>
-              <div class="get-newsletter leftbar">
-                <h3 class="title">
-                  Nhận
-                  <strong>
-                    Bản tin
-                  </strong>
-                </h3>
-                <p>
-                  Các loại mặt hàng mới về.
-                </p>
-                <form>
-                  <input class="email" type="text" name="" placeholder="Email của bạn...">
-                  <input class="submit" type="submit" value="Gửi">
-                </form>
-              </div>
-              <div class="fbl-box leftbar">
-                <h3 class="title">
-                  Facebook
-                </h3>
-                <span class="likebutton">
-                  <a href="#">
-                    <img src="images/fblike.png" alt="">
-                  </a>
-                </span>
-                <p>
-                  12k người thích Flat Shop.
-                </p>
-                <ul>
-                  <li>
-                    <a href="#">
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                    </a>
-                  </li>
-                </ul>
-                <div class="fbplug">
-                  <a href="#">
-                    <span>
-                      <img src="images/fbicon.png" alt="">
-                    </span>
-                    Liên kết với Facebook
-                  </a>
-                </div>
-              </div>
+              </div>              
             </div>
             <div class="col-md-9">
               <div class="login-page">
                 <ol class="login-steps">
                   <li class="steps active">
-                    <a href="login" class="step-title">
+                    <a class="step-title">
                       01. Tùy chọn đăng nhập
                     </a>
                     <div class="step-description">
@@ -246,15 +145,13 @@
                             <p class="requir">
                               Bằng cách tạo một tài khoản, bạn sẽ có thể mua sắm hàng ngày. Bạn luôn được cập nhật về tình trạng của một đơn đặt hàng và theo dõi các đơn đặt hàng mà bạn đã thực hiện trước đó.
                             </p>
-                            <button>
-                              Tiếp tục
-                            </button>
+                            <a href="dang-ki"><button>Tiếp tục</button></a>
                           </div>
                         </div>
                         <div class="col-md-6 col-sm-6">
                           <div class="run-customer">
                             <h5>
-                              Vui lòng nhập
+                              Vui lòng đăng nhập
                             </h5>
                             <form id="login-form">
                               <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -267,23 +164,18 @@
                                   </strong>
                                 </label>
                                 <input style="display: none" type="text" name="oldurl" id="oldurl">
-                                <input type="text" class="input namefild" name="user">
+                                <input type="text" class="input namefild" name="user" required>
                               </div>
                               <div class="form-row">
-                                <label class="lebel-abs">
+                                <label class="lebel-abs" style="margin-top: 20px">
                                   Mật khẩu 
                                   <strong class="red">
                                     *
                                   </strong>
                                 </label>
-                                <input type="password" class="input namefild" name="password" style="padding-left: 100px">
-                              </div>
-                              <p class="forgoten">
-                                <a href="#">
-                                  Bạn quên mật khẩu?
-                                </a>
-                              </p>
-                              <button type="submit">
+                                <input type="password" class="input namefild" name="password" style="padding-left: 100px; margin-top: 20px " required>
+                              </div>                              
+                              <button type="submit" style="margin-top: 20px; float: right;">
                                 Đăng nhập
                               </button>
                             </form>                          
@@ -326,27 +218,27 @@
                     </div>
                   </li>
                   <li class="steps">
-                    <a href="register" class="step-title">
+                    <a class="step-title">
                       02. Thông tin thanh toán
                     </a>
                   </li>
                   <li class="steps">
-                    <a href="register" class="step-title">
+                    <a class="step-title">
                       03. Thông tin vận chuyển
                     </a>
                   </li>
                   <li class="steps">
-                    <a href="#" class="step-title">
+                    <a class="step-title">
                       04. Phương thức vận chuyển
                     </a>
                   </li>
                   <li class="steps">
-                    <a href="#" class="step-title">
+                    <a class="step-title">
                       05. Thông tin sau khi thanh toán
                     </a>
                   </li>
                   <li class="steps">
-                    <a href="#" class="step-title">
+                    <a class="step-title">
                       06. Xem lại
                     </a>
                   </li>

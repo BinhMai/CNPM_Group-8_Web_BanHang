@@ -17,6 +17,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>
     <script src="http://ajax.microsoft.com/ajax/jquery.validate/1.7/jquery.validate.js" type="text/javascript"></script>
+    <meta name="csrf-token" content="<?= csrf_token() ?>">
     <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js">
 </script>
@@ -92,10 +93,12 @@
                           </td>
                           <td><h5>${{$prd->price}}</h5></td>
                           <td>
-                            <select name="">
+                            <select class="quanty" id="quanty_{{$order->orderID}}">
                               <option value="1" {{$order->amount== "1"?'selected':''}}>1</option>
                               <option value="2" {{$order->amount== "2"?'selected':''}}>2</option>
                               <option value="3" {{$order->amount== "3"?'selected':''}}>3</option>
+                              <option value="4" {{$order->amount== "4"?'selected':''}}>4</option>
+                              <option value="5" {{$order->amount== "5"?'selected':''}}>5</option>
                             </select>
                           </td>
                           <td><h5><strong class="red">${{$price}}</strong></h5></td>
@@ -149,7 +152,7 @@
                         ${{$total}}
                       </span>
                     </div>
-                    <button id="pay">
+                    <button id="pay" style="margin-left: 95px;">
                       Thanh Toán
                     </button>
                   </div>
@@ -157,8 +160,26 @@
               </div>
             </div>
           </div>
-          <script type="text/javascript">
-            $(document).ready(function(){          
+          <script type="text/javascript">            
+            $(document).ready(function(){ 
+              $.ajaxSetup({
+                 headers: {
+                    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+                 }
+              });            
+              $('.quanty').change(function(){
+                var id = $(this).attr('id');
+                var id_order = id.split('quanty_')[1];                
+                var quanty = $("#"+id+" :selected").val();                
+                $.ajax({
+                  url:'/update-order',
+                  type: 'post',
+                  data: {'id_order': id_order, 'quanty': quanty},
+                  success: function(){                    
+                    location.reload();
+                  }
+                });
+              });
               $('#pay').click(function(){
                 var total = '{{$total}}'; 
                 if(total == '0'){
