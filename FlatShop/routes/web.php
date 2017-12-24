@@ -60,7 +60,7 @@ Route::get('/update-bill={id}',function($id){
     Mail::to($shipper->email)->send(new NotificationMail($bill->bill_ID)); 
 });
 
-Route::get('/details={id}', 'ProductController@detail');
+Route::get('/details={id}', 'ProductController@detail')->name('detail');
 
 Route::get('/nam', 'ProductController@product');
 Route::get('/nu', 'ProductController@product');
