@@ -4,6 +4,7 @@ use Illuminate\Http\RedirectResponse;
 use App\User;
 use App\Order;
 use App\Product;
+use App\Category;
 use App\Bill;
 use Carbon\Carbon;
 use App\Mail\NotificationMail;
@@ -37,7 +38,10 @@ Route::get('/', function () {
 });
 
 Route::get('/Trang-Chu',function(){            
-    return view('welcome');
+    if(isset($_GET['search']))
+        return view('welcome',['name'=>$_GET['search']]);
+    else
+        return view('welcome');
 });
 
 Route::get('/remove-bill={id}',function($id){    
@@ -52,6 +56,12 @@ Route::get('/confirm-bill={id}',function($id){
     $bill->save();    
 });
 
+Route::post('/update-order',function(){
+    $order = Order::find($_POST['id_order']);
+    $order->amount = $_POST['quanty'];
+    $order->save();
+});
+
 Route::get('/update-bill={id}',function($id){    
     $bill = Bill::find($id);
     $bill->shipper = $_GET['shipper'];    
@@ -61,6 +71,39 @@ Route::get('/update-bill={id}',function($id){
 });
 
 Route::get('/details={id}', 'ProductController@detail')->name('detail');
+
+Route::post('/nam',function(){
+    $from = (int)$_POST['from'];
+    $to = (int)$_POST['to'];       
+    $product = Product::where('categoryID',1)->where('isActive',1)->where('price','>=',$from)->where('price','<=',$to)->paginate(9);
+    return view('product',['product'=>$product]);
+});
+
+Route::post('/nu',function(){
+    $from = (int)$_POST['from'];
+    $to = (int)$_POST['to'];       
+    $product = Product::where('categoryID',2)->where('isActive',1)->where('price','>=',$from)->where('price','<=',$to)->paginate(9);
+    return view('product',['product'=>$product]);
+});
+Route::post('/tre-em',function(){
+    $from = (int)$_POST['from'];
+    $to = (int)$_POST['to'];       
+    $product = Product::where('categoryID',3)->where('isActive',1)->where('price','>=',$from)->where('price','<=',$to)->paginate(9);
+    return view('product',['product'=>$product]);
+});
+Route::post('/dong-ho',function(){
+    $from = (int)$_POST['from'];
+    $to = (int)$_POST['to'];       
+    $product = Product::where('categoryID',4)->where('isActive',1)->where('price','>=',$from)->where('price','<=',$to)->paginate(9);
+    return view('product',['product'=>$product]);
+});
+
+Route::post('/trang-suc',function(){
+    $from = (int)$_POST['from'];
+    $to = (int)$_POST['to'];       
+    $product = Product::where('categoryID',5)->where('isActive',1)->where('price','>=',$from)->where('price','<=',$to)->paginate(9);
+    return view('product',['product'=>$product]);
+});
 
 Route::get('/nam', 'ProductController@product');
 Route::get('/nu', 'ProductController@product');
@@ -82,10 +125,14 @@ Route::get('/cart', function () {
 
 Route::get('/list-product', function () {
     $type = Auth::user()->typeofuser;
-    if($type == 1 || $type == 2)
+    if($type == 1 || $type == 2){
         $ls_product = Product::orderBy('productID','desc')->where('isActive',1)->paginate(5);    
-    else{
+        if(isset($_GET['search']))
+            $ls_product = Product::orderBy('productID','desc')->where('isActive',1)->where('productname','like','%'.$_GET['search'].'%')->paginate(50);
+    }else{
         $ls_product = Auth::user()->product()->where('product_detail.isActive',1)->where('bill_ID','<>',0)->paginate(5);
+        if(isset($_GET['search']))
+            $ls_product = Auth::user()->product()->where('product_detail.isActive',1)->where('bill_ID','<>',0)->where('productname','like','%'.$_GET['search'].'%')->paginate(50);
     }        
     return view('UserManager',['ls_product'=>$ls_product,'type'=>0,'product'=>null,'user'=>Auth::user()]);
 });
@@ -118,7 +165,7 @@ Route::get('/list-order', function () {
     $ls_bill = Bill::orderBy('bill_ID','desc')->paginate(5); 
     $typeofuser = Auth::user()->typeofuser;   
     if($typeofuser == 3){
-        $ls_bill = Bill::orderBy('bill_ID','desc')->where('status','<>',0)->where('isActive',1)->paginate(5);
+        $ls_bill = Bill::orderBy('bill_ID','desc')->where('shipper',Auth::user()->lastname)->where('status','<>',0)->where('isActive',1)->paginate(5);
         return view('ListOrder',['ls_bill'=>$ls_bill,'user'=>Auth::user()]);    
     }
     if($typeofuser == 4){

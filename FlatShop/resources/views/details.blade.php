@@ -109,15 +109,7 @@
                     </span>
                   </div>
                   <hr class="border">
-                  <div class="wided">
-                    <div class="qty">
-                      Số lượng &nbsp;&nbsp;: 
-                      <select>
-                        <option>
-                          1
-                        </option>
-                      </select>
-                    </div>
+                  <div class="wided">                    
                     <?php   
                         $check = false;
                         if(Cookie::get('amount') < 4)                                                        
@@ -131,9 +123,9 @@
                         }                                                                   
                      ?>                                 
                      @if($check == true)
-                        <div class="button_group_{{$product->productID}}"><a href="/cart"><button class="button" style="margin-left: 25px; padding: 12px">Giỏ hàng</button></a><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
+                        <div class="button_group_{{$product->productID}}"><a href="/cart"><button class="button" style="padding: 12px">Giỏ hàng</button></a><button class="button compare" style="margin: 5px" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
                      @else
-                        <div class="button_group_{{$product->productID}}"><button class="button add-cart" id="order_{{$product->productID}}" style="margin-left: 25px; padding: 12px" type=" button">Mua</button><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
+                        <div class="button_group_{{$product->productID}}"><button class="button add-cart" id="order_{{$product->productID}}" style="padding: 12px" type=" button">Mua</button><button class="button compare" style="margin: 5px" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
                      @endif
                   </div>
                   <div class="clearfix">
@@ -172,7 +164,7 @@
                     
                   </div>
                   <div class="tab-content" id="Reviews">
-                    <form>
+                    <form id="danhgia">
                       <table>
                         <thead>
                           <tr>
@@ -268,7 +260,7 @@
                                 *
                               </strong>
                             </label>
-                            <input type="text" name="" class="input namefild">
+                            <input type="text" name="" class="input namefild" required>
                           </div>
                           <div class="form-row">
                             <label class="lebel-abs">
@@ -277,36 +269,35 @@
                                 *
                               </strong>
                             </label>
-                            <input type="email" name="" class="input emailfild">
-                          </div>
-                          <div class="form-row">
-                            <label class="lebel-abs">
-                              Nhận xét của bạn 
-                              <strong class="red">
-                                *
-                              </strong>
-                            </label>
-                            <input type="text" name="" class="input summeryfild">
-                          </div>
+                            <input type="email" name="" class="input emailfild" required>
+                          </div>                          
                         </div>
                         <div class="col-md-6 col-sm-6">
                           <div class="form-row">
                             <label class="lebel-abs">
-                              Tên của bạn 
+                              Nhận xét của bạn
                               <strong class="red">
                                 *
                               </strong>
                             </label>
-                            <textarea class="input textareafild" name="" rows="7" >
+                            <textarea class="input textareafild" name="" rows="4" required>
                             </textarea>
                           </div>
                           <div class="form-row">
-                            <input type="submit" value="Submit" class="button">
+                            <button class="button" type="submit">Submit</button>
                           </div>
                         </div>
                       </div>
                     </form>
                   </div>
+                  <script type="text/javascript">
+                    $(document).ready(function(){
+                      $('#danhgia').submit(function(){
+                        alert("Cám ơn bạn đã đánh giá sản phẩm");
+                        location.reload();
+                      });
+                    });
+                  </script>>
                   <div class="tab-content" >
                     <div class="review">
                       <p class="rating">

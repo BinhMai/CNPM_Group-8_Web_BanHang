@@ -60,7 +60,7 @@
         <th>Lựa chọn</th>				
 			  </tr>
 			</thead>
-			<tbody>
+			<tbody>            
         @if(isset($ls_product))
           @foreach($ls_product as $product)
   				  <tr>
@@ -88,7 +88,7 @@
               </td>
             @endif
   				  </tr>				  
-          @endforeach
+          @endforeach       
         @endif
 			</tbody>
 		  </table>
@@ -97,7 +97,7 @@
     @if(isset($ls_product))
         <div class="col-md-6" style="margin-top: 10px;margin-left: 550px">
           {{$ls_product->links()}}
-        </div>    
+        </div>       
     @endif  
 	</section>
   <div class="clearfix"></div>

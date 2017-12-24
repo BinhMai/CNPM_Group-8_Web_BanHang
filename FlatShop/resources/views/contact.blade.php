@@ -101,7 +101,7 @@
                     <h5>
                       Mẫu liên hệ
                     </h5>
-                    <form>
+                    <form id="contact">
                       <div class="row">
                         <div class="col-md-6">
                           <label>
@@ -110,7 +110,7 @@
                               *
                             </strong>
                           </label>
-                          <input class="inputfild" type="text" name="">
+                          <input class="inputfild" type="text" name="" required>
                         </div>
                         <div class="col-md-6">
                           <label>
@@ -119,7 +119,7 @@
                               *
                             </strong>
                           </label>
-                          <input class="inputfild" type="email" name="">
+                          <input class="inputfild" type="email" name="" required>
                         </div>
                       </div>
                       <div class="row">
@@ -130,11 +130,11 @@
                               *
                             </strong>
                           </label>
-                          <textarea class="inputfild" rows="8" name="">
+                          <textarea class="inputfild" rows="8" name="" required>
                           </textarea>
                         </div>
                       </div>
-                      <button class="pull-right">
+                      <button class="pull-right" type="submit">
                         Gửi
                       </button>
                     </form>
@@ -143,6 +143,14 @@
               </div>
             </div>
           </div>
+          <script type="text/javascript">
+            $(document).ready(function(){
+              $('#contact').submit(function(){
+                alert('Thư của bạn đã được gửi');
+                window.location.href = '/Trang-Chu';
+              });
+            });
+          </script>>
           <div class="clearfix">
           </div>
           <div class="our-brand">

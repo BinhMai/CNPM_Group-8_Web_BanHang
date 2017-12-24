@@ -28,9 +28,9 @@
   <section style="margin: 30px">
     <div class="container-fluid">
       <h2 style="margin-bottom: 20px; font-family: Times New Roman,bold">Danh sách đơn hàng</h2>      
-      @if($user->typeofuser != 4)
-        <a href="/list-order"><button class="btn btn-success">Tất cả</button></a>
+      @if($user->typeofuser != 4)        
         @if($user->typeofuser != 3)
+          <a href="/list-order"><button class="btn btn-success">Tất cả</button></a>
           <a href="/list-order=0"><button class="btn btn-success">Chưa xác nhận</button></a>
         @endif
         <a href="/list-order=1"><button class="btn btn-success">Chưa giao hàng</button></a>
@@ -53,13 +53,13 @@
         </tr>
       </thead>
       <tbody>           
-        <?php $total = 0?>
+        <?php $total = 0; $i = 1?>
           @foreach($ls_bill as $bill)          
             @if($bill->status == 2)  
               <?php $total+= (int)$bill->price;?>                    
             @endif
             <tr>
-            <td>{{$bill->bill_ID}}</td>
+            <td>{{$i++}}</td>
             <td>Order_{{$bill->bill_ID}}</td>
             <td>{{$bill->name}}</td>
             <td>{{$bill->adress}}</td>
@@ -94,7 +94,7 @@
       @endif
     </div>
     @if($user->typeofuser == 1)
-      <div class="total" hidden style="float: right;margin-right: 30px; margin-top: 30px"><span style="font-size: 20px"><span style="color: red">Doanh Thu: </span>{{$total}} (Vnđ)</span></div>
+      <div class="total" hidden style="float: right;margin-right: 30px; margin-top: 30px"><span style="font-size: 20px"><span style="color: red">Doanh Thu: </span>${{$total}}</span></div>
     @endif
     @if(isset($ls_bill))
         <div class="col-md-6" style="margin-top: 10px;margin-left: 550px">

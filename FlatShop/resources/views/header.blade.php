@@ -30,12 +30,12 @@
                   </div>
                   <div class="col-md-6">
                      <ul class="topmenu">
-                        <li><a href="#">Liên hệ</a></li>
-                        <li><a href="#">Mới</a></li>
-                        <li><a href="#">Dịch vụ</a></li>
-                        <li><a href="#">Tuyển dụng</a></li>
-                        <li><a href="#">Truyền thông</a></li>
-                        <li><a href="#">Hỗ trợ</a></li>
+                        <li><a>Liên hệ</a></li>
+                        <li><a>Mới</a></li>
+                        <li><a>Dịch vụ</a></li>
+                        <li><a>Tuyển dụng</a></li>
+                        <li><a>Truyền thông</a></li>
+                        <li><a>Hỗ trợ</a></li>
                      </ul>
                   </div>
                   <div class="col-md-3">
@@ -55,7 +55,10 @@
             <div class="header_bottom">
                <ul class="option">
                   <li id="search" class="search">
-                     <form><input class="search-submit" type="submit" value=""><input class="search-input" placeholder="Tìm kiếm..." type="text" value="" name="search"></form>
+                     <form>
+                        <input class="search-submit" type="submit" value="">
+                        <input class="search-input" placeholder="Tìm kiếm..." type="text" value="" name="search">
+                     </form>
                   </li>
                   <li class="option-cart">
                      <a href="#" class="cart-icon">cart <span class="cart_no">{{Cookie::get('amount') < 10 ? '0'.Cookie::get('amount') : Cookie::get('amount')}}</span></a>
@@ -70,13 +73,13 @@
                               $total = 0;
                               foreach($ls_order as $order){
                                  $prd = App\Product::find($order->productID);
-                                 $total+= $prd->price;
+                                 $total+= $prd->price*$order->amount;
                                  ?>
                                     <li>
                                        <div class="cart-item"><div class="image"><img src="{{$prd->pictures}}" alt=""></div>
                                           <div class="item-description">
                                              <p class="name">{{$prd->productname}}</p>
-                                             <p>Size: <span class="light-red">One size</span><br>Quantity: <span class="light-red">01</span></p>
+                                             <p>Size: <span class="light-red">One size</span><br>Quantity: <span class="light-red">{{$order->amount}}</span></p>
                                           </div>
                                           <div class="right"><p class="price" style="margin-top: -3em">${{$prd->price}}.00</p>
                                              <a href="/delete-order?id={{$order->orderID}}" class="remove"><img src="images/remove.png" alt="remove"></a>
@@ -100,18 +103,7 @@
                <div class="navbar-header"><button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="sr-only">Chuyển đổi điều hướng</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button></div>
                <div class="navbar-collapse collapse">
                   <ul class="nav navbar-nav">
-                     <li class="active dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Trang Chủ</a>
-                        <div class="dropdown-menu">
-                           <ul class="mega-menu-links">
-                              <li><a href="/Trang-Chu">Trang chủ</a></li> 
-                              <li><a href="cart">Giỏ hàng</a></li>
-                              <li><a href="dang-nhap">Đăng nhập</a></li>
-                              <li><a href="dang-ki">Đăng kí</a></li>
-                              <li><a href="contact">Liên lạc</a></li>
-                           </ul>
-                        </div>
-                     </li>
+                     <li><a href="Trang-Chu">Trang Chủ</a></li>
                      <?php $ca=App\Category::get(); ?>
                     @foreach($ca as $ca)
                      <li><a href="{{$ca->url}}">{{$ca->name_tv}}</a></li>

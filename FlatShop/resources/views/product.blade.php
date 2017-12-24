@@ -2,26 +2,25 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="images/favicon.png">
-    <title>
-      Chào mừng đến FlatShop
-    </title>
-    <link href="css/bootstrap.css" rel="stylesheet">
-    <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,700,500italic,100italic,100' rel='stylesheet' type='text/css'>
-    <link href="css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/flexslider.css" type="text/css" media="screen"/>
-    <link href="css/style.css" rel="stylesheet">
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-      <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="images/favicon.png">
+  <title>Chào mừng đến FlatShop</title>
+  <link href="{{asset('css/bootstrap.css')}}" rel="stylesheet">
+  <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,700,500italic,100italic,100' rel='stylesheet' type='text/css'>
+  <link href="{{asset('css/font-awesome.min.css')}}" rel="stylesheet">
+  <link rel="stylesheet" href="{{asset('css/flexslider.css')}}" type="text/css" media="screen"/>
+  <link href="{{asset('css/sequence-looptheme.css')}}" rel="stylesheet" media="all"/>
+  <link href="{{asset('css/style.css')}}" rel="stylesheet">
+  <link href="{{asset('css/mystyle.css')}}" rel="stylesheet">  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
       <meta name="csrf-token" content="<?= csrf_token() ?>">
   </head>
   <body>
     <div class="wrapper">
-      @include('header');
+      @include('header');    
       <div class="clearfix">
       </div>
       <div class="container_fullwidth">
@@ -43,94 +42,23 @@
               </div>
               <div class="price-filter leftbar">
                 <h3 class="title">
-                  Gía
+                  Giá
                 </h3>
-                <form class="pricing">
+                <form class="pricing" method="post">
+                  <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+                  <input type="text" hidden name="category" value="{{substr($_SERVER['REQUEST_URI'],1)}}">
                   <label>
                     $ 
-                    <input type="number">
-                  </label>
-                  <span class="separate">
-                    - 
-                  </span>
+                    <input type="number" name="from" style="width: 140px" required>
+                  </label>                  
                   <label>
                     $ 
-                    <input type="number">
+                    <input type="number" name="to" style="width: 140px" required>
                   </label>
-                  <input type="submit" value="Đặt">
+                  <input type="submit" value="Search" style="width: 55px;margin-top: 30px">
                 </form>
-              </div>
-              <div class="clearfix">
-              </div>
-              <div class="clolr-filter leftbar">
-                <h3 class="title">
-                  Màu sắc
-                </h3>
-                <ul>
-                  <li>
-                    <a href="#" class="red-bg">
-                      light red
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" class=" yellow-bg">
-                      yellow"
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" class="black-bg ">
-                      black
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" class="pink-bg">
-                      pink
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" class="dkpink-bg">
-                      dkpink
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" class="chocolate-bg">
-                      chocolate
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" class="orange-bg">
-                      orange-bg
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" class="off-white-bg">
-                      off-white
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" class="extra-lightgreen-bg">
-                      extra-lightgreen
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" class="lightgreen-bg">
-                      lightgreen
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" class="biscuit-bg">
-                      biscuit
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" class="chocolatelight-bg">
-                      chocolatelight
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div class="clearfix">
-              </div>
+              </div>              
               <div class="product-tag leftbar">
                 <h3 class="title">
                   <strong>
@@ -183,70 +111,6 @@
               </div>
               <div class="clearfix">
               </div>
-              <div class="others leftbar">
-                <h3 class="title">
-                  Khác
-                </h3>
-              </div>
-              <div class="clearfix">
-              </div>
-              <div class="fbl-box leftbar">
-                <h3 class="title">
-                  Facebook
-                </h3>
-                <span class="likebutton">
-                  <a href="#">
-                    <img src="images/fblike.png" alt="">
-                  </a>
-                </span>
-                <p>
-                  12k người thích Flat Shop.
-                </p>
-                <ul>
-                  <li>
-                    <a href="#">
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                    </a>
-                  </li>
-                </ul>
-                <div class="fbplug">
-                  <a href="#">
-                    <span>
-                      <img src="images/fbicon.png" alt="">
-                    </span>
-                    Liên kết với Facebook 
-                  </a>
-                </div>
-              </div>
-              <div class="clearfix">
-              </div>
               <div class="leftbanner">
                 <img src="images/banner-small-01.png" alt="">
               </div>
@@ -269,66 +133,13 @@
                 </div>
               </div>
               <div class="clearfix">
-              </div>
+              </div>              
               <div class="products-grid">
+                @if($product != '[]')              
                 <div class="toolbar">
-                  <div class="sorter">
-                    <div class="view-mode">
-                      <a href="productlitst/" class="list">
-                        List
-                      </a>
-                      <a href="#" class="grid active">
-                        Grid
-                      </a>
-                    </div>
-                    <div class="sort-by">
-                      Sắp xếp theo : 
-                      <select name="" >
-                        <option value="Default" selected>
-                          Mặc định
-                        </option>
-                        <option value="Name">
-                          Tên
-                        </option>
-                        <option value="Price">
-                          Giá
-                        </option>
-                      </select>
-                    </div>
-                    <div class="limiter">
-                      Hiển thị : 
-                      <select name="" >
-                        <option value="3" selected>
-                          3
-                        </option>
-                        <option value="6">
-                          6
-                        </option>
-                        <option value="9">
-                          9
-                        </option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="pager">
-                    <a href="#" class="prev-page">
-                      <i class="fa fa-angle-left">
-                      </i>
-                    </a>
-                    <a href="#" class="active">
-                      1
-                    </a>
-                    <a href="#">
-                      2
-                    </a>
-                    <a href="#">
-                      3
-                    </a>
-                    <a href="#" class="next-page">
-                      <i class="fa fa-angle-right">
-                      </i>
-                    </a>
-                  </div>
+                  <div class="sorter" style="float: right;width: 30%">                    
+                    {{$product->links()}}
+                  </div>                  
                 </div>
                 <div class="clearfix">
                 </div>
@@ -379,63 +190,9 @@
                 <div class="clearfix">
                 </div>
                 <div class="toolbar">
-                  <div class="sorter bottom">
-                    <div class="view-mode">
-                      <a href="productlitst/" class="list">
-                        List
-                      </a>
-                      <a href="#" class="grid active">
-                        Grid
-                      </a>
-                    </div>
-                    <div class="sort-by">
-                      Sắp xếp theo : 
-                      <select name="">
-                        <option value="Default" selected>
-                          Mặc định
-                        </option>
-                        <option value="Name">
-                          Tên
-                        </option>
-                        <option value="<strong>#</strong>">
-                          Giá
-                        </option>
-                      </select>
-                    </div>
-                    <div class="limiter">
-                      Hiển thị : 
-                      <select name="" >
-                        <option value="3" selected>
-                          3
-                        </option>
-                        <option value="6">
-                          6
-                        </option>
-                        <option value="9">
-                          9
-                        </option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="pager">
-                    <a href="#" class="prev-page">
-                      <i class="fa fa-angle-left">
-                      </i>
-                    </a>
-                    <a href="#" class="active">
-                      1
-                    </a>
-                    <a href="#">
-                      2
-                    </a>
-                    <a href="#">
-                      3
-                    </a>
-                    <a href="#" class="next-page">
-                      <i class="fa fa-angle-right">
-                      </i>
-                    </a>
-                  </div>
+                  <div class="sorter bottom" style="float: right;width: 30%">
+                    {{$product->links()}}
+                  </div>                  
                 </div>
                 <div class="clearfix">
                 </div>
@@ -443,7 +200,7 @@
             </div>
           </div>
           <div class="clearfix">
-          </div>
+          </div>          
           <div class="our-brand">
             <h3 class="title" style="font-family: sans-serif;">
               <strong>
@@ -540,10 +297,13 @@
               </li>
             </ul>
           </div>
+          @else
+            <h2>Không có sản phẩm nào.</h2>
+          @endif
         </div>
       </div>
       <div class="clearfix">
-      </div>
+      </div>      
       @include('footer');
     </div>
     <script type="text/javascript">
