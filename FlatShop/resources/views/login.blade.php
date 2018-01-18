@@ -175,9 +175,16 @@
                                 </label>
                                 <input type="password" class="input namefild" name="password" style="padding-left: 100px; margin-top: 20px " required>
                               </div>                              
-                              <button type="submit" style="margin-top: 20px; float: right;">
+                              <button type="submit" style="margin-top: 20px;">
                                 Đăng nhập
-                              </button>
+                              </button>   
+                              <label style="font-size: 19px; padding-left: 93px; color: green">OR</label>                           
+                              <a href="{{route('facebook.login')}}">
+                                <img src="{{asset('/images/fb.png')}}" style="width: 9%;float: right;margin-top: 20px;">
+                              </a>
+                              <a href="{{route('google.login')}}">
+                                 <img src="{{asset('/images/gg.png')}}" style="width: 10%;float: right;margin-top: 20px;">
+                              </a>               
                             </form>                          
                             <script type="text/javascript">
                               $(document).ready(function(){
